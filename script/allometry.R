@@ -1,11 +1,6 @@
 library(tidyverse)
-library(plyr)
-library(tidyverse)
-library(broom)
-library(smatr)
-library(GGally)
-library(viridis)
-library(cowplot)
+
+# import data ####
 
 t0 <- read.csv2("data/t0_height_dry_mass.csv")
 t1_traits <- read.csv2("data/t1_traits.csv",fileEncoding = "Latin1")  
@@ -42,8 +37,54 @@ list_sp_no_nat = list_sp[!(list_sp %in% list_sp_nat)]
 list_pop = sort(unique(t1_dry_mass$sp_or))
 list_pop_fer = sort(unique(t1_dry_mass$sp_or_fer))
 list_sp_fer = sort(unique(t1_dry_mass$sp_fer))
-list_rel_allom = c('root:shoot','root:leaf','stem:leaf','stem:root','root:all')
 
+
+
+## Lila's estimate of root_dry_mass at t2 ####
+# Ajouter l'estimation de la masse des racines faite par lila
+# Estimation de la masse sèche des racines à t2 à partir de leur masse fraîche et du ratio MF/MS à t1
+# A partir d'un dataframe pour avoir à t1 le ratio masse sèche/masse fraîche des racines pour chaque pot
+
+t1_t2_dry_mass_lila <- read.csv2("data/t1_t2_dry_mass_Lila.csv") %>% 
+  mutate(shoot_dry_mass = stem_dry_mass + leaf_dry_mass) %>% 
+  mutate(log_shoot_dry_mass = log10 (shoot_dry_mass)) %>% 
+  mutate(log_root_dry_mass = log10(root_dry_mass)) %>% 
+  mutate(pop = paste(code_sp,origin,sep = "_")) %>% 
+  mutate(pop_fer = paste(pop,fertilization,sep="_")) %>% 
+  mutate(log_plant_dry_mass = log_tot_biomass)
+
+estim_root_dry_mass <- t1_t2_dry_mass_lila %>% 
+  mutate(root_dry_mass_estim = root_dry_mass) %>% 
+  select(pot,root_dry_mass_estim) %>% 
+  mutate(log_root_dry_mass_estim = log10(root_dry_mass_estim))
+
+t1_t2_dry_mass <- full_join(t1_t2_dry_mass,estim_root_dry_mass,by = "pot") %>% 
+  filter(!is.na(time))
+
+# raw values
+t1_t2_dry_mass %>% 
+  filter(time == "t2") %>% 
+  ggplot(aes(x = root_dry_mass,y = root_dry_mass_estim)) + geom_point()+
+  geom_abline(slope = 1, intercept = 0)
+
+# log of raw values
+t1_t2_dry_mass %>% 
+  filter(time == "t2") %>% 
+  ggplot(aes(x = log_root_dry_mass,y = log_root_dry_mass_estim)) + geom_point() +
+  geom_abline(slope = 1, intercept = 0)
+
+# boxplot on log
+t1_t2_dry_mass %>% 
+  filter(time == "t2") %>% 
+  select(pot,pop,fertilization,log_root_dry_mass,log_root_dry_mass_estim ) %>% 
+  gather(key = trait, value = value,-c(pop, fertilization,pot)) %>% 
+  mutate(pop_ferti = paste0(pop,fertilization)) %>% 
+  filter(fertilization == "N-") %>% 
+  ggplot(aes(x = trait ,y = value)) + 
+  geom_boxplot()+
+  geom_point() +
+  # facet_wrap(~pop) +
+  geom_line(aes(group = pot))
 
 ## _____________________________________________________________________________
 ## Comparaison allométrie à t1 et t2 ####
@@ -53,7 +94,7 @@ list_rel_allom = c('root:shoot','root:leaf','stem:leaf','stem:root','root:all')
 
 t1_t2_dry_mass %>% 
   # filter(time=="t1") %>% 
-  ggplot(aes(x = log_leaf_dry_mass, y = log_stem_dry_mass, color = time,label = pot))+
+  ggplot(aes(x = log_shoot_dry_mass, y = log_root_dry_mass, color = time,label = pot))+
   geom_point()+
   geom_smooth(method = 'lm') 
 
@@ -90,8 +131,6 @@ diff_t1_t2 <- data.frame(pop = list_pop,
 
 
 
-
-
 ## _____________________________________________________________________________
 ## Allométrie pour chaque paire d'organes ####
 ## Etude des relations allométriques en combinant les données à t1 et t2
@@ -107,62 +146,33 @@ t1_t2_dry_mass %>%
   scale_color_hue(h = c(180, 300))
 
 t1_t2_dry_mass %>% 
-  ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass,color = fertilization)) +
+  ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass_estim,color = fertilization)) +
   geom_point() +
   geom_smooth(method = 'lm') +
   scale_color_hue(h = c(180, 300))
 
+t1_t2_dry_mass %>% 
+  # filter(time == "t1") %>% 
+  ggplot(aes(x = stem_dry_mass + leaf_dry_mass, y = root_dry_mass,color = fertilization)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  ggtitle("root dry mass measured")
+
+
+t1_t2_dry_mass_lila %>% 
+  ggplot(aes(x = stem_dry_mass + leaf_dry_mass, y = root_dry_mass,color = fertilization)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  ggtitle("root dry mass estimated")
+
+
 
 #_____________________________________________
 
-
-# Pour traiter chaque relation allométrique séparément :
-
-# root = f(shoot)
-t1_t2_dry_mass_rsh <- t1_t2_dry_mass %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,log_shoot_dry_mass,log_root_dry_mass,pop_fer,pop)
-colnames(t1_t2_dry_mass_rsh)[colnames(t1_t2_dry_mass_rsh) == "log_shoot_dry_mass"] <- "abs"
-colnames(t1_t2_dry_mass_rsh)[colnames(t1_t2_dry_mass_rsh) == "log_root_dry_mass"] <- "ord"
-
-# root = f(leaf)
-t1_t2_dry_mass_rl <- t1_t2_dry_mass %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,log_leaf_dry_mass,log_root_dry_mass,pop_fer,pop)
-colnames(t1_t2_dry_mass_rl)[colnames(t1_t2_dry_mass_rl) == "log_leaf_dry_mass"] <- "abs"
-colnames(t1_t2_dry_mass_rl)[colnames(t1_t2_dry_mass_rl) == "log_root_dry_mass"] <- "ord"
-
-# stem = f(leaf)
-t1_t2_dry_mass_sl <- t1_t2_dry_mass %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,log_leaf_dry_mass,log_stem_dry_mass,pop_fer,pop)
-colnames(t1_t2_dry_mass_sl)[colnames(t1_t2_dry_mass_sl) == "log_leaf_dry_mass"] <- "abs"
-colnames(t1_t2_dry_mass_sl)[colnames(t1_t2_dry_mass_sl) == "log_stem_dry_mass"] <- "ord"
-
-# stem = f(root)
-t1_t2_dry_mass_str <- t1_t2_dry_mass %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,log_root_dry_mass,log_stem_dry_mass,pop_fer,pop)
-colnames(t1_t2_dry_mass_str)[colnames(t1_t2_dry_mass_str) == "log_root_dry_mass"] <- "abs"
-colnames(t1_t2_dry_mass_str)[colnames(t1_t2_dry_mass_str) == "log_stem_dry_mass"] <- "ord"
-
-# root = f(plant)
-t1_t2_dry_mass_rall <- t1_t2_dry_mass %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,log_root_dry_mass,log_plant_dry_mass,pop_fer,pop)
-colnames(t1_t2_dry_mass_rall)[colnames(t1_t2_dry_mass_rall) == "log_plant_dry_mass"] <- "abs"
-colnames(t1_t2_dry_mass_rall)[colnames(t1_t2_dry_mass_rall) == "log_root_dry_mass"] <- "ord"
-
-# choix de la relation qui nous intéressera ####
-frelationship <- 1 # 1 pour root shoot, 5 pour RMF
-
-
 # SMA per pop*trt ####
-# chose the relationship to study
-fdata <- t1_t2_dry_mass_rall # root to all
-fdata <- t1_t2_dry_mass_rsh # root to shoot
 
-# perform SMA to relate the two biomasses
-tmp <- with(t1_t2_dry_mass_rall,
-            by(t1_t2_dry_mass_rall, pop_fer,
-               function(x) sma(ord ~ abs, data = x)))
 
-# extract coefs (intercept and slope), pvalue and r2
+# functions to extract pvalue and r2
 get_pval <- function(sma_output){
   sma_output$pval[[1]]
 }
@@ -170,206 +180,106 @@ get_r2 <- function(sma_output){
   sma_output$r2[[1]]
 }
 
-coefs <- sapply(tmp, coef)  %>% 
-  t() %>%
-  as.data.frame() %>% 
-  rownames_to_column("pop_fer") %>% 
-  separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
-  mutate(pop = paste (code_sp,origin,sep="_"))
+# perform sma and give coefs etc.
+perform_sma <- function(fdata){
+  output_sma <- with(fdata,
+                     by(fdata, pop_fer,
+                        function(x) smatr::sma(ord ~ abs, data = x)))
+  
+  coefs <- sapply(output_sma, coef)  %>% 
+    t() %>%
+    as.data.frame() %>% 
+    rownames_to_column("pop_fer") %>% 
+    separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
+    mutate(pop = paste (code_sp,origin,sep="_"))
+  
+  pval <- sapply(output_sma, get_pval) %>% 
+    as.data.frame() %>% 
+    rownames_to_column("pop_fer") %>% 
+    separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
+    mutate(pop = paste (code_sp,origin,sep="_"))
+  colnames(pval)[4] <- "pval"
+  
+  r2 <- sapply(output_sma,get_r2)%>% 
+    as.data.frame() %>% 
+    rownames_to_column("pop_fer") %>% 
+    separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
+    mutate(pop = paste (code_sp,origin,sep="_"))
+  colnames(r2)[4] <- "r2"
+  
+  sma_pop <- merge(coefs,pval) %>% merge(r2)
+  sma_pop
+}
 
-pval <- sapply(tmp, get_pval) %>% 
-  as.data.frame() %>% 
-  rownames_to_column("pop_fer") %>% 
-  separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
-  mutate(pop = paste (code_sp,origin,sep="_"))
-colnames(pval)[4] <- "pval"
 
-r2 <- sapply(tmp,get_r2)%>% 
-  as.data.frame() %>% 
-  rownames_to_column("pop_fer") %>% 
-  separate(pop_fer,into = c("code_sp","origin","fertilization"),sep="_") %>% 
-  mutate(pop = paste (code_sp,origin,sep="_"))
-colnames(r2)[4] <- "r2"
+# axes possibles pour les SMA :
+# log_leaf_dry_mass ; log_shoot_dry_mass ; log_stem_dry_mass ; log_plant_dry_mass ; 
+# log_root_dry_mass ; log_root_dry_mass_estim
 
-sma_pop <- merge(coefs,pval) %>% merge(r2)
+x_axis <- "log_shoot_dry_mass"
+y_axis <- "log_root_dry_mass_estim"
+
+fdata <- t1_t2_dry_mass %>% 
+  select(pot,code_sp,fertilization,origin,sp_fer,pop_fer,pop,x_axis,y_axis) %>% 
+  dplyr::rename(ord = y_axis) %>% 
+  dplyr::rename(abs = x_axis)
+
+
+fdata %>% 
+  ggplot(aes(x = abs, y = ord, color = fertilization)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+  
+  
+
+# check that we have the same data as for boxplots of plasticity
+# CHECKED
+
+# boxplot of ratio ord/abs on values of mass averaged per pop
+# x_axis <- "shoot_dry_mass"
+# y_axis <- "root_dry_mass"
+# fdata %>% 
+#   group_by(pop,fertilization) %>% 
+#   summarize(ord = mean(ord,na.rm=T), abs = mean(abs,na.rm = T)) %>% 
+#   ggplot(aes(x = fertilization, y = ord/abs)) +
+#   geom_boxplot() +
+#   geom_point() +
+#   geom_line(aes(group = pop))
+
+
+# perform SMA to relate the two biomasses
+
+sma_pop <- perform_sma(fdata)
 sma_pop_nonat <- sma_pop %>% filter(!code_sp %in% list_sp_nat)
 
-write.csv2(sma_pop,'output/data/sma_dry_mass_t1_t2_rs.csv',row.names=F)
+# write.csv2(sma_pop,'output/data/sma_dry_mass_t1_t2_rs.csv',row.names=F)
 
 
 # graphes pour voir
 sma_pop %>% 
   ggplot(aes(x = fertilization, y = elevation)) +
-  geom_boxplot() 
+  geom_boxplot() +
+  # geom_line(aes(group = pop)) +
+  geom_point()
 
-# Pas les mêmes résultats que Lila
-# - Je ne travaille pas exactement sur les mêmes données ? Mais comment ça pourrait différer tant pour quelques points en plus ou en moins ?
-# - Il y a un problème qqpart dans mes scripts (ou les siens) ?
-# - ... "elevation" ne veut pas dire "intercept" ?
+sma_pop %>% 
+  ggplot(aes(x = fertilization, y = slope)) +
+  geom_boxplot() +
+  geom_point()
+
 
 sma_pop_intercept <- sma_pop %>% 
   select(-c(pval,r2,slope)) %>% 
   spread(key = fertilization,value = elevation)
 
-## _____________________________________________________________________________
-## Plot et test des différences de pentes et intercepts #### 
+sma_pop_slope <- sma_pop %>% 
+  select(-c(pval,r2,elevation)) %>% 
+  spread(key = fertilization,value = slope)
 
-## En groupant toutes les populations  : ----
-
-
-# Pour apparier les populations (pour faire les tests de Student) 
-# (Et pour avoir le plot avec les points reliés pour la pente en N+ et en N- pour chaque espèce)
-# = Avoir pour chaque pop la pente et l'intercept du N- et du N+ sur la même ligne
-# (Au lieu d'avoir une ligne pour pop_N+ et une ligne pour pop_N-)
-
-pop_appariees <- function(df){ 
-  #fonction qui renvoie un df : pour chaque pop_fer on a la pente du N+, du N-, intercept du N+ et du N- pour une relation allométrique donnée)
-  pop_appar <- df
-  pop_appar <- pop_appar %>%
-    mutate(slope_fer = if_else(fertilization =='N+',
-                               'slope_Np',
-                               'slope_Nm'),
-           intercept_fer = if_else(fertilization == 'N+',
-                                   'intercept_Np',
-                                   'intercept_Nm')) %>%
-    
-    pivot_wider(names_from = slope_fer, values_from = slope) %>% 
-    pivot_wider(names_from = intercept_fer, values_from = intercept)
-  
-  pop_appar_2 <- select(pop_appar[is.na(pop_appar$slope_Np) == F,],pop, slope_Np,intercept_Np,code_sp)
-  pop_appar_3 <- select(pop_appar[is.na(pop_appar$slope_Np) == T,],pop, slope_Nm,intercept_Nm,code_sp)
-  pop_appar_4 <- merge(pop_appar_2,pop_appar_3)
-  
-  pop_appar_4
-}
-
-
-list_coef_sma_Np_Nm <- lapply(sma_dry_mass_t1_t2,pop_appariees) 
-list_coef_sma_Np_Nm_no_nat <- lapply(sma_dry_mass_t1_t2_no_nat,pop_appariees) 
-
-write.csv2(list_coef_sma_Np_Nm[[frelationship]], "output/data/coef_sma_Np_Nm.csv")
-# on exporte le dataframe de la relation root:shoot pour pouvoir l'utiliser dans d'autres scripts
-
-
-i = frelationship
-#i va de 1 à 5 selon la relation allométrique qu'on veut 
-# Rappel de l'ordre : 'root:shoot','root:leaf','stem:leaf','stem:root','root:all'
-# Le stem:root est intéressant car pas de diff significative --> intéressant en terme d'équilibre fonctionnel
-# car l'équilibre se fait entre racines et feuilles ou feuilles et tiges mais pas racines et tiges
-
-
-## -------------------- Pour les pentes ---------------------
-
-#Boxplot global sans séparer les espèces
-sma_dry_mass_t1_t2_no_nat[[i]] %>%
-  ggplot(aes(x = fertilization,y = slope,color = fertilization))+
-  geom_boxplot()+
-  ggtitle(list_rel_allom[i])+
-  scale_color_hue(h = c(180, 300))
-
-# facet_wrap(~code_sp)"
-
-#Plot qui relie les pentes du N+ et N- pour chaque espèce
-list_coef_sma_Np_Nm[[i]] %>% 
-  ggparcoord(columns = c(5,3),
-             groupColumn = 1,
-             showPoints = T,
-             scale = "globalminmax")+
-  scale_color_viridis(discrete=TRUE)+
-  ggtitle(list_rel_allom[i])
-
-
-t.test(list_coef_sma_Np_Nm[[i]]$slope_Np,list_coef_sma_Np_Nm[[i]]$slope_Nm, alternative = "greater")
-#différence de pente non significative (on compare uniquemen tles distributions des pentes, pas les pentes population par population)
-
-
-## -------------------- Pour les intercepts --------------------- 
-#Boxplot global sans séparer les espèces
-sma_pop %>%
-  ggplot(aes(x = fertilization,y = elevation,color = fertilization))+
-  geom_boxplot()+
-  geom_point()+
-  scale_color_hue(h = c(180, 300))
-  ggtitle(list_rel_allom[i])
-
-# facet_wrap(~code_sp)"
-
-#Plot qui relie les intercepts dans le N+ et le N- pour chaque espèce
-list_coef_sma_Np_Nm[[i]] %>% 
-  ggparcoord(columns = c(6,4),
-             groupColumn = 1,
-             showPoints = T,
-             scale = "globalminmax")+
-  scale_color_viridis(discrete=TRUE)
-
-
-t.test(list_coef_sma_Np_Nm[[i]]$intercept_Np,list_coef_sma_Np_Nm[[i]]$intercept_Nm)
-# Différence significative de distribution des intercepts entre le N- et le N+
+t.test(sma_pop_intercept$`N+`,sma_pop_intercept$`N-`)
+t.test(sma_pop_slope$`N+`,sma_pop_slope$`N-`)
 
 
 
-## En regardant population par population ----
-## Etude population par population de si la pente est différente de 1 et différentre entre N+ et N-
 
-
-# 1) Pente significativement différente de 1 ? 
-
-pval_sma_one <- function(pop_fer,datafr){
-  a <- sma(ord~abs,slope.test = 1,datafr[datafr$pop_fer == pop_fer,])$slopetest[[1]]$p
-  a
-}
-
-pval_allom_one <- function(datafr){
-  df <- data.frame(pop_fer = list_pop_fer)
-  df <- group_by(df,pop_fer)
-  df <- mutate(df, pval = pval_sma_one(pop_fer,datafr))
-  colnames(df)[2] <- paste('pval',unlist(str_split(deparse(substitute(datafr)),'_'))[5],sep = '_')
-  df
-}
-
-test_slope_one <- list(pval_allom_one(t1_t2_dry_mass_rsh), 
-                       pval_allom_one(t1_t2_dry_mass_rl),
-                       pval_allom_one(t1_t2_dry_mass_sl),
-                       pval_allom_one(t1_t2_dry_mass_str),
-                       pval_allom_one(t1_t2_dry_mass_rall))
-
-test_slope_one <- test_slope_one %>% 
-  reduce(full_join, by='pop_fer')
-
-test_slope_one <- mutate(test_slope_one,fertilization = unlist(strsplit(pop_fer,'_'))[[3]])
-
-
-
-# 2) Pente et intercept significativement différents entre le N+ et le N- ? 
-
-
-pval_sma_N <- function(pop,datafr){
-  pslope <- sma(ord ~ abs * fertilization,datafr[datafr$pop == pop,])
-  pintercept <- sma(ord ~ abs + fertilization,datafr[datafr$pop == pop,], type = "elevation")
-  pshift <- sma(ord ~ abs + fertilization,datafr[datafr$pop == pop,], type = "shift")
-  list(pslope$commoncoef[[2]],pintercept$gtr$p,pshift$gtr$p)
-}
-
-pval_allom_N <- function(datafr){
-  df <- data.frame(pop = list_pop)
-  df <- df %>% 
-    group_by(pop) %>% 
-    mutate(pval_slope = pval_sma_N(pop,datafr)[1],
-           pval_intercept = pval_sma_N(pop,datafr)[2],
-           pval_shift = pval_sma_N(pop,datafr)[3]) %>% 
-    ungroup()
-  colnames(df)[2] <- paste('pval_slope',unlist(str_split(deparse(substitute(datafr)),'_'))[5],sep = '_')
-  colnames(df)[3] <- paste('pval_intercept',unlist(str_split(deparse(substitute(datafr)),'_'))[5],sep = '_')
-  colnames(df)[4] <- paste('pval_shift',unlist(str_split(deparse(substitute(datafr)),'_'))[5],sep = '_')
-  df
-}
-
-df_rsh <- pval_allom_N(t1_t2_dry_mass_rsh)
-df_rl <- pval_allom_N(t1_t2_dry_mass_rl)
-df_sl <- pval_allom_N(t1_t2_dry_mass_sl)
-df_str <- pval_allom_N(t1_t2_dry_mass_str)
-df_rall <- pval_allom_N(t1_t2_dry_mass_rall)
-
-test_slope_N_rsh <- merge(df_str,merge(df_rall,merge(df_sl,merge(df_rsh,df_rl))))
-# Pour avoir toutes les pvalue, pop parp op, des différences de pente, d'intercet et de shift entre le N- et le N+ 
-# 5 dataframe = un par relation allométrique
+# RESTE DES SCRIPTS : REGARDER LE SCRIPT DE LILA (il marche)
