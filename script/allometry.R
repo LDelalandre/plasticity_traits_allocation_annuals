@@ -1,35 +1,53 @@
 library(tidyverse)
+library(smatr)
 
 # import data ####
 
 t0 <- read.csv2("data/t0_height_dry_mass.csv")
-t1_traits <- read.csv2("data/t1_traits.csv",fileEncoding = "Latin1")  
-t2_traits <- read.csv2("data/t2_traits.csv")
+t1_traits <- read.csv2("data/t1_traits.csv",fileEncoding = "Latin1")  %>% 
+  mutate(pop = paste(code_sp,origin,sep="_"))
+t2_traits <- read.csv2("data/t2_traits.csv") %>% 
+  mutate(pop = paste(code_sp,origin,sep="_"))
 
-t1_dry_mass <- t1_traits %>% 
+t1_mass <- t1_traits %>% 
   mutate(pop = paste(code_sp,origin,sep="_")) %>% 
   select(code_sp,pot,origin,pop,fertilization,time,
-         "plant_dry_mass", "stem_dry_mass","leaf_dry_mass","root_dry_mass") 
+         "plant_dry_mass", "stem_dry_mass","leaf_dry_mass","root_dry_mass",
+         "plant_fresh_mass", "stem_fresh_mass","leaf_fresh_mass","root_fresh_mass") 
 
 
-t2_dry_mass <- t2_traits %>% 
+t2_mass <- t2_traits %>% 
   mutate(pop = paste(code_sp,origin,sep="_")) %>% 
   select(code_sp,pot,origin,pop,fertilization,time,
-         "plant_dry_mass", "stem_dry_mass","leaf_dry_mass","root_dry_mass") 
+         "plant_dry_mass", "stem_dry_mass","leaf_dry_mass","root_dry_mass",
+         "plant_fresh_mass", "stem_fresh_mass","leaf_fresh_mass","root_fresh_mass") 
 
 
 
-t1_t2_dry_mass <- rbind(t1_dry_mass,t2_dry_mass) %>% 
+t1_t2_mass <- rbind(t1_mass,t2_mass) %>% 
+  
+  mutate(pop_fer = paste(pop,fertilization,sep ="_")) %>% 
+  mutate(sp_fer = paste(code_sp,fertilization,sep ="_")) %>% 
+  
+  # dry
   mutate(shoot_dry_mass = stem_dry_mass + leaf_dry_mass) %>%
   mutate(log_plant_dry_mass = log10(plant_dry_mass),
          log_stem_dry_mass = log10(stem_dry_mass),
          log_leaf_dry_mass = log10(leaf_dry_mass),
          log_root_dry_mass = log10(root_dry_mass),
          log_shoot_dry_mass = log10(shoot_dry_mass)) %>% 
-  mutate(root_shoot = root_dry_mass/shoot_dry_mass) %>% 
-  mutate(log_root_shoot = log(root_shoot)) %>% 
-  mutate(pop_fer = paste(pop,fertilization,sep ="_")) %>% 
-  mutate(sp_fer = paste(code_sp,fertilization,sep ="_"))
+  mutate(root_shoot_dry = root_dry_mass/shoot_dry_mass) %>% 
+  mutate(log_root_shoot_dry = log(root_shoot_dry)) %>% 
+  
+  # fresh
+  mutate(shoot_fresh_mass = stem_fresh_mass + leaf_fresh_mass) %>%
+  mutate(log_plant_fresh_mass = log10(plant_fresh_mass),
+         log_stem_fresh_mass = log10(stem_fresh_mass),
+         log_leaf_fresh_mass = log10(leaf_fresh_mass),
+         log_root_fresh_mass = log10(root_fresh_mass),
+         log_shoot_fresh_mass = log10(shoot_fresh_mass)) %>% 
+  mutate(root_shoot_fresh = root_fresh_mass/shoot_fresh_mass) %>% 
+  mutate(log_root_shoot_fresh = log(root_shoot_fresh)) 
 
 list_sp = sort(unique(t1_dry_mass$code_sp)) #liste de toutes les espèces
 list_sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO') #liste des espèces qui sont uniquement dans le milieu natif
@@ -58,23 +76,23 @@ estim_root_dry_mass <- t1_t2_dry_mass_lila %>%
   select(pot,root_dry_mass_estim) %>% 
   mutate(log_root_dry_mass_estim = log10(root_dry_mass_estim))
 
-t1_t2_dry_mass <- full_join(t1_t2_dry_mass,estim_root_dry_mass,by = "pot") %>% 
+t1_t2_mass <- full_join(t1_t2_dry_mass,estim_root_dry_mass,by = "pot") %>% 
   filter(!is.na(time))
 
 # raw values
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   filter(time == "t2") %>% 
   ggplot(aes(x = root_dry_mass,y = root_dry_mass_estim)) + geom_point()+
   geom_abline(slope = 1, intercept = 0)
 
 # log of raw values
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   filter(time == "t2") %>% 
   ggplot(aes(x = log_root_dry_mass,y = log_root_dry_mass_estim)) + geom_point() +
   geom_abline(slope = 1, intercept = 0)
 
 # boxplot on log
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   filter(time == "t2") %>% 
   select(pot,pop,fertilization,log_root_dry_mass,log_root_dry_mass_estim ) %>% 
   gather(key = trait, value = value,-c(pop, fertilization,pot)) %>% 
@@ -91,34 +109,36 @@ t1_t2_dry_mass %>%
 ## On compare la pente globale à t1 et à t2 pour voir si on a une modification de l'allométrie avec l'ontogénie
 
 ## Sans séparer par population
-
-t1_t2_dry_mass %>% 
-  # filter(time=="t1") %>% 
-  ggplot(aes(x = log_shoot_dry_mass, y = log_root_dry_mass, color = time,label = pot))+
+t1_t2_mass %>% 
+  filter(time=="t2") %>%
+  ggplot(aes(x = log_plant_dry_mass, y = log_leaf_dry_mass, color = fertilization,label = pot))+
   geom_point()+
   geom_smooth(method = 'lm') 
 
 
-sma(log_root_dry_mass ~ log_shoot_dry_mass*time,t1_t2_dry_mass) #pas de diff entre t1 et t2
-sma(log_root_dry_mass ~ log_leaf_dry_mass*time,t1_t2_dry_mass) #pas de diff entre t1 et t2
-sma(log_leaf_dry_mass ~ log_stem_dry_mass*time,t1_t2_dry_mass) #pour le leaf:stem les pentes sont tres différentes entre t1 et t2
+sma(log_root_dry_mass ~ log_shoot_dry_mass*time,t1_t2_mass) #pas de diff entre t1 et t2
+sma(log_root_dry_mass ~ log_leaf_dry_mass*time,t1_t2_mass) #pas de diff entre t1 et t2
+sma(log_leaf_dry_mass ~ log_stem_dry_mass*time,t1_t2_mass) #pour le leaf:stem les pentes sont tres différentes entre t1 et t2
 
+comp <- sma(log_root_dry_mass ~ log_plant_dry_mass*time,t1_t2_mass) #pour le leaf:stem les pentes sont tres différentes entre t1 et t2
+summary(comp)
 
 ## En séparant par population 
 
-t1_t2_dry_mass %>% 
-  ggplot(aes(x = log_leaf_dry_mass, y = log_stem_dry_mass,shape = fertilization))+
+t1_t2_mass %>% 
+  filter(fertilization == "N+") %>% 
+  ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass,shape = fertilization))+
   geom_point(aes(color = time))+
   # geom_smooth(method = 'lm')+
   facet_wrap(~pop)
 
 sma_t1_t2 <- function(pop){ #fonction qui calcule la pvalue de la diff de pente entre t1 et t2 pour la sma de root = f(shoot) pour une pop donnée
-  a <- sma(log_root_dry_mass ~log_stem_dry_mass*time,t1_t2_dry_mass[t1_t2_dry_mass$pop == pop,])
+  a <- smatr::sma(log_root_dry_mass ~log_stem_dry_mass*time,t1_t2_dry_mass[t1_t2_dry_mass$pop == pop,])
   b <- a$commoncoef[[2]]
   b
 }
 
-list_pop <- t1_t2_dry_mass %>% pull(pop) %>% unique()
+list_pop <- t1_t2_mass %>% pull(pop) %>% unique()
 
 diff_t1_t2 <- data.frame(pop = list_pop,
                          pval_diff_t1_t2 = unlist(lapply(lapply(list_pop,sma_t1_t2),as.data.frame)))
@@ -138,32 +158,33 @@ diff_t1_t2 <- data.frame(pop = list_pop,
 
 
 # Plot rapide des relations allométriques pour chaque espèce selon la fertilisation
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass,color = fertilization)) +
   geom_point() +
   facet_wrap(~pop) +
   geom_smooth(method = 'lm') +
   scale_color_hue(h = c(180, 300))
 
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass_estim,color = fertilization)) +
   geom_point() +
   geom_smooth(method = 'lm') +
   scale_color_hue(h = c(180, 300))
 
-t1_t2_dry_mass %>% 
+t1_t2_mass %>% 
   # filter(time == "t1") %>% 
-  ggplot(aes(x = stem_dry_mass + leaf_dry_mass, y = root_dry_mass,color = fertilization)) +
+  ggplot(aes(x = shoot_dry_mass, y = root_dry_mass,color = fertilization)) +
   geom_point() +
   geom_smooth(method="lm") +
   ggtitle("root dry mass measured")
 
-
-t1_t2_dry_mass_lila %>% 
-  ggplot(aes(x = stem_dry_mass + leaf_dry_mass, y = root_dry_mass,color = fertilization)) +
+t1_t2_mass %>% 
+  # filter(time == "t1") %>% 
+  ggplot(aes(x = shoot_dry_mass, y = root_dry_mass_estim,color = fertilization)) +
   geom_point() +
   geom_smooth(method="lm") +
   ggtitle("root dry mass estimated")
+
 
 
 
@@ -216,10 +237,11 @@ perform_sma <- function(fdata){
 # log_leaf_dry_mass ; log_shoot_dry_mass ; log_stem_dry_mass ; log_plant_dry_mass ; 
 # log_root_dry_mass ; log_root_dry_mass_estim
 
-x_axis <- "log_shoot_dry_mass"
-y_axis <- "log_root_dry_mass_estim"
+x_axis <- "log_plant_dry_mass"
+y_axis <- "log_root_dry_mass"
 
-fdata <- t1_t2_dry_mass %>% 
+fdata <- t1_t2_mass %>% 
+  filter(time == "t2") %>% 
   select(pot,code_sp,fertilization,origin,sp_fer,pop_fer,pop,x_axis,y_axis) %>% 
   dplyr::rename(ord = y_axis) %>% 
   dplyr::rename(abs = x_axis)
@@ -228,9 +250,17 @@ fdata <- t1_t2_dry_mass %>%
 fdata %>% 
   ggplot(aes(x = abs, y = ord, color = fertilization)) +
   geom_point() +
+  facet_wrap(~pop)
   geom_smooth(method = "lm")
   
-  
+pop_lack_observations_t2 <- fdata %>% 
+  group_by(pop,fertilization) %>% 
+  summarize(n=n()) %>% 
+  arrange(n) %>% 
+  filter(n<4) %>% 
+  pull(pop)
+# retiré 6 pops sur 30 en bossant à t2 sur RMF
+fdata <- fdata %>% filter(!(pop %in% pop_lack_observations_t2))
 
 # check that we have the same data as for boxplots of plasticity
 # CHECKED
