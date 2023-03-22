@@ -56,67 +56,37 @@ list_pop = sort(unique(t1_dry_mass$sp_or))
 list_pop_fer = sort(unique(t1_dry_mass$sp_or_fer))
 list_sp_fer = sort(unique(t1_dry_mass$sp_fer))
 
-
-
-## Lila's estimate of root_dry_mass at t2 ####
-# Ajouter l'estimation de la masse des racines faite par lila
-# Estimation de la masse sèche des racines à t2 à partir de leur masse fraîche et du ratio MF/MS à t1
-# A partir d'un dataframe pour avoir à t1 le ratio masse sèche/masse fraîche des racines pour chaque pot
-
-t1_t2_dry_mass_lila <- read.csv2("data/t1_t2_dry_mass_Lila.csv") %>% 
-  mutate(shoot_dry_mass = stem_dry_mass + leaf_dry_mass) %>% 
-  mutate(log_shoot_dry_mass = log10 (shoot_dry_mass)) %>% 
-  mutate(log_root_dry_mass = log10(root_dry_mass)) %>% 
-  mutate(pop = paste(code_sp,origin,sep = "_")) %>% 
-  mutate(pop_fer = paste(pop,fertilization,sep="_")) %>% 
-  mutate(log_plant_dry_mass = log_tot_biomass)
-
-estim_root_dry_mass <- t1_t2_dry_mass_lila %>% 
-  mutate(root_dry_mass_estim = root_dry_mass) %>% 
-  select(pot,root_dry_mass_estim) %>% 
-  mutate(log_root_dry_mass_estim = log10(root_dry_mass_estim))
-
-t1_t2_mass <- full_join(t1_t2_dry_mass,estim_root_dry_mass,by = "pot") %>% 
-  filter(!is.na(time))
-
-# raw values
-t1_t2_mass %>% 
-  filter(time == "t2") %>% 
-  ggplot(aes(x = root_dry_mass,y = root_dry_mass_estim)) + geom_point()+
-  geom_abline(slope = 1, intercept = 0)
-
-# log of raw values
-t1_t2_mass %>% 
-  filter(time == "t2") %>% 
-  ggplot(aes(x = log_root_dry_mass,y = log_root_dry_mass_estim)) + geom_point() +
-  geom_abline(slope = 1, intercept = 0)
-
-# boxplot on log
-t1_t2_mass %>% 
-  filter(time == "t2") %>% 
-  select(pot,pop,fertilization,log_root_dry_mass,log_root_dry_mass_estim ) %>% 
-  gather(key = trait, value = value,-c(pop, fertilization,pot)) %>% 
-  mutate(pop_ferti = paste0(pop,fertilization)) %>% 
-  filter(fertilization == "N-") %>% 
-  ggplot(aes(x = trait ,y = value)) + 
-  geom_boxplot()+
-  geom_point() +
-  # facet_wrap(~pop) +
-  geom_line(aes(group = pot))
-
 ## _____________________________________________________________________________
 ## Comparaison allométrie à t1 et t2 ####
 ## On compare la pente globale à t1 et à t2 pour voir si on a une modification de l'allométrie avec l'ontogénie
 
 ## Sans séparer par population
 t1_t2_mass %>% 
+  filter(fertilization == "N+") %>%
+  ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass, color = time,label = pot))+
+  geom_point() +
+  geom_smooth(method = 'lm') +
+  scale_color_manual(values = c("green","red"))
+
+t1_t2_mass %>% 
   filter(time=="t2") %>%
-  ggplot(aes(x = log_plant_dry_mass, y = log_leaf_dry_mass, color = fertilization,label = pot))+
-  geom_point()+
-  geom_smooth(method = 'lm') 
+  ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass, color = fertilization,label = pot))+
+  geom_point() + 
+  geom_smooth(method = 'lm')
+  # facet_wrap(~time)
+
+# compare root_plant f(time):
+sma(log_root_dry_mass ~ log_plant_dry_mass+time,t1_t2_mass, type = "elevation") #pas de diff entre t1 et t2
+# no difference in slope but shift in elevation
+
+# compare root_plant f(ferti):
+sma(log_stem_dry_mass ~ log_plant_dry_mass+fertilization, 
+    t1_t2_mass %>% filter(time == "t2"), 
+    type = "elevation") #pas de diff entre t1 et t2
+# no difference in slope but shift in elevation
 
 
-sma(log_root_dry_mass ~ log_shoot_dry_mass*time,t1_t2_mass) #pas de diff entre t1 et t2
+
 sma(log_root_dry_mass ~ log_leaf_dry_mass*time,t1_t2_mass) #pas de diff entre t1 et t2
 sma(log_leaf_dry_mass ~ log_stem_dry_mass*time,t1_t2_mass) #pour le leaf:stem les pentes sont tres différentes entre t1 et t2
 
@@ -149,7 +119,12 @@ diff_t1_t2 <- data.frame(pop = list_pop,
 #Pour GERADISS_Nat on  a un mauvais r2 et une mauvaise p value à t1 
 #Pour SHERARVE_Fer pvalue et r2 pas trop mauvaises 
 
-
+# NETTOYER ENCORE LES DONNEES ICI!!!
+t2_traits %>% 
+  ggplot(aes(x = log10(plant_dry_mass), y = log10(RDMC), color = fertilization,label = pot))+
+  geom_point() +
+  facet_wrap(~code_sp)
+  # geom_smooth(method = 'lm')
 
 ## _____________________________________________________________________________
 ## Allométrie pour chaque paire d'organes ####
@@ -241,8 +216,8 @@ x_axis <- "log_plant_dry_mass"
 y_axis <- "log_root_dry_mass"
 
 fdata <- t1_t2_mass %>% 
-  filter(time == "t2") %>% 
-  select(pot,code_sp,fertilization,origin,sp_fer,pop_fer,pop,x_axis,y_axis) %>% 
+  # filter(time == "t2") %>% 
+  select(pot,code_sp,fertilization,origin,sp_fer,pop_fer,pop,time,x_axis,y_axis) %>% 
   dplyr::rename(ord = y_axis) %>% 
   dplyr::rename(abs = x_axis)
 
@@ -250,14 +225,14 @@ fdata <- t1_t2_mass %>%
 fdata %>% 
   ggplot(aes(x = abs, y = ord, color = fertilization)) +
   geom_point() +
-  facet_wrap(~pop)
+  facet_wrap(~pop) +
   geom_smooth(method = "lm")
   
 pop_lack_observations_t2 <- fdata %>% 
   group_by(pop,fertilization) %>% 
   summarize(n=n()) %>% 
   arrange(n) %>% 
-  filter(n<4) %>% 
+  filter(n<5) %>% 
   pull(pop)
 # retiré 6 pops sur 30 en bossant à t2 sur RMF
 fdata <- fdata %>% filter(!(pop %in% pop_lack_observations_t2))

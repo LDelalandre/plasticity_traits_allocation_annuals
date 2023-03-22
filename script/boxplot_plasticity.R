@@ -1,8 +1,7 @@
 library(tidyverse)
 
-# Data ####
+# Import data ####
 
-## Import ####
 t0 <- read.csv2("data/t0_height_dry_mass.csv")
 t1_traits <- read.csv2("data/t1_traits.csv")
 t2_traits <- read.csv2("data/t2_traits.csv")
@@ -30,23 +29,28 @@ traits <- c(
   # nutrient
   "C","N")
 
-## Process ####
+# Process data ####
+
+## average traits values at pop*trt level ####
 mean_traits_pop <- t2_traits %>%  
-  select(code_sp,origin,fertilization,
+  select(pop,code_sp,origin,fertilization,
          all_of(traits), 
          all_of(traits_height_mass)) %>% 
   # ajouter ici les fractions de biomasses voulues!
   mutate(RMF = root_dry_mass/plant_dry_mass, # Root mass fraction
+         LMF = leaf_dry_mass/plant_dry_mass,
+         STMF = stem_dry_mass/plant_dry_mass,
          root_shoot = root_dry_mass/(stem_dry_mass+leaf_dry_mass),
          LAR = (SLA * leaf_dry_mass)/plant_dry_mass # leaf area ratio 
-  ) %>%  
-  group_by(code_sp,origin,fertilization) %>% 
-  summarize_all(.funs = mean,na.rm=T) %>% 
+  ) %>% 
   mutate(log_LA = log(LA),
          RMF = root_dry_mass/plant_dry_mass, # Root mass fraction
          root_shoot = root_dry_mass/(stem_dry_mass+leaf_dry_mass),
          LAR = (SLA * leaf_dry_mass)/plant_dry_mass ) %>% # leaf area ratio 
-  mutate(pop = paste(code_sp,origin,sep='_'))
+  group_by(pop,code_sp,origin,fertilization) %>% 
+  summarize_all(.funs = mean,na.rm=T)
+
+
 
 
 data_rgr_sar <- rbind(
@@ -64,11 +68,23 @@ data_RGR_pop <- data_rgr_sar %>%
   dplyr::rename(RGRslope = estimate) %>% 
   select(fertilization,code_sp,RGRslope)
 
-traits_pop <- merge(mean_traits_pop,data_RGR_pop)
+traits_pop <- merge(mean_traits_pop,data_RGR_pop) %>% 
+  mutate(log_root_dry_mass = log10(root_dry_mass)) %>% 
+  mutate(log_plant_dry_mass = log10(plant_dry_mass))
+
+traits_pop %>% 
+  ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass,color = fertilization)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+
+sma(log_root_dry_mass ~ log_plant_dry_mass+fertilization, 
+    traits_pop , 
+    type = "elevation") 
 
 FTRAITS <- c(
-  "RGRslope","N","C",
-  "LAR","RMF","root_shoot",
+  "RGRslope","plant_dry_mass","N","C",
+  "LAR","RMF","STMF","LMF",
   "log_LA", "LDMC","SLA",
   "SRL", "RTD", "RDMC", "diam","BI"
 )
@@ -104,9 +120,10 @@ for (ftrait in FTRAITS){
 boxplot_all_traits <- ggpubr::ggarrange(PLOTS[[1]],PLOTS[[2]],PLOTS[[3]],PLOTS[[4]],PLOTS[[5]],PLOTS[[6]],
                                         PLOTS[[7]],PLOTS[[8]],PLOTS[[9]],
                                         PLOTS[[10]],PLOTS[[11]],PLOTS[[12]],PLOTS[[13]],PLOTS[[14]],
-                                        ncol = 4,nrow = 4)
+                                        PLOTS[[15]],PLOTS[[16]],
+                                        ncol = 5,nrow = 4)
 
-ggsave("output/plot/boxplot_all_traits_pop.jpg",boxplot_all_traits,width = 10, height = 10)
+ggsave("output/plot/boxplot_all_traits_pop.jpg",boxplot_all_traits,width = 13, height = 10)
 
 
 # Plasticity f(SLA)
