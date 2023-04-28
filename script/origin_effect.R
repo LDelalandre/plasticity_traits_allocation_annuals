@@ -18,40 +18,91 @@ traits_height_mass <- c(
   # "root_scan_fresh_mass","root_scan_dry_mass",
   "root_fresh_mass","root_dry_mass")
 
-traits <- c(
-  # leaf traits
-  "LA", "LDMC","SLA",
-  # root traits
-  "SRL", "RTD", "RDMC", "diam","BI",
-  # nutrient
-  "C","N")
+
+traits_plant <- c("t0_mass","t1_mass","t2_mass")
+# "RGR01","RGR02","RGR12","SAR" sont calculés au niveau pop, pas individu --> pas même modèle... Mais je peux faire un modèle direct sur la taille
+# (dans le script "compute_growth_absorption")
+data_rgr_sar <- read.csv2("output/data/data_rgr_sar.csv")
 
 
-FTRAITS <- c(
-  # leaf traits
-  "log_LA", "LDMC","SLA",
-  # root traits
-  "SRL", "RTD", "RDMC", "diam","BI",
-  # nutrient
-  "C","N",
-  "RMF","LAR","root_shoot")
+fdata <- data_rgr_sar %>% 
+  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>%
+  # filter(!(time == "t2")) %>% 
+  filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) 
+  # filter(fertilization == "N-") %>% 
+
+
+ggplot(fdata,aes(x = day_of_year, y = log_plant_dry_mass,color = origin)) +
+  geom_point() +
+  geom_smooth(method = 'lm') +
+  facet_wrap(~fertilization)
+
+mod_rgr <- lme4::lmer(log(plant_dry_mass) ~ day_of_year *  fertilization * population + (1|code_sp) , 
+                      data = fdata %>% 
+                        rename(population = origin)) 
+ano <- car::Anova(mod_rgr)
+sum <- summary(mod_rgr)
+
+dfano <- ano %>% 
+  as.data.frame()  %>% 
+  rename(pval =`Pr(>Chisq)`) %>% 
+  mutate(across(where(is.numeric), ~ round(., 3)))
+# sum$coefficients
+
+
+library(kableExtra)
+table_mass_time <- dfano %>% 
+  kableExtra::kable( escape = F,
+                     col.names = c("Chisq ", "df", "pval")) %>%
+  kableExtra::kable_styling("hover", full_width = F)
+
+
+
+cat(table_trait_diff, file = "draft/table_mixed_model_mass.doc")
+
+#_____________________________________
+# à un point dans le temps : 
+# l'effet origine est net au début (les plantes du N- sont plus petites), et décroit avec le temps. Nul à t2.
+fdata_tx <- data_rgr_sar %>% 
+  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
+  filter(time =="t2")
+mod_rgr <- lme4::lmer(log(plant_dry_mass) ~ fertilization * origin + (1|code_sp) , data = fdata_tx) 
+car::Anova(mod_rgr)
+summary(mod_rgr)
+
+mod <- lm(log(plant_dry_mass) ~   fertilization * origin, data = fdata )
+anova(mod)
+summary(mod)
+
+
+traits_nutrients <- c("N","C")
+traits_allocation <- c("RMF","SMF","LMF")
+traits_leaf <- c("log_LA", "LDMC","SLA") 
+traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
+
+
+
+FTRAITS <- c(traits_nutrients,traits_allocation,traits_leaf,traits_root)
+
+data_mod <- t2_traits %>% 
+  # filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) %>%
+  mutate(log_LA = log(LA),
+         
+         RMF = root_dry_mass/plant_dry_mass, # Root mass fraction
+         SMF = stem_dry_mass/plant_dry_mass,
+         LMF = leaf_dry_mass/plant_dry_mass,
+         
+         LAR = (SLA * leaf_dry_mass)/plant_dry_mass ) %>% # leaf area ratio 
+  mutate(origin = as.factor(origin) ) %>% 
+  mutate(fertilization = as.factor(fertilization))
 
 # Mixed models on raw data ####
 TABLE_PVAL <- NULL
 for (ftrait in FTRAITS){
-  data_mod <- t2_traits %>% 
-    # filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) %>%
-    mutate(log_LA = log(LA),
-           RMF = root_dry_mass/plant_dry_mass, # Root mass fraction
-           root_shoot = root_dry_mass/(stem_dry_mass+leaf_dry_mass),
-           LAR = (SLA * leaf_dry_mass)/plant_dry_mass ) %>% # leaf area ratio 
-    mutate(origin = as.factor(origin) ) %>% 
-    mutate(fertilization = as.factor(fertilization))
-  
   formula0 <- as.formula(paste0(ftrait, " ~ 1 + (1|code_sp)"))
-  formula <- as.formula(paste0(ftrait, " ~ fertilization * origin", " + (1|code_sp)"))
+  formula <- as.formula(paste0(ftrait, " ~ fertilization + origin", " + (1|code_sp)"))
   
-  mmod0 <- lme4::lmer( formula0 , data = data_mod)
+  mmod0 <- lme4::lmer( formula0 , data = data_mod,na.action = "na.omit")
   
   mmod <- lme4::lmer( formula , data = data_mod) # /!\ choose fdata (includes sp just measured in on treatment)
   
@@ -67,36 +118,38 @@ for (ftrait in FTRAITS){
                             origin = pval[2],
                             Interaction = pval[3]
   )
-  TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
+  variance <- MuMIn::r.squaredGLMM(mmod)
+  variance[1,1] # R2m # variance explained by the fixed effects
   
-  # # if( table_pval$Interaction < 0.05 ){
-  # posthoc <- multcomp::cld(emmeans::emmeans(mmod, specs = c("fertilization","origin"),  type = "response",
-  #                                           adjust = "tuckey"),
-  #                          Letters = "abcdefghi", details = T)
-  # 
-  # # contrasts = différences entre les deux traitements pour annuelles et pérennes
-  # contrasts <- posthoc$comparisons %>% 
-  #   filter(contrast %in% c("(N- Nat) - (N+ Nat)","(N- Fer) - (N+ Fer)",
-  #                          "(N+ Nat) - (N- Nat)","(N+ Fer) - (N- Fer)")) %>%
-  #   mutate(estimate = case_when(contrast %in% c("(N- Nat) - (N+ Nat)","(N- Fer) - (N+ Fer)") ~ -estimate,
-  #                               TRUE ~ estimate)) %>% 
-  #   mutate(contrast = case_when(contrast == "(N- Nat) - (N+ Nat)" ~"(N+ Nat) - (N- Nat)",
-  #                               contrast == "(N- Fer) - (N+ Fer)" ~ "(N+ Fer) - (N- Fer)",
-  #                               TRUE ~ contrast)) %>% 
-  #   mutate(contrast = if_else(contrast == "(N+ Fer) - (N- Fer)", "Fer","Nat")) %>% 
-  #   select(contrast,estimate,p.value) %>% 
-  #   mutate(estimate = round(estimate,digits =1)) %>% 
-  #   mutate(p.value = format(p.value,scientific = TRUE, digits = 2)) %>% 
-  #   mutate(est_pval = paste0(estimate, " (",p.value,")")) %>%
-  #   select(contrast,est_pval) %>% 
-  #   spread(key = contrast,value = est_pval)
-  # 
-  # table_pval2 <- cbind(table_pval,contrasts)
-  # TABLE_PVAL <- rbind(TABLE_PVAL,table_pval2)
+  TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
 }
 TABLE_PVAL  %>% arrange(fertilization)
 
+table_origin_effect <- TABLE_PVAL %>% 
+  # select(-Interaction) %>% 
+  kableExtra::kable( escape = F,
+                     col.names = c("Trait", "Fertilization", "Origin","Interaction"
+                     )) %>%
+  kableExtra::kable_styling("hover", full_width = F)
 
 
 
+cat(table_origin_effect, file = "draft/table_origin_effect.doc")
+
+
+# boxplot ####
+
+traits_pop <- read.csv2("output/data/traits_pop.csv") %>% 
+  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
+  mutate(log_tot_LA = log10(tot_LA)) %>% 
+  mutate(log_tot_RL = log10(tot_RL)) %>% 
+  mutate(log_RGRslope = log10(RGRslope))
+
+# effet origine
+traits_pop %>% 
+  ggplot(aes(x = origin,y = plant_dry_mass)) +
+  geom_boxplot() +
+  geom_point()+
+  geom_line(aes(group=code_sp))+
+  facet_wrap(~fertilization)
 

@@ -49,12 +49,12 @@ t1_t2_mass <- rbind(t1_mass,t2_mass) %>%
   mutate(root_shoot_fresh = root_fresh_mass/shoot_fresh_mass) %>% 
   mutate(log_root_shoot_fresh = log(root_shoot_fresh)) 
 
-list_sp = sort(unique(t1_dry_mass$code_sp)) #liste de toutes les espèces
-list_sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO') #liste des espèces qui sont uniquement dans le milieu natif
-list_sp_no_nat = list_sp[!(list_sp %in% list_sp_nat)]
-list_pop = sort(unique(t1_dry_mass$sp_or))
-list_pop_fer = sort(unique(t1_dry_mass$sp_or_fer))
-list_sp_fer = sort(unique(t1_dry_mass$sp_fer))
+# list_sp = sort(unique(t1_dry_mass$code_sp)) #liste de toutes les espèces
+# list_sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO') #liste des espèces qui sont uniquement dans le milieu natif
+# list_sp_no_nat = list_sp[!(list_sp %in% list_sp_nat)]
+# list_pop = sort(unique(t1_dry_mass$sp_or))
+# list_pop_fer = sort(unique(t1_dry_mass$sp_or_fer))
+# list_sp_fer = sort(unique(t1_dry_mass$sp_fer))
 
 ## _____________________________________________________________________________
 ## Comparaison allométrie à t1 et t2 ####
@@ -66,26 +66,32 @@ t1_t2_mass %>%
   ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass, color = time,label = pot))+
   geom_point() +
   geom_smooth(method = 'lm') +
-  scale_color_manual(values = c("green","red"))
-
+  scale_color_manual(values = c("green","red")) 
 t1_t2_mass %>% 
   filter(time=="t2") %>%
   ggplot(aes(x = log_plant_dry_mass, y = log_root_dry_mass, color = fertilization,label = pot))+
   geom_point() + 
-  geom_smooth(method = 'lm')
+  geom_smooth(method = 'lm') +
+  facet_wrap(~pop)
   # facet_wrap(~time)
 
 # compare root_plant f(time):
-sma(log_root_dry_mass ~ log_plant_dry_mass+time,t1_t2_mass, type = "elevation") #pas de diff entre t1 et t2
+sma(log_stem_dry_mass ~ log_plant_dry_mass+time,t1_t2_mass, type = "elevation") #pas de diff entre t1 et t2
 # no difference in slope but shift in elevation
 
 # compare root_plant f(ferti):
-sma(log_stem_dry_mass ~ log_plant_dry_mass+fertilization, 
+sma(log_root_dry_mass ~ log_plant_dry_mass+fertilization, 
     t1_t2_mass %>% filter(time == "t2"), 
-    type = "elevation") #pas de diff entre t1 et t2
+    type = "elevation") %>% 
+  coefficients()
+
+#pas de diff entre t1 et t2
 # no difference in slope but shift in elevation
 
-
+sma(log_root_dry_mass ~ log_plant_dry_mass+fertilization, 
+    t1_t2_mass %>% filter(time == "t2"), 
+    type = "elevation") %>% 
+  coefficients()
 
 sma(log_root_dry_mass ~ log_leaf_dry_mass*time,t1_t2_mass) #pas de diff entre t1 et t2
 sma(log_leaf_dry_mass ~ log_stem_dry_mass*time,t1_t2_mass) #pour le leaf:stem les pentes sont tres différentes entre t1 et t2
@@ -134,32 +140,99 @@ t2_traits %>%
 
 # Plot rapide des relations allométriques pour chaque espèce selon la fertilisation
 t1_t2_mass %>% 
+  # filter(fertilization == "N+") %>% 
   ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass,color = fertilization)) +
   geom_point() +
-  facet_wrap(~pop) +
+  # facet_wrap(~pop) +
   geom_smooth(method = 'lm') +
   scale_color_hue(h = c(180, 300))
 
-t1_t2_mass %>% 
-  ggplot(aes(x = log_plant_dry_mass,y = log_root_dry_mass_estim,color = fertilization)) +
-  geom_point() +
-  geom_smooth(method = 'lm') +
-  scale_color_hue(h = c(180, 300))
 
 t1_t2_mass %>% 
   # filter(time == "t1") %>% 
   ggplot(aes(x = shoot_dry_mass, y = root_dry_mass,color = fertilization)) +
-  geom_point() +
-  geom_smooth(method="lm") +
-  ggtitle("root dry mass measured")
+  geom_point() 
+  # geom_smooth(method="lm") 
 
-t1_t2_mass %>% 
-  # filter(time == "t1") %>% 
-  ggplot(aes(x = shoot_dry_mass, y = root_dry_mass_estim,color = fertilization)) +
-  geom_point() +
-  geom_smooth(method="lm") +
-  ggtitle("root dry mass estimated")
 
+#________________________________
+# Vasseur 2023 ####
+t2_traits2 <- t2_traits %>% 
+  mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
+  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% 
+  mutate(log_tot_RL = log10(tot_RL)) %>%
+  
+  mutate(tot_RA = SRL * absortive_root_dry_mass * diam ) %>% # root area
+  mutate(log_tot_RA = log10(tot_RA)) %>%
+  
+  mutate(tot_LA = SLA * leaf_dry_mass) %>% 
+  mutate(log_tot_LA = log10(tot_LA)) %>%
+
+  mutate(log_plant_dry_mass = log10(plant_dry_mass))
+
+## Leaf exchange surface ####
+t2_traits2 %>% 
+  ggplot(aes(x = fertilization, y = log_tot_LA)) +
+  geom_boxplot() +
+  geom_point()
+# la surface totale des feuilles augmente ! Le montrer !
+
+t2_traits2 %>% 
+  ggplot(aes(x = log_plant_dry_mass,y = log_tot_LA, color = fertilization)) + # ou tot_RL
+  geom_point() +
+  geom_smooth(method = "lm")
+
+# Pas de changement des relations d'allométrie entre conditions, ni pente, ni elevation (sma n.s.)
+# juste un shift le long de la relation d'allométrie (plantes plus grandes en N+)
+
+sma_LA <- sma(log_tot_LA ~ log_plant_dry_mass + fertilization, type = "shift",data = t2_traits2)
+sma_LA
+sma_LA %>% 
+  coefficients()
+
+
+## Root exchange surface ####
+
+### Root length ####
+t2_traits2 %>% 
+  ggplot(aes(x = fertilization, y = log_tot_RL)) +
+  geom_boxplot() +
+  geom_point()
+
+t2_traits2 %>% 
+  ggplot(aes(x = log_plant_dry_mass,y = log_tot_RL, color = fertilization)) + # ou tot_RL
+  geom_point() +
+  geom_smooth(method = "lm")
+
+sma_RL <- sma(log_tot_RL ~ log_plant_dry_mass + fertilization, type = "elevation",data = t2_traits2)
+sma_RL %>% 
+  coefficients()
+
+### Root area ####
+t2_traits2 %>% 
+  ggplot(aes(x = fertilization, y = log_tot_RA)) +
+  geom_boxplot() +
+  geom_point()
+
+t2_traits2 %>% 
+  ggplot(aes(x = log_plant_dry_mass,y = log_tot_RA, color = fertilization)) + # ou tot_RL
+  geom_point() +
+  geom_smooth(method = "lm")
+
+sma_RA <- sma(log_tot_RA ~ log_plant_dry_mass + fertilization, type = "elevation",data = t2_traits2)
+sma_RA
+sma_RA %>% 
+  coefficients()
+
+
+
+
+
+# Freschet 2015 ####
+t2_traits2 %>% 
+  ggplot(aes(x = SLA/SRL, y = leaf_dry_mass/root_dry_mass, color = fertilization)) +
+  geom_point() +
+  geom_smooth()
 
 
 
