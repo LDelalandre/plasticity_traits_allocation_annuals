@@ -107,34 +107,71 @@ for (ftrait in FTRAITS){
   mmod <- lme4::lmer( formula , data = data_mod) # /!\ choose fdata (includes sp just measured in on treatment)
   
   anov <- car::Anova(mmod)
+  
+  # mean trait value in N-
+  mean_trait_Nm <- data_mod %>% 
+    filter(fertilization =="N-") %>% 
+    summarize(mean_trait_Nm = mean(get(ftrait),na.rm = T)) %>% 
+    pull(mean_trait_Nm)
+  
+  # How much fertilization N+ increases or decreases trait value
+  EM <- emmeans::emmeans(mmod, specs = c("fertilization"),  type = "response",
+                         adjust = "tuckey")
+  # emmeans (version 1.5.2-1)
+  posthoc <- multcomp::cld(EM, #emmeans::as.glht(EM)
+                           Letters = "abcdefghi", details = T)
+  diff <- posthoc$comparisons$estimate %>% round(digits = 3)
+  if(posthoc$comparisons$contrast == "(N-) - (N+)"){
+    diff2 = -diff} else{
+      diff2=diff
+    }
+  
   pval <- anov %>%
     as.data.frame() %>% 
     rename(pval = 'Pr(>Chisq)') %>%
     pull(pval) %>% 
     format(scientific = TRUE, digits = 2) %>%
     as.numeric()
+  variance <- MuMIn::r.squaredGLMM(mmod) %>% 
+    round(digits = 2)
+  
+  if(pval[1] < 0.05){
+    diff3 <- diff2
+  }else{
+    diff3 <- NA
+  }
+
   table_pval <-  data.frame(Trait = ftrait,
                             fertilization = pval[1],
                             origin = pval[2],
-                            Interaction = pval[3]
+                            var_fixed =   variance[1,1], # R2m # variance explained by the fixed effects
+                            var_tot =   variance[1,2],
+                            mean_N= mean_trait_Nm,
+                            effect_ferti = diff3
+                            # Interaction = pval[3]
   )
-  variance <- MuMIn::r.squaredGLMM(mmod)
-  variance[1,1] # R2m # variance explained by the fixed effects
+
   
   TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
 }
-TABLE_PVAL  %>% arrange(fertilization)
+rownames(TABLE_PVAL) <- NULL
+TABLE_PVAL$Organ <- c("Whole plant trait","Whole plant trait",
+                      "Allocation","Allocation","Allocation",
+                      "Leaf trait","Leaf trait","Leaf trait",
+                      "Root trait","Root trait","Root trait","Root trait","Root trait")
 
-table_origin_effect <- TABLE_PVAL %>% 
-  # select(-Interaction) %>% 
+table_origin_ferti <- TABLE_PVAL %>% 
+  select(Organ,everything()) %>%
   kableExtra::kable( escape = F,
-                     col.names = c("Trait", "Fertilization", "Origin","Interaction"
+                     col.names = c("Property","Trait", "Fertilization","Origin", 
+                                   "Variance explained (fixed)","Variance explained (fixed + random)",
+                                   "Mean trait value in N-","Effect of fertilization"
                      )) %>%
   kableExtra::kable_styling("hover", full_width = F)
 
 
 
-cat(table_origin_effect, file = "draft/table_origin_effect.doc")
+cat(table_origin_ferti, file = "draft/table_origin_ferti_effects.doc")
 
 
 # boxplot ####

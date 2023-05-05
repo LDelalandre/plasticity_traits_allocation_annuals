@@ -1,20 +1,25 @@
 library(tidyverse)
 library(ggpubr)
 library(smatr)
+library(cowplot())
 
 # Import data ####
 t2_traits <- read.csv2("data/t2_traits.csv")%>% 
   mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
-  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% 
-  mutate(log_tot_RL = log10(tot_RL)) %>%
+  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
+  mutate(log_tot_RL = log10(tot_RL)) %>% 
   
-  mutate(tot_RA = SRL * absortive_root_dry_mass * diam ) %>% # root area
+  mutate(tot_RA = tot_RL * 1000 * pi *diam ) %>% # root area, in mm² (convert tot_RL in mm, because diam is is mm)
   mutate(log_tot_RA = log10(tot_RA)) %>%
   
-  mutate(tot_LA = SLA * leaf_dry_mass) %>% 
+  mutate(tot_LA = SLA * leaf_dry_mass*1000) %>% # convert leaf dry mass into mg so that tot_LA in is mm² (with SLA in mm²/mg) 
   mutate(log_tot_LA = log10(tot_LA)) %>%
   
-  mutate(log_plant_dry_mass = log10(plant_dry_mass))
+  mutate(log_plant_dry_mass = log10(plant_dry_mass)) 
+
+sp_fam <- t2_traits %>% 
+  select(code_sp,family) %>% 
+  unique()
 
 sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
 
@@ -23,13 +28,16 @@ traits_pop <- read.csv2("output/data/traits_pop.csv") %>%
   mutate(log_tot_LA = log10(tot_LA)) %>% 
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   mutate(log_tot_RA = log10(tot_RA)) %>%
-  mutate(log_RGRslope = log10(RGRslope))
+  mutate(log_RGRslope = log10(RGRslope)) %>% 
+  merge(sp_fam) %>% 
+  mutate(log_Hveg = log10(Hveg))
 
 # Plots and analyses ####
 
 
 
-# Allométrie niveau pop : qualitativement mêmes résultats que niveau individu
+# Allométrie niveau pop ####
+# : qualitativement mêmes résultats que niveau individu
 # Mais pas même pente et intercept...
 sma_leaf <- sma(log_tot_LA ~ log_plant_dry_mass+fertilization, 
     t2_traits , 
@@ -43,15 +51,41 @@ coefs_leaf <- coef(sma_leaf2)
 intercept_leaf <- coefs_leaf[1]
 slope_leaf <- coefs_leaf[2]
 
-allom_leaf <- t2_traits %>% 
+allom_leaf_leg <- t2_traits %>% 
   ggplot(aes(x = log_plant_dry_mass, y = log_tot_LA)) +
-  geom_point(aes(shape = fertilization)) +
-  # geom_smooth(method = "lm")+
-  scale_shape_manual(values = c(1,16)) +
-  scale_color_brewer(palette = "Set2") +
+  geom_point(aes(color = fertilization)) +
+  # scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer("Fertilization",palette = "Set2") +
   theme_classic() +
-  geom_abline(slope =slope_leaf,intercept = intercept_leaf)
-allom_leaf
+  geom_abline(slope =slope_leaf,intercept = intercept_leaf) +
+  xlab("log(plant dry mass in g)") +
+  ylab("log(total leaf area in mm²)") 
+  # theme(legend.position = c(0.2,0.8))
+leg <- get_legend(allom_leaf_leg)
+
+allom_leaf <- allom_leaf_leg + 
+  theme(legend.position = "none") +
+  ggtitle("A. Whole plant leaf area")
+
+# Add density curves to y and x axis
+xdens_leaf <- 
+  cowplot::axis_canvas(allom_leaf, axis = "x") + 
+  geom_density(data = t2_traits, aes(x = log_plant_dry_mass, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2")
+ydens_leaf <-
+  cowplot::axis_canvas(allom_leaf, axis = "y", coord_flip = TRUE) + 
+  geom_density(data = t2_traits, aes(x = log_tot_LA, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2") +
+  coord_flip()
+
+allom_leaf2 <- allom_leaf %>% 
+  insert_xaxis_grob(xdens_leaf, grid::unit(0.5, "in"), position = "top") %>%
+  insert_yaxis_grob(ydens_leaf, grid::unit(0.5, "in"), position = "right") %>%
+  ggdraw()
+
+
 
 sma_root <- sma(log_tot_RA ~ log_plant_dry_mass+fertilization, 
                 t2_traits , 
@@ -66,18 +100,42 @@ slope_root_Np <- coefs_root[2,2]
 
 allom_root <- t2_traits %>% 
   ggplot(aes(x = log_plant_dry_mass, y = log_tot_RA)) +
-  geom_point(aes(shape = fertilization)) +
+  geom_point(aes(color = fertilization)) +
   # geom_smooth(method = "lm")+
   scale_shape_manual(values = c(1,16)) +
   scale_color_brewer(palette = "Set2") +
   theme_classic() + 
   geom_abline(slope =slope_root_Nm,intercept = intercept_root_Nm,linetype=2) +
-  geom_abline(slope =slope_root_Np,intercept = intercept_root_Np)
+  geom_abline(slope =slope_root_Np,intercept = intercept_root_Np) +
+  xlab("log(plant dry mass in g)") +
+  ylab("log(total root area in mm²)") + 
+  theme(legend.position = "none") +
+  ggtitle("B. Whole plant absortive root area")
 allom_root
 
+# Add density curves to y and x axis
+xdens_root <- 
+  cowplot::axis_canvas(allom_root, axis = "x") + 
+  geom_density(data = t2_traits, aes(x = log_plant_dry_mass, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2")
+ydens_root <-
+  cowplot::axis_canvas(allom_root, axis = "y", coord_flip = TRUE) + 
+  geom_density(data = t2_traits, aes(x = log_tot_RA, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2") +
+  coord_flip()
+allom_root2 <- allom_root %>%
+  insert_xaxis_grob(xdens_root, grid::unit(0.5, "in"), position = "top") %>%
+  insert_yaxis_grob(ydens_root, grid::unit(0.5, "in"), position = "right") %>%
+  ggdraw()
 
 
+fig_allom <- gridExtra::grid.arrange(grobs = list(allom_leaf2,allom_root2,leg), 
+             layout_matrix = rbind(rbind(
+               c(1,1,1,1,2,2,2,2,3))))
 
+ggsave("draft/fig_allom_surfaces.png",fig_allom,width = 10,height =4.5)
 
 
 # avec RGR
@@ -108,9 +166,10 @@ make_boxplot <- function(FTRAITS){
       ggplot(aes_string(x="fertilization", y=ftrait,label = "pop")) + #fill = "fertilization"
       theme_classic() +
       
-      geom_boxplot(outlier.shape = NA) +
+      geom_boxplot(outlier.shape = NA,
+                   aes(fill = fertilization)) +
       geom_point(
-        aes(shape = fertilization),size = 2,
+        size = 2,
         position = position_dodge(width = .75)) +
       # scale_fill_manual(values = c("grey", "white")) +
       geom_line(aes(group = pop),
@@ -121,13 +180,25 @@ make_boxplot <- function(FTRAITS){
             axis.title.x = element_blank()
       ) +
       ggtitle(ftrait) +
-      scale_shape_manual(values = c(1,16))
+      scale_color_brewer(palette = "Set2")  +
+      scale_fill_brewer(palette = "Set2") 
+      # scale_shape_manual(values = c(1,16))
     
     PLOTS[[i]] <- A
     i <- i+1
   }
   PLOTS
 }
+
+
+
+traits_pop %>% 
+  ggplot(aes(x=SLA)) +
+  geom_density()
+
+traits_pop %>% 
+  ggplot(aes(x=RDMC,y=RTD))+
+  geom_point()
 
 traits_plant <- c("t0_mass","t1_mass","t2_mass","RGR01","RGR02","RGR12","SAR","N","C")
 traits_exchange_surfaces <- c("tot_LA","tot_RL","tot_RA")
@@ -155,7 +226,7 @@ ggsave("output/plot/boxplot_leaf.jpg",boxplot_leaf,width = 8, height = 8)
 ggsave("output/plot/boxplot_root.jpg",boxplot_root,width = 8, height = 8)
 
 
-bp_mass <- make_boxplot("t2_mass")[[1]]
+
 
 bp_tot_LA <- make_boxplot("log_tot_LA")[[1]]
 bp_SLA <- make_boxplot("SLA")[[1]]
@@ -164,31 +235,72 @@ bp_LMF <- make_boxplot("LMF")[[1]]
 ggarrange(bp_tot_LA,allom_leaf, bp_SLA,bp_LMF,ncol = 2,nrow=2)
 
 
+bp_mass <- make_boxplot("t2_mass")[[1]] +
+  ggtitle("Plant dry mass (g)")
 
-bp_tot_RA <- make_boxplot("log_tot_RA")[[1]]
+bp_SLA <- make_boxplot("SLA")[[1]] +
+  ggtitle("SLA (mm²/mg)")
+bp_LMF <- make_boxplot("LMF")[[1]] +
+  ggtitle("LMF  (%)")
+
 bp_tot_RL <- make_boxplot("log_tot_RL")[[1]]
-bp_SRL <- make_boxplot("SRL")[[1]]
-bp_RMF <- make_boxplot("RMF")[[1]]
-bp_diam <- make_boxplot("diam")[[1]]
+bp_SRL <- make_boxplot("SRL")[[1]] +
+  ggtitle("SRL (m/g)")
+bp_RMF <- make_boxplot("RMF")[[1]] +
+  ggtitle("RMF (%)")
+bp_diam <- make_boxplot("diam")[[1]] +
+  ggtitle("Mean diameter (mm)")
 
-ggarrange(bp_tot_RL,allom_root, bp_SRL,bp_RMF,ncol = 2,nrow=2)
+fig_bp <- ggarrange(bp_mass, bp_SLA,bp_LMF,bp_diam,bp_SRL,bp_RMF,ncol = 3,nrow=2)
+ggsave("draft/fig_bp.png",fig_bp,height = 5,width = 8)
 
-t2_traits %>% 
-  ggplot(aes(x=log_plant_dry_mass,y=SLA)) +
-  geom_point() +
-  facet_wrap(~fertilization) +
-  geom_smooth(method="lm")
 
-ggarrange(allom_leaf,allom_root,ncol = 2,nrow=1)
+
+# BIG figure ####
+flayout <- rbind(
+  c(1,1,1,1,1,1,  2,2,2,2,2,2,  NA),
+  c(1,1,1,1,1,1,  2,2,2,2,2,2,   3),
+  c(4,4,5,5,NA,NA, 6,6,7,7,8,8, NA)
+)
+
+fig_allom_bp <- gridExtra::grid.arrange(
+  grobs = list(allom_leaf2,allom_root2,leg,
+               bp_LMF,bp_SLA,
+               bp_RMF,bp_SRL,bp_diam), 
+  layout_matrix = flayout)
+
+ggsave("draft/fig_allom_surfaces_boxplot.png",fig_allom_bp,width = 10,height =6)
+
+
+flayout <- rbind(
+  c(1,1,1,1,  NA,NA,NA,NA,NA,  NA),
+  c(1,1,1,1,  NA,4,4,5,5,NA),
+  c(1,1,1,1,  NA,4,4,5,5,NA),
+  c(1,1,1,1,  3,NA,NA,NA,NA,  NA),
+  
+  c(2,2,2,2,  3,NA,NA,NA,NA,  NA ),
+  c(2,2,2,2,  6,6,7,7,8, 8  ),
+  c(2,2,2,2,  6,6,7,7,8, 8  ),
+  c(2,2,2,2,  NA,NA,NA,NA,NA,  NA)
+)
+
+fig_allom_bp <- gridExtra::grid.arrange(
+  grobs = list(allom_leaf2,allom_root2,leg,
+               bp_LMF,bp_SLA,
+               bp_RMF,bp_SRL,bp_diam), 
+  layout_matrix = flayout)
+
+ggsave("draft/fig_allom_surfaces_boxplot.png",fig_allom_bp,width = 10,height =6)
+
 
 
 #_________________________________________
-# per population ####
+# theoretical fig = per population ####
 PLOTS <- NULL
 i <- 0
 ftrait <- "LMF"
 
-for (ftrait in c("RGR01","RMF","SRL","LMF","SLA")){
+for (ftrait in c("RGR01","RMF","SRL","LMF","SLA","SAR")){
   i <- i+1
   fig_pop_plast <- traits_pop %>% 
     filter(!(code_sp  %in% c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO'))) %>% 
@@ -215,12 +327,13 @@ for (ftrait in c("RGR01","RMF","SRL","LMF","SLA")){
 }
 
 
-fig_combi <- ggarrange(PLOTS[[1]],PLOTS[[2]],PLOTS[[3]],PLOTS[[4]],PLOTS[[5]],nrow = 1)
+fig_combi <- ggpubr::ggarrange(PLOTS[[1]],PLOTS[[6]],PLOTS[[2]],PLOTS[[3]],PLOTS[[4]],PLOTS[[5]],nrow = 1)
 
-ggsave("/fig_pop_plast.jpg",fig_combi,width = 9, height = 15)
+ggsave("draft/fig_pop_plast.jpg",fig_combi,width = 10, height = 15)
 
 
 ftrait <- "RGR01"
+ftrait2 <- "SAR"
 plast_RGR <-traits_pop %>% 
   filter(!(code_sp  %in% c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO'))) %>% 
   mutate(Population = if_else(origin == "Nat","Extensive","Intensive")) %>% 
@@ -230,8 +343,10 @@ plast_RGR <-traits_pop %>%
   geom_point(aes(shape = Population),
              size = 2) +
   scale_fill_manual(values = c("grey", "white")) +
-  geom_line(aes(group = pop),
-            alpha=0.4) + 
+  geom_line(aes(group = pop),alpha=0.4) +
+  
+  geom_point(aes_string(x = "fertilization",y=ftrait2,shape = "Population"),size = 2,color = "red")+ 
+  geom_line(aes_string(x = "fertilization",y=ftrait2,group = "pop"),alpha=0.4, color = "red") +
   # theme(legend.position="none") +
   theme(axis.ticks.x=element_blank() ,
         axis.title.y = element_blank(),
@@ -240,8 +355,9 @@ plast_RGR <-traits_pop %>%
   ggtitle(ftrait) +
   facet_wrap(~code_sp) +
   scale_shape_manual(values = c(15,16))
+plast_RGR
 
-ggsave("draft/fig_pop_plast_RGR.jpg",plast_RGR,width = 7, height = 6)
+ggsave("draft/fig_pop_plast_RGR_SAR.jpg",plast_RGR,width = 7, height = 6)
 
   # " mass
 traits_pop %>% 
@@ -273,6 +389,51 @@ traits_pop %>%
   scale_color_brewer(palette = "Set1")
 
 
+# Theoretical, altogether ####
+make_boxplot_wrap_origin <- function(ftrait){
+  traits_pop %>% 
+    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>% 
+    filter(!(code_sp %in% c("BUPLBALD","MYOSRAMO","FILAPYRA","HORNPETR"))) %>% 
+    # filter(code_sp %in% c("FILAPYRA","ALYSALYS","ARENSERP","MEDIMINI","GERADISS","BROMHORD","SHERARVE","VEROARVE")) %>%
+    # 
+    # filter(code_sp %in% c("ALYSALYS","ARENSERP","MEDIMINI","BROMHORD","SHERARVE")) %>% 
+    ggplot(aes_string(x="fertilization", y=ftrait,label = "pop",
+                      # shape = "code_sp",
+                      color = "origin")) + #fill = "fertilization"
+    theme_classic() +
+    geom_boxplot(outlier.shape = NA)+
+    geom_point(size =3)+
+    geom_line(aes(group = pop),alpha=0.4) + # , linetype = factor(origin) 
+    # theme(legend.position="none") +
+    theme(axis.ticks.x=element_blank() ,
+          axis.title.y = element_blank(),
+          axis.title.x = element_blank()
+    ) +
+    ggtitle(ftrait) +
+    scale_color_brewer(palette = "Set1",direction = -1)  +
+    # scale_fill_brewer(palette = "Set2") +
+    scale_linetype_manual(values = c("dashed","solid")) +
+    scale_shape_manual(values=1:19) +
+    facet_wrap(~origin) +
+    theme(legend.position = "none")
+}
+
+
+
+traits_manip_bp <- list("N","RMF","SMF","LMF",
+                        "log_LA", "LDMC","SLA",
+                        "SRL",  "RDMC", "diam")
+
+TBP1 <- traits_manip_bp <- list("SLA","SRL",
+                                "LDMC","RDMC",
+                                "log_LA","diam")
+bps <- lapply(TBP1, make_boxplot_wrap_origin)
+ggarrange(plotlist=bps, ncol = 2,nrow = 3)
+
+
+TBP2 <- traits_manip_bp <- list("N","log_Hveg","RMF","LMF")
+bps2 <- lapply(TBP2, make_boxplot_wrap_origin)
+ggarrange(plotlist=bps2, ncol = 1,nrow = 4)
 
 #_______________________________________________________________________________
 # Appendix : Plasticity f(SLA) ####
@@ -330,27 +491,56 @@ traits_pop %>%
 
 
 # Même trait en x et en y ####
+traits <- c(
+  # leaf traits
+  "LA", "LDMC","SLA",
+  # root traits
+  "SRL", "RTD", "RDMC", "diam","BI",
+  # nutrient
+  "C","N",
+  # plant_traits
+  "tot_RL","tot_RA","tot_LA")
+
 ftrait <- "RTD"
 
 trait_moy <- t2_traits %>% 
   group_by(code_sp,origin,pop) %>% 
-  summarize(ftrait = mean(get(ftrait),na.rm=T))
+  summarize_at(vars(traits),mean,na.rm=T)
+  # summarize(ftrait = mean(get(ftrait),na.rm=T))
 
-plast <- traits_pop %>% 
-  select(pop,fertilization,all_of(ftrait)) %>% 
-  spread(key = fertilization,value = ftrait ) %>% 
-  mutate(plast = (`N+` - `N-`)/`N+` ) %>% 
-  merge(trait_moy)
 
-plast %>% 
-  # filter(!(pop == "ALYSALYS_Nat")) %>%
-  ggplot(aes(x = ftrait, y = plast,label=pop)) +
+compute_plast <- function(ftrait){
+  plast <- traits_pop %>% 
+    select(pop,fertilization,all_of(ftrait)) %>% 
+    spread(key = fertilization,value = ftrait )
+    # mutate(plast = (`N+` - `N-`)/`N+` )
+    # merge(trait_moy)
+  plast[,ftrait] <- (plast$`N+` / plast$`N-`) / (plast$`N+`)
+  
+  plast %>% 
+    ungroup() %>% 
+    select(pop,ftrait)
+}
+
+PLAST <- compute_plast(traits[1])
+for( i in c(2:length(traits)) ){
+  plast <- compute_plast(traits[i])
+  PLAST <- merge(PLAST,plast)
+}
+
+PLAST %>% 
+  ggplot(aes(x = RDMC,LDMC )) +
   geom_point() +
-  geom_abline(slope = 0 , intercept = 0, linetype = "dashed") +
-  ylab("[trait(N+) - trait(N-)] / trait(N-)") +
-  xlab("trait moyen") +
-  ggtitle(ftrait) 
-  geom_smooth(method = "lm")
+  # geom_abline(slope = 1, intercept = 0) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+cor(PLAST %>% select(-pop))
+
+FactoMineR::PCA(PLAST %>% 
+                  select(-c(tot_RL,tot_RA,tot_LA)) %>% 
+                  column_to_rownames("pop")) 
+
 
 #_______________________________________________________________________________
 # Appendix: Separating f(origin) ####
