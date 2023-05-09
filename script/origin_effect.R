@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # Data ####
-t2_traits <- read.csv2("data/t2_traits.csv")
+t2_traits <- read.csv2("data/t2_traits.csv") 
 
 traits_height_mass <- c(    
   # height
@@ -82,11 +82,12 @@ traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
 
 
 
-FTRAITS <- c(traits_nutrients,traits_allocation,traits_leaf,traits_root)
+FTRAITS <- c("Hveg","log_plant_dry_mass",traits_nutrients,traits_allocation,traits_leaf,traits_root)
 
 data_mod <- t2_traits %>% 
   # filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) %>%
   mutate(log_LA = log(LA),
+         log_plant_dry_mass = log10(plant_dry_mass),
          
          RMF = root_dry_mass/plant_dry_mass, # Root mass fraction
          SMF = stem_dry_mass/plant_dry_mass,
@@ -112,7 +113,8 @@ for (ftrait in FTRAITS){
   mean_trait_Nm <- data_mod %>% 
     filter(fertilization =="N-") %>% 
     summarize(mean_trait_Nm = mean(get(ftrait),na.rm = T)) %>% 
-    pull(mean_trait_Nm)
+    pull(mean_trait_Nm) %>% 
+    round(digits = 2)
   
   # How much fertilization N+ increases or decreases trait value
   EM <- emmeans::emmeans(mmod, specs = c("fertilization"),  type = "response",
@@ -136,7 +138,8 @@ for (ftrait in FTRAITS){
     round(digits = 2)
   
   if(pval[1] < 0.05){
-    diff3 <- diff2
+    diff3 <- diff2 %>% 
+      round(digits = 2)
   }else{
     diff3 <- NA
   }
@@ -155,15 +158,20 @@ for (ftrait in FTRAITS){
   TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
 }
 rownames(TABLE_PVAL) <- NULL
-TABLE_PVAL$Organ <- c("Whole plant trait","Whole plant trait",
+TABLE_PVAL$Organ <- c("Whole plant trait","Whole plant trait","Whole plant trait","Whole plant trait",
                       "Allocation","Allocation","Allocation",
                       "Leaf trait","Leaf trait","Leaf trait",
                       "Root trait","Root trait","Root trait","Root trait","Root trait")
+TABLE_PVAL$unit <- c("cm","g","%","%","%","%","%",
+                     "cm2", "mg/g","mm2/mg","m/g","g/cm3","mg/g","mm","")
 
-table_origin_ferti <- TABLE_PVAL %>% 
-  select(Organ,everything()) %>%
+table_origin_ferti <- TABLE_PVAL %>%
+  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  mutate(origin = scales::scientific(origin,digits = 2)) %>% 
+  
+  select(Organ,Trait,unit,origin,fertilization,everything()) %>%
   kableExtra::kable( escape = F,
-                     col.names = c("Property","Trait", "Fertilization","Origin", 
+                     col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
                                    "Variance explained (fixed)","Variance explained (fixed + random)",
                                    "Mean trait value in N-","Effect of fertilization"
                      )) %>%

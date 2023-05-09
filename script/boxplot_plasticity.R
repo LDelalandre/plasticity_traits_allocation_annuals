@@ -391,19 +391,23 @@ traits_pop %>%
 
 # Theoretical, altogether ####
 make_boxplot_wrap_origin <- function(ftrait){
-  traits_pop %>% 
-    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>% 
-    filter(!(code_sp %in% c("BUPLBALD","MYOSRAMO","FILAPYRA","HORNPETR"))) %>% 
+  # color = origin
+  # wrap per origin
+  # connect with lines same pop (plast)
+  # 
+  traits_pop %>%
+    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>%
+    filter(!(code_sp %in% c("BUPLBALD","MYOSRAMO","FILAPYRA","HORNPETR"))) %>%
     # filter(code_sp %in% c("FILAPYRA","ALYSALYS","ARENSERP","MEDIMINI","GERADISS","BROMHORD","SHERARVE","VEROARVE")) %>%
-    # 
-    # filter(code_sp %in% c("ALYSALYS","ARENSERP","MEDIMINI","BROMHORD","SHERARVE")) %>% 
+    #
+    # filter(code_sp %in% c("ALYSALYS","ARENSERP","MEDIMINI","BROMHORD","SHERARVE")) %>%
     ggplot(aes_string(x="fertilization", y=ftrait,label = "pop",
                       # shape = "code_sp",
                       color = "origin")) + #fill = "fertilization"
     theme_classic() +
     geom_boxplot(outlier.shape = NA)+
     geom_point(size =3)+
-    geom_line(aes(group = pop),alpha=0.4) + # , linetype = factor(origin) 
+    geom_line(aes(group = pop),alpha=0.4) + # , linetype = factor(origin)
     # theme(legend.position="none") +
     theme(axis.ticks.x=element_blank() ,
           axis.title.y = element_blank(),
@@ -414,10 +418,88 @@ make_boxplot_wrap_origin <- function(ftrait){
     # scale_fill_brewer(palette = "Set2") +
     scale_linetype_manual(values = c("dashed","solid")) +
     scale_shape_manual(values=1:19) +
-    facet_wrap(~origin) +
+    # facet_wrap(~origin) +
+    theme(legend.position = "none")
+  
+  # traits_pop %>%
+  #   mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>%
+  #   filter(!(code_sp %in% c("BUPLBALD","MYOSRAMO","FILAPYRA","HORNPETR"))) %>%
+  #   
+  #   ggplot(aes_string(x="fertilization", y=ftrait,label = "pop",
+  #                     shape = "code_sp",
+  #                     color = "origin")) + #fill = "fertilization"
+  #   theme_classic() +
+  #   # geom_boxplot(outlier.shape = NA)+
+  #   geom_point(size =3)+
+  #   geom_line(aes(group = pop),alpha=0.4) + # , linetype = factor(origin)
+  #   # theme(legend.position="none") +
+  #   theme(axis.ticks.x=element_blank() ,
+  #         axis.title.y = element_blank(),
+  #         axis.title.x = element_blank()
+  #   ) +
+  #   ggtitle(ftrait) +
+  #   scale_color_brewer(palette = "Set1",direction = -1)  +
+  #   # scale_fill_brewer(palette = "Set2") +
+  #   scale_linetype_manual(values = c("dashed","solid")) +
+  #   scale_shape_manual(values=1:19) +
+  #   facet_wrap(~code_sp,ncol = 1) +
+  #   theme(legend.position = "none")
+}
+
+ftrait <- "RMF"
+
+bp_plast_simple <- function(ftrait){
+  traits_pop %>%
+    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>%
+    mutate(fertilization = factor(fertilization, levels = c("N-","N+"))) %>%
+    ggplot(aes_string(x="fertilization", y=ftrait,label = "pop"
+                      # shape = "code_sp",
+    )) + #fill = "fertilization"
+    theme_classic() +
+    geom_boxplot(outlier.shape = NA)+
+
+    geom_line(aes(group = pop),alpha=0.4,color = "black") + 
+    geom_point(size = 1,aes(color = fertilization),)+
+    theme(legend.position="none") +
+    theme(axis.ticks.x=element_blank() ,
+          axis.title.y = element_blank(),
+          axis.title.x = element_blank()
+    ) +
+    ggtitle(ftrait) +
+    scale_color_brewer(palette = "Set2",direction = 1) 
+}
+bps <- lapply(list("log_plant_dry_mass","N","RMF","SMF","LMF"), bp_plast_simple)
+plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 2,nrow = 3)
+ggsave("draft/bp_ferti.png", plots1,width = 5, height = 7)
+
+
+
+make_boxplot_color_origin <- function(ftrait){
+  traits_pop %>% 
+    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>% 
+    filter(!(code_sp %in% c("BUPLBALD","MYOSRAMO","FILAPYRA","HORNPETR"))) %>% 
+    ggplot(aes_string(x="fertilization", y=ftrait,label = "pop",
+                      # shape = "code_sp",
+                      color = "origin")) + #fill = "fertilization"
+    theme_classic() +
+    geom_boxplot(outlier.shape = NA) +
+    geom_point(size =1,position = position_dodge(width = .75)) +
+    # geom_line(aes(group = pop),alpha=0.4) + # , linetype = factor(origin) 
+    # theme(legend.position="none") +
+    theme(axis.ticks.x=element_blank() ,
+          axis.title.y = element_blank(),
+          axis.title.x = element_blank()
+    ) +
+    ggtitle(ftrait) +
+    scale_color_brewer(palette = "Set1",direction = -1)  +
+    # scale_fill_brewer(palette = "Set2") +
+    scale_linetype_manual(values = c("dashed","solid")) +
+    scale_shape_manual(values=1:19) +
+    # facet_wrap(~fertilization) +
     theme(legend.position = "none")
 }
 
+make_boxplot_wrap_origin("RMF")
 
 
 traits_manip_bp <- list("N","RMF","SMF","LMF",
@@ -427,13 +509,15 @@ traits_manip_bp <- list("N","RMF","SMF","LMF",
 TBP1 <- traits_manip_bp <- list("SLA","SRL",
                                 "LDMC","RDMC",
                                 "log_LA","diam")
-bps <- lapply(TBP1, make_boxplot_wrap_origin)
-ggarrange(plotlist=bps, ncol = 2,nrow = 3)
-
+bps <- lapply(TBP1, make_boxplot_color_origin)
+plots1 <- ggarrange(plotlist=bps, ncol = 2,nrow = 3)
+ggsave("output/plot/bp_origin_ferti.png", plots1,width = 8, height = 8)
 
 TBP2 <- traits_manip_bp <- list("N","log_Hveg","RMF","LMF")
-bps2 <- lapply(TBP2, make_boxplot_wrap_origin)
-ggarrange(plotlist=bps2, ncol = 1,nrow = 4)
+bps2 <- lapply(TBP2, make_boxplot_color_origin)
+plots2 <- ggarrange(plotlist=bps2, ncol = 1,nrow = 4)
+
+ggsave("output/plot/bp_origin_ferti2.png", plots2,width = 4, height = 8)
 
 #_______________________________________________________________________________
 # Appendix : Plasticity f(SLA) ####
@@ -491,9 +575,13 @@ traits_pop %>%
 
 
 # Même trait en x et en y ####
+
+
+
+# RDPI on all traits ####
 traits <- c(
   # leaf traits
-  "LA", "LDMC","SLA",
+  "log_LA", "LDMC","SLA",
   # root traits
   "SRL", "RTD", "RDMC", "diam","BI",
   # nutrient
@@ -501,21 +589,13 @@ traits <- c(
   # plant_traits
   "tot_RL","tot_RA","tot_LA")
 
-ftrait <- "RTD"
-
-trait_moy <- t2_traits %>% 
-  group_by(code_sp,origin,pop) %>% 
-  summarize_at(vars(traits),mean,na.rm=T)
-  # summarize(ftrait = mean(get(ftrait),na.rm=T))
-
-
 compute_plast <- function(ftrait){
   plast <- traits_pop %>% 
     select(pop,fertilization,all_of(ftrait)) %>% 
     spread(key = fertilization,value = ftrait )
     # mutate(plast = (`N+` - `N-`)/`N+` )
     # merge(trait_moy)
-  plast[,ftrait] <- (plast$`N+` / plast$`N-`) / (plast$`N+`)
+  plast[,ftrait] <-  (plast$`N+` - plast$`N-`) / (plast$`N+`) 
   
   plast %>% 
     ungroup() %>% 
@@ -529,17 +609,21 @@ for( i in c(2:length(traits)) ){
 }
 
 PLAST %>% 
-  ggplot(aes(x = RDMC,LDMC )) +
+  ggplot(aes(x = LDMC,SLA )) +
   geom_point() +
   # geom_abline(slope = 1, intercept = 0) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   geom_vline(xintercept = 0, linetype = "dashed")
 
-cor(PLAST %>% select(-pop))
+tocorrelate <- PLAST %>% 
+  select(-c(tot_RL,tot_RA,tot_LA,C,N)) %>% 
+  column_to_rownames("pop")
+cor(PLAST %>% select(-c(pop)))
 
-FactoMineR::PCA(PLAST %>% 
-                  select(-c(tot_RL,tot_RA,tot_LA)) %>% 
-                  column_to_rownames("pop")) 
+FactoMineR::PCA(tocorrelate) 
+
+library("PerformanceAnalytics")
+chart.Correlation(tocorrelate, histogram=TRUE, pch=19)
 
 
 #_______________________________________________________________________________
