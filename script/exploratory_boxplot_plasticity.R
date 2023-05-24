@@ -15,7 +15,14 @@ t2_traits <- read.csv2("data/t2_traits.csv")%>%
   mutate(tot_LA = SLA * leaf_dry_mass*1000) %>% # convert leaf dry mass into mg so that tot_LA in is mm² (with SLA in mm²/mg) 
   mutate(log_tot_LA = log10(tot_LA)) %>%
   
-  mutate(log_plant_dry_mass = log10(plant_dry_mass)) 
+  mutate(log_plant_dry_mass = log10(plant_dry_mass),
+         log_leaf_dry_mass = log10(leaf_dry_mass),
+         log_stem_dry_mass = log10(stem_dry_mass),
+         log_root_dry_mass = log10(root_dry_mass)) %>% 
+  
+  mutate(RMF = root_dry_mass/plant_dry_mass,
+         SMF = stem_dry_mass/plant_dry_mass,
+         LMF = leaf_dry_mass/plant_dry_mass)
 
 sp_fam <- t2_traits %>% 
   select(code_sp,family) %>% 
@@ -36,15 +43,75 @@ traits_pop <- read.csv2("output/data/traits_pop.csv") %>%
 
 
 
-# Allométrie niveau pop ####
+# Allométrie ####
+# traits_pop %>% 
+#   ggplot(aes(x = log_plant_dry_mass,y=log_root_dry_mass,color = fertilization)) +
+#   geom_point()
+
+## Mass fraction ####
+ftrait <- "log_root_dry_mass"
+
+res_sma <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass+fertilization")), 
+                t2_traits , 
+                type = "elevation") 
+res_sma
+
+res_sma2 <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass")), 
+                 t2_traits , 
+                 type = "shift")
+coefs <- coef(res_sma) 
+res_intercept_Nm <- coefs[1,1]
+res_intercept_Np <- coefs[2,1]
+res_slope_Nm <- coefs[1,2]
+res_slope_Np <- coefs[2,2]
+
+allom_leg <- t2_traits %>% 
+  ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
+  geom_point(aes(color = fertilization)) +
+  # scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer("Fertilization",palette = "Set2") +
+  theme_classic() +
+  geom_abline(slope =res_slope_Nm,intercept = res_intercept_Nm,linetype=2) +
+  geom_abline(slope =res_slope_Np,intercept = res_intercept_Np,linetype=1) +
+  xlab("log(plant dry mass in g)") +
+  ylab(ftrait) 
+allom_leg
+# theme(legend.position = c(0.2,0.8))
+leg <- get_legend(allom_leg)
+
+allom <- allom_leg + 
+  theme(legend.position = "none")
+
+# Add density curves to y and x axis
+xdens <- 
+  cowplot::axis_canvas(allom, axis = "x") + 
+  geom_density(data = t2_traits, aes(x = log_plant_dry_mass, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2")
+ydens <-
+  cowplot::axis_canvas(allom, axis = "y", coord_flip = TRUE) + 
+  geom_density(data = t2_traits, aes_string(x = ftrait, fill = "fertilization", colour = "fertilization"), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2") +
+  coord_flip()
+
+allom_2 <- allom %>% 
+  insert_xaxis_grob(xdens, grid::unit(0.5, "in"), position = "top") %>%
+  insert_yaxis_grob(ydens, grid::unit(0.5, "in"), position = "right") %>%
+  ggdraw()
+
 # : qualitativement mêmes résultats que niveau individu
 # Mais pas même pente et intercept...
-sma_leaf <- sma(log_tot_LA ~ log_plant_dry_mass+fertilization, 
+
+## Surfaces ####
+ftrait <- "log_tot_LA"
+
+sma_leaf <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass+fertilization")), 
     t2_traits , 
     type = "shift") 
 sma_leaf
 
-sma_leaf2 <- sma(log_tot_LA ~ log_plant_dry_mass, 
+sma_leaf2 <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass")), 
                 t2_traits , 
                 type = "shift")
 coefs_leaf <- coef(sma_leaf2) 
@@ -52,7 +119,7 @@ intercept_leaf <- coefs_leaf[1]
 slope_leaf <- coefs_leaf[2]
 
 allom_leaf_leg <- t2_traits %>% 
-  ggplot(aes(x = log_plant_dry_mass, y = log_tot_LA)) +
+  ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
   geom_point(aes(color = fertilization)) +
   # scale_shape_manual(values = c(1,16)) +
   scale_color_brewer("Fertilization",palette = "Set2") +
@@ -75,7 +142,7 @@ xdens_leaf <-
   scale_fill_brewer(palette = "Set2")
 ydens_leaf <-
   cowplot::axis_canvas(allom_leaf, axis = "y", coord_flip = TRUE) + 
-  geom_density(data = t2_traits, aes(x = log_tot_LA, fill = fertilization, colour = fertilization), alpha = 0.3) +
+  geom_density(data = t2_traits, aes_string(x = ftrait, fill = "fertilization", colour = "fertilization"), alpha = 0.3) +
   scale_color_brewer(palette = "Set2")  +
   scale_fill_brewer(palette = "Set2") +
   coord_flip()
@@ -446,31 +513,7 @@ make_boxplot_wrap_origin <- function(ftrait){
   #   theme(legend.position = "none")
 }
 
-ftrait <- "RMF"
 
-bp_plast_simple <- function(ftrait){
-  traits_pop %>%
-    mutate(origin = factor(origin, levels = c("Nat","Fer"))) %>%
-    mutate(fertilization = factor(fertilization, levels = c("N-","N+"))) %>%
-    ggplot(aes_string(x="fertilization", y=ftrait,label = "pop"
-                      # shape = "code_sp",
-    )) + #fill = "fertilization"
-    theme_classic() +
-    geom_boxplot(outlier.shape = NA)+
-
-    geom_line(aes(group = pop),alpha=0.4,color = "black") + 
-    geom_point(size = 1,aes(color = fertilization),)+
-    theme(legend.position="none") +
-    theme(axis.ticks.x=element_blank() ,
-          axis.title.y = element_blank(),
-          axis.title.x = element_blank()
-    ) +
-    ggtitle(ftrait) +
-    scale_color_brewer(palette = "Set2",direction = 1) 
-}
-bps <- lapply(list("log_plant_dry_mass","N","RMF","SMF","LMF"), bp_plast_simple)
-plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 2,nrow = 3)
-ggsave("draft/bp_ferti.png", plots1,width = 5, height = 7)
 
 
 
@@ -586,6 +629,7 @@ traits <- c(
   "SRL", "RTD", "RDMC", "diam","BI",
   # nutrient
   "C","N",
+  "RMF","LMF","SMF",
   # plant_traits
   "tot_RL","tot_RA","tot_LA")
 
@@ -608,13 +652,6 @@ for( i in c(2:length(traits)) ){
   PLAST <- merge(PLAST,plast)
 }
 
-PLAST %>% 
-  ggplot(aes(x = LDMC,SLA )) +
-  geom_point() +
-  # geom_abline(slope = 1, intercept = 0) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_vline(xintercept = 0, linetype = "dashed")
-
 tocorrelate <- PLAST %>% 
   select(-c(tot_RL,tot_RA,tot_LA,C,N)) %>% 
   column_to_rownames("pop")
@@ -624,6 +661,79 @@ FactoMineR::PCA(tocorrelate)
 
 library("PerformanceAnalytics")
 chart.Correlation(tocorrelate, histogram=TRUE, pch=19)
+
+
+## rankings ####
+abs_PLAST <- PLAST %>% 
+  column_to_rownames("pop") %>% 
+  abs() %>% 
+  rownames_to_column("pop") 
+# gather
+abs_PLASTg <- abs_PLAST %>% 
+  gather(key = trait, value = abs_RDPI,-pop)
+
+abs_PLASTg %>%
+  filter(pop%in% c("TRIFCAMP_Nat","CERAGLOM_Nat",#"MYOSRAMO_Nat",#"ARENSERP_Nat",# les plus plastiques sur LA
+                   "ALYSALYS_Fer", "VEROARVE_Fer"#,"MINUHYBR_Fer" #,"GERADISS_Nat" # les moins plastiques sur LA))
+                   )) %>%  
+  mutate(trait = factor(trait, levels = traits )) %>% 
+  filter(!(trait %in% c("tot_RL","tot_RA","tot_LA"))) %>% 
+  ggplot(aes(x = trait,y=log(abs_RDPI))) +
+  geom_point() +
+  geom_line(aes(group = pop)) +
+  # scale_y_continuous(trans='log10') +
+  # facet_wrap(~pop) +
+  theme(axis.text.x = element_text(angle = 45))
+
+PLAST %>% 
+  ggplot(aes(x = LDMC,SLA )) +
+  geom_point() +
+  # geom_abline(slope = 1, intercept = 0) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+
+
+## compare rankings ####
+rank <- function(ftrait){
+  out <- abs_PLAST %>% 
+    arrange(get(ftrait),decreasing = T) %>% 
+    mutate(rank = c(1:length(abs_PLAST$pop))) %>% 
+    select(pop,rank) %>% 
+    arrange(pop)
+  colnames(out) <- c("pop",ftrait)
+  out[,2]
+}
+
+rank("LDMC")
+
+RANK <- lapply(traits,rank)
+dfRANK <- do.call(cbind, RANK)
+colnames(dfRANK) <- traits
+dfRANK2 <- cbind(abs_PLAST %>% arrange(pop) %>% select(pop), dfRANK)
+
+GGally::ggparcoord(dfRANK2,
+                   columns = 2:14,groupColumn = 1,  
+                   scale="globalminmax", 
+                   showPoints = TRUE, 
+                   title = "Ranking"
+) + 
+  # Reversed y axis with custom breaks to recreate 1:10 rankings
+  scale_y_reverse(breaks = 1:10)
+
+# ranking is not conserved among species
+
+rankcor <- cor(dfRANK2 %>% select(-c("tot_RL","tot_RA","tot_LA")) %>%  column_to_rownames("pop"),method = "spearman")
+corrplot::corrplot(rankcor, method = "circle")
+
+## network ####
+library(corrr)
+PLAST %>% 
+  select(-c("tot_RL","tot_RA","tot_LA")) %>% 
+  column_to_rownames("pop") %>% 
+  correlate(method = "spearman") %>% 
+  network_plot(min_cor = 0.4)
+
 
 
 #_______________________________________________________________________________

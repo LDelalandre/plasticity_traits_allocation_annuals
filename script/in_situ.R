@@ -59,12 +59,14 @@ plot_in_situ <- function(ftrait){
 
   plot <- fMEAN2 %>% 
     mutate(Management = if_else(treatment == "Nat","Ext.","Int.")) %>% 
+    mutate(Management = factor(Management, levels = c("Int.","Ext."))) %>% 
     ggplot(aes_string(x = "Management", y = ftrait)) +
     geom_boxplot(outlier.shape = NA) +
     geom_point(aes(color = Management), size = 2) +
     geom_line(aes(group=code_sp)) +
     theme_classic() +
-    scale_color_brewer(palette = "Set1",direction = -1) +
+    # scale_color_brewer(palette = "Set1",direction = -1) +
+    
     theme(legend.position = "none") +
     ggtitle(ftrait) +
     theme(axis.title = element_blank())
@@ -80,28 +82,21 @@ plot_in_situ <- function(ftrait){
       y.position = ypos, step.increase = 0.1,
       label = "stars",
       size = 4
-    )
+    )  + 
+    theme(text=element_text(size=13))
 }
 
-forleg <- fMEAN %>% 
-  mutate(Management = if_else(treatment == "Nat","Extensive","Intensive")) %>% 
-  ggplot(aes_string(x = "Management", y = ftrait)) +
-  geom_boxplot(outlier.shape = NA) +
-  geom_point(aes(color = Management), size = 2) +
-  geom_line(aes(group=code_sp)) +
-  theme_classic() +
-  scale_color_brewer(palette = "Set1",direction = -1) +
-  ggtitle(ftrait) +
-  theme(axis.title = element_blank())
+# lengend
+forleg <- plot_in_situ("SLA") + 
+  theme(legend.position = "right")
 leg <- ggpubr::get_legend(forleg) %>% 
   ggpubr::as_ggplot()
-
-plot_in_situ("log_LA")
 
 FTRAITS <- list("LDMC","SLA","log_LA","LNC","log_Hrepro","log_Dmax")
 
 PLOTS_in_situ <- lapply(X = FTRAITS,FUN = plot_in_situ)
-plot_in_situ <- ggpubr::ggarrange(PLOTS_in_situ[[1]],PLOTS_in_situ[[2]],PLOTS_in_situ[[3]],PLOTS_in_situ[[4]],PLOTS_in_situ[[5]],leg)
+plot_in_situ <- 
+  ggpubr::ggarrange(PLOTS_in_situ[[1]],PLOTS_in_situ[[2]],PLOTS_in_situ[[3]],PLOTS_in_situ[[4]],PLOTS_in_situ[[5]],leg) 
 
 ggsave("draft/plot_in_situ.jpg",plot_in_situ,height = 6, width = 7)
 
