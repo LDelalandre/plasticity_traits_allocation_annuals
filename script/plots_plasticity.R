@@ -1,7 +1,8 @@
 library(tidyverse)
 library(ggpubr)
 library(smatr)
-library(cowplot())
+library(cowplot)
+library(igraph)
 
 # Import data ####
 t2_traits <- read.csv2("data/t2_traits.csv")%>% 
@@ -96,3 +97,164 @@ plot_th_ftrait <- traits_pop %>%
 ggsave("output/plot/plot_th_ftrait.png",plot_th_ftrait)
 
 
+# Network plasticity ####
+
+## Compute RDPI on all traits ####
+# No, on traits where we evidenced significant plasticity
+traits_plast <- c(
+  # leaf traits
+  "log_LA", "LDMC","SLA",
+  # root traits
+  # "SRL", "RTD",  "diam","BI", # NOT SIGNIFICANT!
+  "RDMC",
+  # nutrient
+  "C","N",
+  "RMF","LMF","SMF" )
+  # plant_traits
+  # "tot_RL","tot_RA","tot_LA")
+
+compute_plast <- function(ftrait){
+  plast <- traits_pop %>% 
+    select(pop,fertilization,all_of(ftrait)) %>% 
+    spread(key = fertilization,value = ftrait )
+  # mutate(plast = (`N+` - `N-`)/`N+` )
+  # merge(trait_moy)
+  plast[,ftrait] <-  (plast$`N+` - plast$`N-`) / (plast$`N+`) 
+  
+  plast %>% 
+    ungroup() %>% 
+    select(pop,ftrait)
+}
+
+PLAST <- compute_plast(traits_plast[1])
+for( i in c(2:length(traits_plast)) ){
+  plast <- compute_plast(traits_plast[i])
+  PLAST <- merge(PLAST,plast)
+}
+
+## Correlations ####
+
+graph_cor_plast <- function(plast_matrix){
+  # PLAST_matrix is a matrix with populatons in rows and traits columns, giving values of plasticity for each trait in each pop.
+  cor_pval <- plast_matrix %>% 
+    Hmisc::rcorr( type = "pearson") 
+  
+  adjm <- cor_pval$r # adjacency matrix
+  pval <- cor_pval$P
+  
+  
+  correction <- dim(pval)[1] # number of tests performed
+  # correction <- 1
+  signif <- pval < 0.05/correction # Bonferroni
+  ns <- pval >= 0.05/correction # Bonferroni
+  # ns <- pval >= 0.05
+  
+  adjm2 <- adjm # backup
+  adjm2[ ns ] <- 0
+  adjm2[ adjm2 ==1 ] <- 0 # diagonal
+  
+  
+  graph.adjacency(adjm2, weighted=TRUE, mode="lower")
+}
+
+plot_cor_plast <- function(graph){
+  E(graph)$weight2 <- E(graph)$weight
+  E(graph)$weight <- abs(E(graph)$weight)
+  E(graph)$color <- ifelse(E(graph)$weight2 > 0,'green','red') #You had this as "V3 > 0.6" which I guess works but it is more readable as 0. that way if you decide to lower the correlation threshold you do not have to change this line too.
+  
+  plot(graph, layout = layout_with_kk, # Kamada Kawai algorithm
+       edge.width= 1 + as.integer(cut(abs(E(graph)$weight2), breaks = 5)), # width of edges
+       vertex.size = 20,                  # node size
+       asp = 1, # aspect ratio (more or less vertical)
+       margin = c(0,0,0,0),
+       vertex.color = NA,          # node color
+       vertex.frame.width = 00,
+       # vertex.label = node_labels,        # node labels
+       vertex.label.dist = 0,             # node label size
+       vertex.label.font = 1,             # node label type (bold)
+       vertex.label.cex = 1  # size of vertex labels
+       # edge.color = "black"
+       ) 
+}
+# Info : https://igraph.org/r/doc/plot.common.html
+
+# Check assumptions
+# PerformanceAnalytics::chart.Correlation(PLAST %>% select(-pop))
+
+# Correlate
+PLAST_matrix <- PLAST %>% 
+  column_to_rownames("pop") %>% 
+  as.matrix()
+
+g1 <- graph_cor_plast(PLAST_matrix)
+V(g1)$label.cex = 1
+
+
+# pdf("draft/correlation_RDPI.pdf")
+png("draft/correlation_RDPI.png",width = 11, height = 11,units = "cm",res = 720)
+plot_cor_plast(g1)
+dev.off()
+
+## Randomization analysis ####
+# randomize species - plasticity association, independently for each trait
+# measure the number of statistically significant edges in the randomized datasets
+rand_nb_edges <- c()
+rand_gr <- NULL
+j <- 0
+for (i in c(1:100)){
+  rand_PLAST_matrix <- apply(PLAST_matrix, 2, sample)
+  gr <- graph_cor_plast(rand_PLAST_matrix)
+  rand_nb_edges <- c(rand_nb_edges,length(E(gr)))
+  
+  if (length(E(gr)) > 0) {# if there is at least one significant correlation in the randomized dataset
+    gr <- graph_cor_plast(rand_PLAST_matrix)
+    j <- j+1
+    rand_gr[[j]] <- gr
+  }
+}
+rand_nb_edges
+
+rand_gr[[1]] %>% 
+  plot_cor_plast()
+
+
+## Which are the most plastic species per group of traits? ####
+PLAST_abs <- PLAST_matrix %>% 
+  abs() %>%
+  as.data.frame() %>% 
+  rownames_to_column("pop")
+# plasticity on RTD, LDMC, RMF (3 "modules")
+
+PLAST_matrix %>% 
+  as.data.frame() %>%  
+  rownames_to_column("pop") %>% 
+  ggplot(aes(x = RTD, y = SRL, label = pop)) + 
+  geom_point() +
+  # ggrepel::geom_text_repel() +
+  geom_hline(yintercept = 0,linetype = "dashed") +
+  geom_vline(xintercept = 0,linetype = "dashed")
+
+
+
+
+traits <- c(
+  # leaf traits
+  "log_LA", "LDMC","SLA",
+  # root traits
+  "SRL", "RTD",  "diam","BI","RDMC",
+  # nutrient
+  "C","N",
+  "RMF","LMF","SMF" )
+subs_traits_pop <- traits_pop %>% 
+  select(pop,all_of(traits))
+
+traits_and_plast <- PLAST %>% 
+  rename_at(vars(-pop),function(x) paste0("p",x)) %>% 
+  merge(subs_traits_pop,by="pop") %>% 
+  select(-pop)
+
+traits_and_plast %>% 
+  corrr::correlate() %>% 
+  column_to_rownames("term") %>% 
+  as.matrix() %>% 
+  corrplot::corrplot(method = "ellipse")
