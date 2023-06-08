@@ -6,6 +6,7 @@ library(igraph)
 
 # Import data ####
 t2_traits <- read.csv2("data/t2_traits.csv")%>% 
+  mutate(log_LA = log(LA)) %>% 
   mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
   mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
   mutate(log_tot_RL = log10(tot_RL)) %>% 
@@ -98,9 +99,7 @@ ggsave("output/plot/plot_th_ftrait.png",plot_th_ftrait)
 
 
 # Network plasticity ####
-
-## Compute RDPI on all traits ####
-# No, on traits where we evidenced significant plasticity
+# Traits where we evidenced significant plasticity
 traits_plast <- c(
   # leaf traits
   "log_LA", "LDMC","SLA",
@@ -108,11 +107,22 @@ traits_plast <- c(
   # "SRL", "RTD",  "diam","BI", # NOT SIGNIFICANT!
   "RDMC",
   # nutrient
-  "C","N",
+  # "C", n.s.
+  "N",
   "RMF","LMF","SMF" )
-  # plant_traits
-  # "tot_RL","tot_RA","tot_LA")
+# plant_traits
+# "tot_RL","tot_RA","tot_LA")
 
+## Identify traits highly correlated ####
+Mtraits_pop <- traits_pop %>% 
+  mutate(pop_ferti = paste(pop,fertilization,sep="_")) %>% 
+  select(pop_ferti,all_of(traits_plast)) %>% 
+  column_to_rownames("pop_ferti") %>% 
+  as.matrix()
+
+corrplot::corrplot(cor(Mtraits_pop),method = "circle",type = "upper" , order = "hclust")
+
+## Compute RDPI on all traits ####
 compute_plast <- function(ftrait){
   plast <- traits_pop %>% 
     select(pop,fertilization,all_of(ftrait)) %>% 
@@ -132,8 +142,25 @@ for( i in c(2:length(traits_plast)) ){
   PLAST <- merge(PLAST,plast)
 }
 
-## Correlations ####
+## Species differ on their plasticity ? ####
+# if interaction fertilization * species : different species respond differently to fertilization
+interaction_sp_ferti <- function(ftrait){
+  mod <- lm(get(ftrait) ~  fertilization * code_sp, data = t2_traits)
+  # summary(mod)
+  anov <- anova(mod)
+  c(ftrait,anov$`Pr(>F)`)
+}
 
+mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>% 
+  rlist::list.rbind() %>% 
+  as.data.frame() %>% 
+  mutate(trait = V1,fertilization=as.numeric(V2),species = as.numeric(V3),interaction = as.numeric(V4)) %>% 
+  select(-c(V1,V2,V3,V4,V5) ) %>%   
+  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  mutate(species = scales::scientific(species,digits = 2)) %>%
+  mutate(interaction = scales::scientific(interaction,digits = 2))
+            
+## Correlations ####
 graph_cor_plast <- function(plast_matrix){
   # PLAST_matrix is a matrix with populatons in rows and traits columns, giving values of plasticity for each trait in each pop.
   cor_pval <- plast_matrix %>% 
@@ -187,8 +214,13 @@ PLAST_matrix <- PLAST %>%
   as.matrix()
 
 g1 <- graph_cor_plast(PLAST_matrix)
+E(g1)$weight2 <- E(g1)$weight
+E(g1)$weight <- abs(E(g1)$weight)
 V(g1)$label.cex = 1
 
+# Clusters (=mdules) ?
+wtc <- cluster_walktrap(g1)
+modularity(g1,membership(wtc))
 
 # pdf("draft/correlation_RDPI.pdf")
 png("draft/correlation_RDPI.png",width = 11, height = 11,units = "cm",res = 720)
@@ -201,7 +233,7 @@ dev.off()
 rand_nb_edges <- c()
 rand_gr <- NULL
 j <- 0
-for (i in c(1:100)){
+for (i in c(1:1000)){
   rand_PLAST_matrix <- apply(PLAST_matrix, 2, sample)
   gr <- graph_cor_plast(rand_PLAST_matrix)
   rand_nb_edges <- c(rand_nb_edges,length(E(gr)))
@@ -212,9 +244,14 @@ for (i in c(1:100)){
     rand_gr[[j]] <- gr
   }
 }
-rand_nb_edges
 
-rand_gr[[1]] %>% 
+hist(rand_nb_edges) # number of edges when random
+length(E(g1))# real number of significant edges
+# Faire une proportion des possible edges qui sont réellement significants ? 
+# (Pour rendre la variable continue et faire une pvalue = nombre des fois où cette proportion est >= à l'observé)
+
+
+rand_gr[[1]] %>%
   plot_cor_plast()
 
 
