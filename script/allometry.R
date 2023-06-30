@@ -116,8 +116,7 @@ sma_t1_t2 <- function(pop){ #fonction qui calcule la pvalue de la diff de pente 
 
 list_pop <- t1_t2_mass %>% pull(pop) %>% unique()
 
-diff_t1_t2 <- data.frame(pop = list_pop,
-                         pval_diff_t1_t2 = unlist(lapply(lapply(list_pop,sma_t1_t2),as.data.frame)))
+# diff_t1_t2 <- data.frame(pop = list_pop, pval_diff_t1_t2 = unlist(lapply(lapply(list_pop,sma_t1_t2),as.data.frame)))
 
 #Y a 4 populations pour lesquelles on a une différence significative de pente entre t1 et t2
 #Pour MYOSRAMO_Nat à t2 on a un r2 de 0,035 et une pvalue de 0,6

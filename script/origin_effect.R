@@ -192,7 +192,7 @@ traits_pop <- read.csv2("output/data/traits_pop.csv") %>%
 
 # effet origine
 traits_pop %>% 
-  ggplot(aes(x = origin,y = plant_dry_mass)) +
+  ggplot(aes(x = origin,y = SMF)) +
   geom_boxplot() +
   geom_point()+
   geom_line(aes(group=code_sp))+

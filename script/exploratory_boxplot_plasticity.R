@@ -132,7 +132,7 @@ leg <- get_legend(allom_leaf_leg)
 
 allom_leaf <- allom_leaf_leg + 
   theme(legend.position = "none") +
-  ggtitle("A. Whole plant leaf area")
+  ggtitle("B. Whole plant leaf area")
 
 # Add density curves to y and x axis
 xdens_leaf <- 
@@ -153,11 +153,18 @@ allom_leaf2 <- allom_leaf %>%
   ggdraw()
 
 
+# on attend une slope de 0.75, et on a 0.9
+sma_enquist_2002 <- sma(log_leaf_dry_mass ~ log_root_dry_mass+fertilization, 
+                t2_traits , 
+                type = "elevation") 
+sma_enquist_2002
+coef(sma_enquist_2002)
 
 sma_root <- sma(log_tot_RA ~ log_plant_dry_mass+fertilization, 
                 t2_traits , 
                 type = "elevation") 
 sma_root
+
 
 coefs_root <- coef(sma_root) 
 intercept_root_Nm <- coefs_root[1,1]
@@ -177,7 +184,7 @@ allom_root <- t2_traits %>%
   xlab("log(plant dry mass in g)") +
   ylab("log(total root area in mm²)") + 
   theme(legend.position = "none") +
-  ggtitle("B. Whole plant absortive root area")
+  ggtitle("A. Whole plant absorptive root area")
 allom_root
 
 # Add density curves to y and x axis
@@ -595,9 +602,9 @@ plast %>%
   geom_point() +
   geom_abline(slope = 0 , intercept = 0, linetype = "dashed") +
   ylab("[RGR(N+) - RGR(N-)] / RGR(N-)") +
-  xlab("SLA moyen")
+  xlab("SLA moyen")+
   # ggrepel::geom_label_repel()
-  # geom_smooth(method = "lm")
+  geom_smooth(method = "lm")
 
 # Fig de Fichtner & Schultze  
 plast %>% 

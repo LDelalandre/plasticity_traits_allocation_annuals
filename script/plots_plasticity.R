@@ -159,19 +159,42 @@ mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>%
   mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
   mutate(species = scales::scientific(species,digits = 2)) %>%
   mutate(interaction = scales::scientific(interaction,digits = 2))
+
+table_mod_fix <- mod_fix %>% 
+  kableExtra::kable( escape = F,
+                     col.names = c("Trait","Fertilization","Species","Interaction"
+                     )) %>%
+  kableExtra::kable_styling("hover", full_width = F)
+
+
+
+cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
+
+
+traits_plast_interaction_sp <- c(
+  # leaf traits
+  "log_LA", "LDMC","SLA",
+  # root traits
+  # "SRL", "RTD",  "diam","BI", # NOT SIGNIFICANT!
+  # "RDMC",
+  # nutrient
+  # "C", n.s.
+  "N",
+  "RMF","SMF" ) # "LMF"
+  
             
 ## Correlations ####
 graph_cor_plast <- function(plast_matrix){
   # PLAST_matrix is a matrix with populatons in rows and traits columns, giving values of plasticity for each trait in each pop.
   cor_pval <- plast_matrix %>% 
-    Hmisc::rcorr( type = "pearson") 
+    Hmisc::rcorr( type = "spearman") 
   
   adjm <- cor_pval$r # adjacency matrix
   pval <- cor_pval$P
   
   
-  correction <- dim(pval)[1] # number of tests performed
-  # correction <- 1
+  # correction <- dim(pval)[1] # number of tests performed
+  correction <- 1
   signif <- pval < 0.05/correction # Bonferroni
   ns <- pval >= 0.05/correction # Bonferroni
   # ns <- pval >= 0.05
@@ -185,8 +208,8 @@ graph_cor_plast <- function(plast_matrix){
 }
 
 plot_cor_plast <- function(graph){
-  E(graph)$weight2 <- E(graph)$weight
-  E(graph)$weight <- abs(E(graph)$weight)
+  # E(graph)$weight2 <- E(graph)$weight
+  # E(graph)$weight <- abs(E(graph)$weight)
   E(graph)$color <- ifelse(E(graph)$weight2 > 0,'green','red') #You had this as "V3 > 0.6" which I guess works but it is more readable as 0. that way if you decide to lower the correlation threshold you do not have to change this line too.
   
   plot(graph, layout = layout_with_kk, # Kamada Kawai algorithm
@@ -208,8 +231,34 @@ plot_cor_plast <- function(graph){
 # Check assumptions
 # PerformanceAnalytics::chart.Correlation(PLAST %>% select(-pop))
 
+## Link to SLA ####
+rename_moy <- function(trait){
+  paste0(trait,"_moy")
+}
+
+trait_moy <- t2_traits %>% 
+  group_by(code_sp,origin,pop) %>% 
+  select(all_of(traits_plast_interaction_sp)) %>% 
+  summarize_at(traits_plast_interaction_sp,mean, na.rm=T) %>% 
+  rename_at(traits_plast_interaction_sp,rename_moy) %>% 
+  group_by(pop) %>% 
+  select(-c(code_sp,origin))
+
+PLAST2 <- PLAST %>% 
+  group_by(pop) %>% 
+  select(all_of(traits_plast_interaction_sp)) %>% 
+  merge(trait_moy)
+
+PLAST2 %>% 
+  ggplot(aes(x = SLA_moy, y= LDMC_moy)) +
+  geom_point() + geom_smooth(method='lm')
+# Aucun pattern, quel que soit le trait
+
+
+## graph ####
 # Correlate
 PLAST_matrix <- PLAST %>% 
+  select(pop,all_of(traits_plast_interaction_sp)) %>% 
   column_to_rownames("pop") %>% 
   as.matrix()
 
