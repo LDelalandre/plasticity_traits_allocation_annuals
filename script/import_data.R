@@ -34,4 +34,39 @@ setdiff(sp_exp,nona)
 
 
 # Trait values in controlled conditions ####
-t2_traits <- read.csv2("data/t2_traits.csv") 
+
+t2_traits <- read.csv2("data/t2_traits.csv")%>% 
+  mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
+  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
+  mutate(log_tot_RL = log10(tot_RL)) %>% 
+  
+  mutate(tot_RA = tot_RL * 1000 * pi *diam ) %>% # root area, in mm² (convert tot_RL in mm, because diam is is mm)
+  mutate(log_tot_RA = log10(tot_RA)) %>%
+  
+  mutate(tot_LA = SLA * leaf_dry_mass*1000) %>% # convert leaf dry mass into mg so that tot_LA in is mm² (with SLA in mm²/mg) 
+  mutate(log_tot_LA = log10(tot_LA)) %>%
+  
+  mutate(log_plant_dry_mass = log10(plant_dry_mass),
+         log_leaf_dry_mass = log10(leaf_dry_mass),
+         log_stem_dry_mass = log10(stem_dry_mass),
+         log_root_dry_mass = log10(root_dry_mass)) %>% 
+  
+  mutate(RMF = root_dry_mass/plant_dry_mass,
+         SMF = stem_dry_mass/plant_dry_mass,
+         LMF = leaf_dry_mass/plant_dry_mass) %>% 
+  mutate(log_LA = log(LA))
+
+sp_fam <- t2_traits %>% 
+  select(code_sp,family) %>% 
+  unique()
+
+sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
+
+traits_pop <- read.csv2("output/data/traits_pop.csv") %>% 
+  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
+  mutate(log_tot_LA = log10(tot_LA)) %>% 
+  mutate(log_tot_RL = log10(tot_RL)) %>% 
+  mutate(log_tot_RA = log10(tot_RA)) %>%
+  mutate(log_RGRslope = log10(RGRslope)) %>% 
+  merge(sp_fam) %>% 
+  mutate(log_Hveg = log10(Hveg))

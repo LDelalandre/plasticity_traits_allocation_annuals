@@ -15,6 +15,7 @@ If you have [Rstudio](https://www.rstudio.com/) installed on your computer, you 
 You can contact me at <leo.delalandre@cefe.cnrs.fr>
 
 # Structure of the scripts
-- import_data
-- boxplot_in_situ: within-species trait variation in situ (boxplots and tests)
-- origin_ferti_effects: mixed model to test the effects of origin and fertilization on trait values in the experiment
+- import_data.R
+- boxplot_in_situ.R: within-species trait variation in situ (boxplots and tests)
+- origin_ferti_effects.R: mixed model to test the effects of origin and fertilization on trait values in the experiment
+- plots_allometry.R: allometry of above- and belowground exchange surfaces in biplots (surface against plant mass)
