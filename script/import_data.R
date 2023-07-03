@@ -4,6 +4,13 @@ library(tidyverse)
 info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1") %>% 
   mutate(OrigValueStr = if_else(code_sp == "BUPLBALD", "sr", OrigValueStr))
 
+sp_fam <- info_sp %>% 
+  select(code_sp,family) %>% 
+  unique()
+
+# species with one population only
+sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
+
 
 # In situ trait measurements ####
 MEAN <- read.csv2("data/mean_attribute_per_treatment_subset_nat_sab_int.csv") %>% 
@@ -35,6 +42,15 @@ setdiff(sp_exp,nona)
 
 # Trait values in controlled conditions ####
 
+
+## traits we consider ####
+traits_nutrients <- c("N","C")
+traits_allocation <- c("RMF","SMF","LMF")
+traits_leaf <- c("log_LA", "LDMC","SLA") 
+traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
+FTRAITS <- c("log_Hveg","log_plant_dry_mass",traits_nutrients,traits_allocation,traits_leaf,traits_root)
+
+# trait values per pot ####
 t2_traits <- read.csv2("data/t2_traits.csv")%>% 
   mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
   mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
@@ -54,14 +70,13 @@ t2_traits <- read.csv2("data/t2_traits.csv")%>%
   mutate(RMF = root_dry_mass/plant_dry_mass,
          SMF = stem_dry_mass/plant_dry_mass,
          LMF = leaf_dry_mass/plant_dry_mass) %>% 
-  mutate(log_LA = log(LA))
+  mutate(log_LA = log10(LA)) %>% 
+  mutate(log_Hveg = log10(Hveg))
 
-sp_fam <- t2_traits %>% 
-  select(code_sp,family) %>% 
-  unique()
 
-sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
 
+
+## traits values per population ####
 traits_pop <- read.csv2("output/data/traits_pop.csv") %>% 
   mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
   mutate(log_tot_LA = log10(tot_LA)) %>% 

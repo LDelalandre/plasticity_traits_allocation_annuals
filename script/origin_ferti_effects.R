@@ -19,11 +19,7 @@ source("script/import_data.R")
 #   "root_fresh_mass","root_dry_mass")
 
 
-traits_nutrients <- c("N","C")
-traits_allocation <- c("RMF","SMF","LMF")
-traits_leaf <- c("log_LA", "LDMC","SLA") 
-traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
-FTRAITS <- c("Hveg","log_plant_dry_mass",traits_nutrients,traits_allocation,traits_leaf,traits_root)
+
 
 data_mod <- t2_traits %>% 
   # filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) %>%
@@ -123,19 +119,27 @@ table_origin_ferti <- TABLE_PVAL %>%
 cat(table_origin_ferti, file = "draft/table_origin_ferti_effects.doc")
 
 
-# boxplot ####
+# boxplot origin ####
 
-traits_pop <- read.csv2("output/data/traits_pop.csv") %>% 
-  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
-  mutate(log_tot_LA = log10(tot_LA)) %>% 
-  mutate(log_tot_RL = log10(tot_RL)) %>% 
-  mutate(log_RGRslope = log10(RGRslope))
+ 
+
 
 # effet origine
 traits_pop %>% 
+  filter(!code_sp %in% sp_nat) %>% 
   ggplot(aes(x = origin,y = SMF)) +
   geom_boxplot() +
   geom_point()+
   geom_line(aes(group=code_sp))+
+  ggrepel::geom_text_repel(aes(label = code_sp))+
+  facet_wrap(~fertilization) 
+
+traits_pop %>% 
+  filter(!code_sp %in% sp_nat) %>% 
+  ggplot(aes(x = origin,y = log_Hveg)) +
+  geom_boxplot() +
+  geom_point()+
+  geom_line(aes(group=code_sp))+
+  ggrepel::geom_text_repel(aes(label = code_sp))+
   facet_wrap(~fertilization)
 

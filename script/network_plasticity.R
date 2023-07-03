@@ -48,27 +48,30 @@ for( i in c(2:length(traits_plast)) ){
   PLAST <- merge(PLAST,plast)
 }
 
-## Species differ on their plasticity ? ####
+## Species differ on their plasticity and genetic differentiation ? ####
 # if interaction fertilization * species : different species respond differently to fertilization
 interaction_sp_ferti <- function(ftrait){
-  mod <- lm(get(ftrait) ~  fertilization * code_sp, data = t2_traits)
+  mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
   # summary(mod)
   anov <- anova(mod)
   c(ftrait,anov$`Pr(>F)`)
 }
 
-mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>% 
+mod_fix <- lapply(as.list(FTRAITS), interaction_sp_ferti) %>% 
   rlist::list.rbind() %>% 
   as.data.frame() %>% 
-  mutate(trait = V1,fertilization=as.numeric(V2),species = as.numeric(V3),interaction = as.numeric(V4)) %>% 
-  select(-c(V1,V2,V3,V4,V5) ) %>%   
-  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),origin = as.numeric(V4),
+         species_fertilization = as.numeric(V5),species_origin = as.numeric (V6)) %>% 
+  select(-c(V1,V2,V3,V4,V5,V6,V7) ) %>%   
   mutate(species = scales::scientific(species,digits = 2)) %>%
-  mutate(interaction = scales::scientific(interaction,digits = 2))
+  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  mutate(origin = scales::scientific(origin,digits = 2)) %>%
+  mutate(species_fertilization  = scales::scientific(species_fertilization ,digits = 2)) %>%
+  mutate(species_origin = scales::scientific(species_origin,digits = 2))
 
 table_mod_fix <- mod_fix %>% 
   kableExtra::kable( escape = F,
-                     col.names = c("Trait","Fertilization","Species","Interaction"
+                     col.names = c("Trait","Species","Fertilization","Origin","Species_Fertilization","Species_Origin"
                      )) %>%
   kableExtra::kable_styling("hover", full_width = F)
 
@@ -161,6 +164,8 @@ plot_cor_plast(g1)
 dev.off()
 
 
+#_______________________________________________________________________________
+
 ## Link to SLA ####
 rename_moy <- function(trait){
   paste0(trait,"_moy")
@@ -184,33 +189,6 @@ PLAST2 %>%
   geom_point() + geom_smooth(method='lm')
 # Aucun pattern, quel que soit le trait
 
-
-## Randomization analysis ####
-# randomize species - plasticity association, independently for each trait
-# measure the number of statistically significant edges in the randomized datasets
-rand_nb_edges <- c()
-rand_gr <- NULL
-j <- 0
-for (i in c(1:1000)){
-  rand_PLAST_matrix <- apply(PLAST_matrix, 2, sample)
-  gr <- graph_cor_plast(rand_PLAST_matrix)
-  rand_nb_edges <- c(rand_nb_edges,length(E(gr)))
-  
-  if (length(E(gr)) > 0) {# if there is at least one significant correlation in the randomized dataset
-    gr <- graph_cor_plast(rand_PLAST_matrix)
-    j <- j+1
-    rand_gr[[j]] <- gr
-  }
-}
-
-hist(rand_nb_edges) # number of edges when random
-length(E(g1))# real number of significant edges
-# Faire une proportion des possible edges qui sont réellement significants ? 
-# (Pour rendre la variable continue et faire une pvalue = nombre des fois où cette proportion est >= à l'observé)
-
-
-rand_gr[[1]] %>%
-  plot_cor_plast()
 
 
 
