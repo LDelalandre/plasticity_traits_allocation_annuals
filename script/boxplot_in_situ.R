@@ -1,33 +1,18 @@
+# This script focuses on intraspecific trait variation in the field
+
 library(tidyverse)
 library("openxlsx")
 library(scales)
 
+source("script/import_data.R")
 
-MEAN <- read.csv2("data/mean_attribute_per_treatment_subset_nat_sab_int.csv") %>% 
-    mutate(code_sp = if_else(species == "Myosotis ramosissima subsp. ramosissima","MYOSRAMO",code_sp))
-
-species_list <- read.csv2("data/species_experiment.csv")
-sp_exp <- species_list %>% pull(code_sp)
-
-fMEAN <- MEAN %>% 
-  filter(code_sp %in% sp_exp) %>% 
-  select(species,code_sp,treatment,L_Area,LDMC,SLA,LCC,LNC,Hveg,Hrepro,Dmin,Dmax) %>% 
-  mutate(log_Hveg = log(Hveg),log_Hrepro = log(Hrepro),log_LA = log(L_Area),log_Dmax = log(Dmax))
-
-nona <- fMEAN %>% 
-  filter(treatment=="Nat") %>% 
-  na.omit() %>% 
-  pull(code_sp)
-setdiff(sp_exp,nona)
-
-# on a tout le monde dans le fer !
-# Il manque dans le Nat:
-# LeafMorpho: EROP, TRIF, VULP
-# LeafC&N: same 3 + MYOS
-# Biovolume: CERAGLOM, FILA, VULP, BUPL
-
+# Plots ITV in the field ####
 plot_in_situ <- function(ftrait){
-  # keep sepcies present in the two management regimes for the trait considered
+  # function to generate a boxplot of trait values in situ, in the two treatments
+  # points belonging to the same speices are connected by lines
+  # signifiance of aa mixed model is indicated by stars above the plots
+  
+  # keep species present in the two management regimes for the trait considered
   sp_fer <- fMEAN %>% 
     filter(treatment == "Fer") %>% 
     filter(!is.na(get(ftrait))) %>% 
@@ -42,6 +27,7 @@ plot_in_situ <- function(ftrait){
     filter(code_sp %in% sp_ftrait) %>% 
     mutate(treatment = factor(treatment,levels = c("Nat","Fer"))) 
   
+  # mixed model
   form <- as.formula(paste(ftrait, "~ treatment + (1|code_sp)"))
   mod <- lme4::lmer (form, data = fMEAN)
   
@@ -86,12 +72,13 @@ plot_in_situ <- function(ftrait){
     theme(text=element_text(size=13))
 }
 
-# lengend
+## legend of the plots ####
 forleg <- plot_in_situ("SLA") + 
   theme(legend.position = "right")
 leg <- ggpubr::get_legend(forleg) %>% 
   ggpubr::as_ggplot()
 
+## plots ####
 FTRAITS <- list("LDMC","SLA","log_LA","LNC","log_Hrepro","log_Dmax")
 
 PLOTS_in_situ <- lapply(X = FTRAITS,FUN = plot_in_situ)

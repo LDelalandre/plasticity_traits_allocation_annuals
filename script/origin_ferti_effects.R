@@ -1,87 +1,28 @@
 library(tidyverse)
-
+source("script/import_data.R")
 # Data ####
-t2_traits <- read.csv2("data/t2_traits.csv") 
-
-traits_height_mass <- c(    
-  # height
-  "Hveg" ,# "Hrepro",
-  # mass
-  "plant_fresh_mass", "plant_dry_mass",
-  # stem mass
-  "stem_fresh_mass", "stem_dry_mass",
-  # leaf mass
-  "leaf_fresh_mass", "leaf_dry_mass",
-  "leaf_scan_fresh_mass", "leaf_scan_dry_mass",
-  # root mass
-  "pivot_fresh_mass","pivot_dry_mass",
-  # "root_scan_fresh_mass","root_scan_dry_mass",
-  "root_fresh_mass","root_dry_mass")
 
 
-traits_plant <- c("t0_mass","t1_mass","t2_mass")
-# "RGR01","RGR02","RGR12","SAR" sont calculés au niveau pop, pas individu --> pas même modèle... Mais je peux faire un modèle direct sur la taille
-# (dans le script "compute_growth_absorption")
-data_rgr_sar <- read.csv2("output/data/data_rgr_sar.csv")
-
-
-fdata <- data_rgr_sar %>% 
-  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>%
-  # filter(!(time == "t2")) %>% 
-  filter(!code_sp %in% c("BUPLBALD","MYOSRAMO","HORNPETR","FILAPYRA")) 
-  # filter(fertilization == "N-") %>% 
-
-
-ggplot(fdata,aes(x = day_of_year, y = log_plant_dry_mass,color = origin)) +
-  geom_point() +
-  geom_smooth(method = 'lm') +
-  facet_wrap(~fertilization)
-
-mod_rgr <- lme4::lmer(log(plant_dry_mass) ~ day_of_year *  fertilization * population + (1|code_sp) , 
-                      data = fdata %>% 
-                        rename(population = origin)) 
-ano <- car::Anova(mod_rgr)
-sum <- summary(mod_rgr)
-
-dfano <- ano %>% 
-  as.data.frame()  %>% 
-  rename(pval =`Pr(>Chisq)`) %>% 
-  mutate(across(where(is.numeric), ~ round(., 3)))
-# sum$coefficients
-
-
-library(kableExtra)
-table_mass_time <- dfano %>% 
-  kableExtra::kable( escape = F,
-                     col.names = c("Chisq ", "df", "pval")) %>%
-  kableExtra::kable_styling("hover", full_width = F)
-
-
-
-cat(table_trait_diff, file = "draft/table_mixed_model_mass.doc")
-
-#_____________________________________
-# à un point dans le temps : 
-# l'effet origine est net au début (les plantes du N- sont plus petites), et décroit avec le temps. Nul à t2.
-fdata_tx <- data_rgr_sar %>% 
-  mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
-  filter(time =="t2")
-mod_rgr <- lme4::lmer(log(plant_dry_mass) ~ fertilization * origin + (1|code_sp) , data = fdata_tx) 
-car::Anova(mod_rgr)
-summary(mod_rgr)
-
-mod <- lm(log(plant_dry_mass) ~   fertilization * origin, data = fdata )
-anova(mod)
-summary(mod)
+# traits_height_mass <- c(
+#   # height
+#   "Hveg" ,# "Hrepro",
+#   # mass
+#   "plant_fresh_mass", "plant_dry_mass",
+#   # stem mass
+#   "stem_fresh_mass", "stem_dry_mass",
+#   # leaf mass
+#   "leaf_fresh_mass", "leaf_dry_mass",
+#   "leaf_scan_fresh_mass", "leaf_scan_dry_mass",
+#   # root mass
+#   "pivot_fresh_mass","pivot_dry_mass",
+#   # "root_scan_fresh_mass","root_scan_dry_mass",
+#   "root_fresh_mass","root_dry_mass")
 
 
 traits_nutrients <- c("N","C")
 traits_allocation <- c("RMF","SMF","LMF")
 traits_leaf <- c("log_LA", "LDMC","SLA") 
 traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
-
-
-
 FTRAITS <- c("Hveg","log_plant_dry_mass",traits_nutrients,traits_allocation,traits_leaf,traits_root)
 
 data_mod <- t2_traits %>% 
