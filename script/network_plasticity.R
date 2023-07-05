@@ -1,6 +1,9 @@
 source("script/import_data.R")
 library(igraph)
 
+
+
+
 # Network plasticity ####
 
 # Traits where we evidenced significant plasticity
@@ -20,13 +23,13 @@ traits_plast <- c(
 # "tot_RL","tot_RA","tot_LA")
 
 ## Identify traits highly correlated ####
-Mtraits_pop <- traits_pop %>% 
-  mutate(pop_ferti = paste(pop,fertilization,sep="_")) %>% 
-  select(pop_ferti,all_of(traits_plast)) %>% 
-  column_to_rownames("pop_ferti") %>% 
-  as.matrix()
-
-corrplot::corrplot(cor(Mtraits_pop),method = "circle",type = "upper" , order = "hclust")
+# Mtraits_pop <- traits_pop %>% 
+#   mutate(pop_ferti = paste(pop,fertilization,sep="_")) %>% 
+#   select(pop_ferti,all_of(traits_plast)) %>% 
+#   column_to_rownames("pop_ferti") %>% 
+#   as.matrix()
+# 
+# corrplot::corrplot(cor(Mtraits_pop),method = "circle",type = "upper" , order = "hclust")
 
 ## Compute RDPI on all traits ####
 compute_plast <- function(ftrait){
@@ -48,36 +51,7 @@ for( i in c(2:length(traits_plast)) ){
   PLAST <- merge(PLAST,plast)
 }
 
-## Species differ on their plasticity and genetic differentiation ? ####
-# if interaction fertilization * species : different species respond differently to fertilization
-interaction_sp_ferti <- function(ftrait){
-  mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
-  # summary(mod)
-  anov <- anova(mod)
-  c(ftrait,anov$`Pr(>F)`)
-}
 
-mod_fix <- lapply(as.list(FTRAITS), interaction_sp_ferti) %>% 
-  rlist::list.rbind() %>% 
-  as.data.frame() %>% 
-  mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),origin = as.numeric(V4),
-         species_fertilization = as.numeric(V5),species_origin = as.numeric (V6)) %>% 
-  select(-c(V1,V2,V3,V4,V5,V6,V7) ) %>%   
-  mutate(species = scales::scientific(species,digits = 2)) %>%
-  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
-  mutate(origin = scales::scientific(origin,digits = 2)) %>%
-  mutate(species_fertilization  = scales::scientific(species_fertilization ,digits = 2)) %>%
-  mutate(species_origin = scales::scientific(species_origin,digits = 2))
-
-table_mod_fix <- mod_fix %>% 
-  kableExtra::kable( escape = F,
-                     col.names = c("Trait","Species","Fertilization","Origin","Species_Fertilization","Species_Origin"
-                     )) %>%
-  kableExtra::kable_styling("hover", full_width = F)
-
-
-
-cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
 
 
 # traits for which there is a species*fertilization effect

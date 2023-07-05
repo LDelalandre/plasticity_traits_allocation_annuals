@@ -1,8 +1,7 @@
 library(tidyverse)
 
 # Information on species ####
-info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1") %>% 
-  mutate(OrigValueStr = if_else(code_sp == "BUPLBALD", "sr", OrigValueStr))
+info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1")
 
 sp_fam <- info_sp %>% 
   select(code_sp,family) %>% 

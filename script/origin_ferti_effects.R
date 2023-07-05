@@ -1,6 +1,91 @@
 library(tidyverse)
 source("script/import_data.R")
-# Data ####
+
+
+
+
+# Fixed effects ####
+# hyp mod linéaires
+
+library(lmtest)
+
+ftrait <-  FTRAITS[16]
+mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
+# mod <- lm(log_C ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits %>% mutate(log_C = log10(C)))
+ftrait
+par(mfrow = c(2,2)) ; plot(mod)
+
+HYP <- NULL
+for (ftrait in FTRAITS){
+  mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
+  ftrait
+  par(mfrow = c(2,2)) ; plot(mod)
+  
+  sh <- shapiro.test(residuals(mod)) # normality
+  bp <- bptest(mod) # homoscedasticity
+  dw <- dwtest(mod) # autocorrelation
+  hyp <- data.frame(trait = ftrait,
+                    shapiro = sh$p.value,
+                    breusch = bp$p.value,
+                    durbin = dw$p.value)
+  
+  HYP <- rbind(HYP,hyp)
+}
+HYP
+
+# Species differ on their plasticity and genetic differentiation ?
+
+# if interaction fertilization * species : different species respond differently to fertilization
+interaction_sp_ferti <- function(ftrait){
+  # 1) variable selection
+  # ne garder que les variables nécessaires
+  
+  # 2) part of variance explained by adding the variable (compared to what ?)
+  
+  mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
+  # summary(mod)
+  anov <- anova(mod)
+  
+  # 3) centralize the values in a table
+  c(ftrait,anov$`Pr(>F)`)
+}
+
+mod_fix <- lapply(as.list(FTRAITS), interaction_sp_ferti) %>% 
+  rlist::list.rbind() %>% 
+  as.data.frame() %>% 
+  mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),origin = as.numeric(V4),
+         species_fertilization = as.numeric(V5),species_origin = as.numeric (V6)) %>% 
+  select(-c(V1,V2,V3,V4,V5,V6,V7) ) 
+
+mod_fix %>% 
+  mutate(species_fertilization = if_else(fertilization > 0.05,10, species_fertilization)) %>% 
+  mutate(species_origin = if_else(origin > 0.05,10, species_origin)) 
+
+
+# scientific notation
+mod_fix %>% 
+  mutate(species = scales::scientific(species,digits = 2)) %>%
+  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  mutate(origin = scales::scientific(origin,digits = 2)) %>%
+  mutate(species_fertilization  = scales::scientific(species_fertilization ,digits = 2)) %>%
+  mutate(species_origin = scales::scientific(species_origin,digits = 2))
+
+
+
+
+table_mod_fix <- mod_fix %>% 
+  kableExtra::kable( escape = F,
+                     col.names = c("Trait","Species","Fertilization","Origin","Species_Fertilization","Species_Origin"
+                     )) %>%
+  kableExtra::kable_styling("hover", full_width = F)
+
+
+
+cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
+
+
+
+# Mixed models ####
 
 
 # traits_height_mass <- c(
@@ -34,7 +119,6 @@ data_mod <- t2_traits %>%
   mutate(origin = as.factor(origin) ) %>% 
   mutate(fertilization = as.factor(fertilization))
 
-# Mixed models on raw data ####
 TABLE_PVAL <- NULL
 for (ftrait in FTRAITS){
   formula0 <- as.formula(paste0(ftrait, " ~ 1 + (1|code_sp)"))
