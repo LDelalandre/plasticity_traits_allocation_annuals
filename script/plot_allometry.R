@@ -1,6 +1,9 @@
 source("script/import_data.R")
 
 library(smatr)
+library(cowplot)
+t2_traits <-  t2_traits %>% 
+  mutate(log_Ntot = log10(N/100*plant_dry_mass))# diviser par cent pour convertir pourcentage en fraction et avoir la masse de N en g
 
 # Surfaces ####
 ftrait <- "log_tot_LA"
@@ -17,6 +20,7 @@ sma_leaf2 <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass")),
 coefs_leaf <- coef(sma_leaf2) 
 intercept_leaf <- coefs_leaf[1]
 slope_leaf <- coefs_leaf[2]
+
 
 allom_leaf_leg <- t2_traits %>% 
   ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
@@ -68,10 +72,12 @@ sma_root
 
 
 coefs_root <- coef(sma_root) 
-intercept_root_Nm <- coefs_root[1,1]
-intercept_root_Np <- coefs_root[2,1]
-slope_root_Nm <- coefs_root[1,2]
-slope_root_Np <- coefs_root[2,2]
+intercept_root_Nm <- sma_root$elevtest[[1]]$a
+intercept_root_Np <- sma_root$elevtest[[2]]$a
+
+
+slope_root_Nm <- sma_root$slopetest[[1]]$b
+slope_root_Np <- sma_root$slopetest[[1]]$b
 
 allom_root <- t2_traits %>% 
   ggplot(aes(x = log_plant_dry_mass, y = log_tot_RA)) +
@@ -80,8 +86,8 @@ allom_root <- t2_traits %>%
   scale_shape_manual(values = c(1,16)) +
   scale_color_brewer(palette = "Set2") +
   theme_classic() + 
-  geom_abline(slope =slope_root_Nm,intercept = intercept_root_Nm,linetype=2) +
-  geom_abline(slope =slope_root_Np,intercept = intercept_root_Np) +
+  geom_abline(slope =slope_root_Nm,intercept = intercept_root_Nm,colour='#1b9e77') + #linetype=2,
+  geom_abline(slope =slope_root_Np,intercept = intercept_root_Np, colour = "#d95f02") +
   xlab("log(plant dry mass in g)") +
   ylab("log(total root area in mm²)") + 
   theme(legend.position = "none") +
@@ -105,11 +111,137 @@ allom_root2 <- allom_root %>%
   insert_yaxis_grob(ydens_root, grid::unit(0.5, "in"), position = "right") %>%
   ggdraw()
 
+## Nitrogen ####
+ftrait <- "log_Ntot"
+
+sma_ftrait <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization")), 
+                  t2_traits ) 
+
+
+
+# Juste dans N+
+sma(as.formula(paste(ftrait, "~ log_plant_dry_mass ")), 
+                  t2_traits %>% filter(fertilization == "N+"))
+# juste dans N-
+sma(as.formula(paste(ftrait, "~ log_plant_dry_mass ")), 
+                     t2_traits %>% filter(fertilization == "N-")) 
+coefs_ftrait<- coef(sma_ftrait) 
+
+# intercept_ftrait_Nm <- coefs_ftrait[1,1]
+# intercept_ftrait_Np <- coefs_ftrait[2,1]
+
+intercept_ftrait_Nm <- sma_ftrait$elevtest[[1]]$a
+intercept_ftrait_Np <- sma_ftrait$elevtest[[2]]$a
+
+# erreur avec les sorties de pente avec la fonction coef...
+slope_ftrait_Nm <- sma_ftrait$slopetest[[1]]$b #slope in N-
+slope_ftrait_Np <- sma_ftrait$slopetest[[2]]$b #slope in N+
+
+allom_ftrait <- t2_traits %>% 
+  ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait,color = "fertilization")) +
+  geom_point()+
+  scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() + 
+  geom_abline(slope =slope_ftrait_Nm,intercept = intercept_ftrait_Nm,colour='#1b9e77') + #linetype=2,
+  geom_abline(slope =slope_ftrait_Np,intercept = intercept_ftrait_Np, colour = "#d95f02") +
+  theme(legend.position = "none") +
+  ggtitle("C. Whole plant nitrogen content") +
+  xlab("log(plant dry mass in g)") +
+  ylab("log(plant nitrogen content in g)") 
+# xlab("log(plant dry mass in g)") +
+# ylab("log(total root area in mm²)")  
+# theme(legend.position = "none") +
+# ggtitle("B. Whole plant absorptive root area")
+# allom_ftrait
+
+# Add density curves to y and x axis
+xydens_ftrait <-
+  cowplot::axis_canvas(allom_ftrait, axis = "y", coord_flip = TRUE) + 
+  geom_density(data = t2_traits, aes_string(x = ftrait, fill = "fertilization", colour = "fertilization"), alpha = 0.3) +
+  scale_color_brewer(palette = "Set2")  +
+  scale_fill_brewer(palette = "Set2") +
+  coord_flip()
+allom_ftrait2 <- allom_ftrait %>%
+  insert_xaxis_grob(xdens_leaf, grid::unit(0.5, "in"), position = "top") %>%
+  insert_yaxis_grob(ydens_ftrait, grid::unit(0.5, "in"), position = "right") %>%
+  ggdraw()
+
+allom_ftrait2
+
 
 ## Plot ####
-fig_allom <- gridExtra::grid.arrange(grobs = list(allom_leaf2,allom_root2,leg), 
+fig_allom <- gridExtra::grid.arrange(grobs = list(allom_leaf2,allom_root2,allom_ftrait2,leg), 
                                      layout_matrix = rbind(rbind(
-                                       c(1,1,1,1,2,2,2,2,3))))
+                                       c(1,1,1,1,2,2,2,2,3,3,3,3,43))))
 
-ggsave("draft/fig_allom_surfaces.png",fig_allom,width = 10,height =4.5)
+ggsave("draft/fig_allom_surfaces.png",fig_allom,width = 11,height =4)
+
+# Other traits ####
+ 
+ftrait <- "log_Ntot"
+
+
+sma_ftrait <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization")), 
+                t2_traits ) 
+sma_ftrait
+coefs_ftrait<- coef(sma_ftrait) 
+
+intercept_ftrait_Nm <- coefs_ftrait[1,1]
+intercept_ftrait_Np <- coefs_ftrait[2,1]
+slope_ftrait_Nm <- coefs_ftrait[1,2]
+slope_ftrait_Np <- coefs_ftrait[2,2]
+
+allom_ftrait <- t2_traits %>% 
+  ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait,color = "fertilization")) +
+  geom_point()+
+  scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() + 
+  geom_abline(slope =slope_ftrait_Nm,intercept = intercept_ftrait_Nm,colour='#1b9e77') + #linetype=2,
+  geom_abline(slope =slope_ftrait_Np,intercept = intercept_ftrait_Np, colour = "#d95f02") 
+  # xlab("log(plant dry mass in g)") +
+  # ylab("log(total root area in mm²)")  
+  # theme(legend.position = "none") +
+  # ggtitle("B. Whole plant absorptive root area")
+allom_ftrait
+
+t2_traits %>% 
+  ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait,color = "fertilization")) +
+  geom_point()+
+  # scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() +
+  facet_wrap(~code_sp) 
+  # geom_smooth(method = "lm")
+
+
+# SMA on SLA per species
+# in each treatment
+fferti <- "N+"
+
+sma_ftrait_sp <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + code_sp")), 
+                  t2_traits %>% filter(fertilization == fferti)) 
+sma_ftrait
+coefs_ftrait<- coef(sma_ftrait_sp)
+
+sp <- rownames(coefs_ftrait)
+PLOT <- NULL
+for (i in c(1:length(sp))){
+  spi <- sp[i]
+  plot <- t2_traits %>% 
+    filter(code_sp == spi) %>% 
+    ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait,color = "code_sp")) +
+    geom_point()+
+    scale_shape_manual(values = c(1,16)) +
+    scale_color_brewer(palette = "Set2") +
+    theme_classic()+
+    geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1],colour='#1b9e77')
+  
+  PLOT[[i]] <- plot
+  ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
+}
+
+PLOT
+
 

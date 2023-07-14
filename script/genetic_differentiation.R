@@ -17,7 +17,7 @@ data_sla_nutr <- info_sp_traits %>%
 
 # nutrient requirements relate to plant SLA in the field
 data_sla_nutr %>% 
-  ggplot(aes(x = nutrient_requirement, y = SLA, label = code_sp)) +
+  ggplot(aes(x = nutrient_requirement, y = LDMC, label = code_sp)) +
   # geom_label(aes(color = treatment)) +
   geom_point() +
   geom_smooth(method="lm")

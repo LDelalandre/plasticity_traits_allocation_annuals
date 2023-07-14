@@ -2,6 +2,7 @@ library(tidyverse)
 
 # Information on species ####
 info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1")
+species_info <- read.csv2("output/data/species_info.csv")
 
 sp_fam <- info_sp %>% 
   select(code_sp,family) %>% 
@@ -43,14 +44,22 @@ setdiff(sp_exp,nona)
 
 
 ## traits we consider ####
-traits_nutrients <- c("N","C")
+# traits_nutrients <- c("N","C")
 traits_allocation <- c("RMF","SMF","LMF")
 traits_leaf <- c("log_LA", "LDMC","SLA") 
 traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
-FTRAITS <- c("log_Hveg","log_plant_dry_mass",traits_nutrients,traits_allocation,traits_leaf,traits_root)
+FTRAITS <- c("log_Hveg","log_plant_dry_mass",
+             "N",traits_allocation,traits_leaf,traits_root)
 
 # trait values per pot ####
-t2_traits <- read.csv2("data/t2_traits.csv")%>% 
+t2_traits0 <- read.csv2("data/t2_traits.csv")
+
+# correction A FAIRE DANS LES DONNEES BRUTES (dans le projet manip_spring_2022)
+# ET RECALCULER TRAITS_pop
+t2_traits0[which(t2_traits0$pot == 466),]$LDMC <- NA
+t2_traits0[which(t2_traits0$pot == 415),]$SLA <- NA
+
+t2_traits <- t2_traits0 %>% 
   mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
   mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
   mutate(log_tot_RL = log10(tot_RL)) %>% 
@@ -70,7 +79,17 @@ t2_traits <- read.csv2("data/t2_traits.csv")%>%
          SMF = stem_dry_mass/plant_dry_mass,
          LMF = leaf_dry_mass/plant_dry_mass) %>% 
   mutate(log_LA = log10(LA)) %>% 
-  mutate(log_Hveg = log10(Hveg))
+  mutate(log_Hveg = log10(Hveg),
+         log_SLA = log10(SLA),
+         log_LDMC = log10(LDMC),
+         log_LA = log10(LA),
+         log_SRL = log10(SRL),
+         log_RDMC= log10(RDMC),
+         log_RTD = log10(RTD),
+         log_diam = log10(diam),
+         log_BI = log10(BI),
+         log_N = log10(N),
+         log_RMF=log10(RMF))
 
 
 
@@ -84,3 +103,18 @@ traits_pop <- read.csv2("output/data/traits_pop.csv") %>%
   mutate(log_RGRslope = log10(RGRslope)) %>% 
   merge(sp_fam) %>% 
   mutate(log_Hveg = log10(Hveg))
+
+## traits values per population ####
+traits_sp <- t2_traits %>%
+  group_by(code_sp,fertilization) %>%
+  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg") %>% 
+  summarize_all(mean,na.rm=T)
+
+
+# check enough measurement per trait
+t2_traits %>% 
+  group_by(code_sp,origin,pop,fertilization) %>% 
+  filter(!is.na(SRL)) %>% 
+  summarize(n = n()) %>% 
+  arrange(n) %>% 
+  View
