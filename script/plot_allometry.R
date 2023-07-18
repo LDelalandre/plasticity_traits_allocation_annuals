@@ -22,6 +22,8 @@ intercept_leaf <- coefs_leaf[1]
 slope_leaf <- coefs_leaf[2]
 
 
+
+
 allom_leaf_leg <- t2_traits %>% 
   ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
   geom_point(aes(color = fertilization)) +
@@ -36,7 +38,8 @@ leg <- get_legend(allom_leaf_leg)
 
 allom_leaf <- allom_leaf_leg + 
   theme(legend.position = "none") +
-  ggtitle("A. Whole plant leaf area")
+  ggtitle("A. Whole plant leaf area") 
+  # annotate("text", x=-0.5, y=2.5, label= paste(), size=5, parse=TRUE)
 
 # Add density curves to y and x axis
 xdens_leaf <- 
@@ -156,7 +159,7 @@ allom_ftrait <- t2_traits %>%
 # allom_ftrait
 
 # Add density curves to y and x axis
-xydens_ftrait <-
+ydens_ftrait <-
   cowplot::axis_canvas(allom_ftrait, axis = "y", coord_flip = TRUE) + 
   geom_density(data = t2_traits, aes_string(x = ftrait, fill = "fertilization", colour = "fertilization"), alpha = 0.3) +
   scale_color_brewer(palette = "Set2")  +
@@ -176,6 +179,33 @@ fig_allom <- gridExtra::grid.arrange(grobs = list(allom_leaf2,allom_root2,allom_
                                        c(1,1,1,1,2,2,2,2,3,3,3,3,43))))
 
 ggsave("draft/fig_allom_surfaces.png",fig_allom,width = 11,height =4)
+
+
+# Table ####
+# 
+# LA <- data.frame(Trait = c("Leaf area","Root area","Root area","Nitrogen content","Nitrogen content"
+#                  Fertilization ="F- and F+",
+#                  Intercept = )
+
+# leaf
+sma_leaf$elevtest[[1]]$a
+sma_leaf$elevtest[[1]]$a.ci
+sma_leaf$slopetest[[1]]$b
+sma_leaf$slopetest[[1]]$ci
+
+# root
+sma_root$elevtest[[1]]
+sma_root$elevtest[[2]]
+
+sma_root$slopetest[[1]]
+
+# N
+sma_ftrait$elevtest[[1]]
+sma_ftrait$elevtest[[2]]
+
+sma_ftrait$slopetest[[1]]
+sma_ftrait$slopetest[[2]]
+
 
 # Other traits ####
  

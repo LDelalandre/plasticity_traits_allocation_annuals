@@ -112,9 +112,9 @@ traits_sp <- t2_traits %>%
 
 
 # check enough measurement per trait
-t2_traits %>% 
-  group_by(code_sp,origin,pop,fertilization) %>% 
-  filter(!is.na(SRL)) %>% 
-  summarize(n = n()) %>% 
-  arrange(n) %>% 
-  View
+# t2_traits %>% 
+#   group_by(code_sp,origin,pop,fertilization) %>% 
+#   filter(!is.na(SRL)) %>% 
+#   summarize(n = n()) %>% 
+#   arrange(n) %>% 
+#   View

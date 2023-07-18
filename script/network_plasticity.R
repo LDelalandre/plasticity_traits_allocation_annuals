@@ -66,20 +66,23 @@ interaction_sp_ferti <- function(ftrait){
   
   # 2) part of variance explained by adding the variable (compared to what ?)
   
-  mod <- lm(get(ftrait) ~  fertilization*code_sp, data = t2_traits)
+  mod <- lm(get(ftrait) ~  fertilization*pop, data = t2_traits)
   # summary(mod)
   anov <- anova(mod)
   
   # temporaire : post-hoc ####
-  contr <- emmeans::emmeans(mod,pairwise~fertilization*code_sp)
-  posthoc  <- contr$contrasts %>% 
-    as.data.frame() %>% 
-    mutate(contrast = gsub(x = contrast,pattern = ")", replacement = "") ) %>% 
-    # mutate(contrast = gsub(x = contrast,pattern = "(", replacement = "") )
-    separate(contrast, into = c("F1", "sp1", "minus","F2","sp2"),sep = " ") 
-  posthoc %>% 
-    filter(sp1 == sp2) %>% 
-    View
+  # pour voir qui sont les espèces qui diffèrent entre les deux
+  
+  # contr <- emmeans::emmeans(mod,pairwise~fertilization*code_sp)
+  # posthoc  <- contr$contrasts %>% 
+  #   as.data.frame() %>% 
+  #   mutate(contrast = gsub(x = contrast,pattern = ")", replacement = "") ) %>% 
+  #   # mutate(contrast = gsub(x = contrast,pattern = "(", replacement = "") )
+  #   separate(contrast, into = c("F1", "sp1", "minus","F2","sp2"),sep = " ") 
+  
+  # posthoc %>% 
+  #   filter(sp1 == sp2) %>% 
+  #   View
   
   
   # 3) centralize the values in a table
@@ -92,7 +95,7 @@ mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>%
   mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),interaction = as.numeric(V4)) %>% 
   select(-c(V1,V2,V3,V4,V5) ) 
 
-. <- mod_fix %>% 
+table_mod_fix <- mod_fix %>% 
   # scientific notation
   mutate(species = scales::scientific(species,digits = 2)) %>%
   mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
@@ -145,10 +148,10 @@ compute_plast_pop <- function(ftrait){
     select(pop,ftrait)
 }
 
-PLAST <- compute_plast_pop(traits_plast[1])
+PLAST_pop <- compute_plast_pop(traits_plast[1])
 for( i in c(2:length(traits_plast)) ){
   plast <- compute_plast_pop(traits_plast[i])
-  PLAST <- merge(PLAST,plast)
+  PLAST_pop <- merge(PLAST_pop,plast)
 }
 
 # By averaging trait values per species
@@ -184,7 +187,8 @@ traits_plast_interaction_sp <- c(
   "N",
   "RMF","SMF" ,
   # leaf traits
-  "LA", "LDMC","SLA") # "LMF"
+  # "LA", 
+  "LDMC","SLA") # "LMF"
 
 
 ## Correlations ####
@@ -238,7 +242,7 @@ plot_cor_plast <- function(graph){
 
 ## graph ####
 # Correlate
-PLAST_matrix <- PLAST %>% 
+PLAST_matrix <- PLAST_pop %>% 
   select(pop,all_of(traits_plast_interaction_sp)) %>% 
   column_to_rownames("pop") %>% 
   as.matrix()
@@ -310,7 +314,7 @@ PLAST2 %>%
 # Aucun pattern, quel que soit le trait
 
 ## N ellenberg and plasticity ####
-ellenberg_plast <- PLAST %>% 
+ellenberg_plast <- PLAST_pop %>% 
   separate(pop,into=c("code_sp","origin")) %>% 
   merge(species_info,by="code_sp") %>% 
   filter(!(nutrient_requirement == "x")) %>% 
@@ -341,9 +345,40 @@ NN <- lm(N ~ nutrient_requirement,data = ellenberg_plast)
 anova(NN)
 plot(NN)
 
+trait_title <- data.frame(trait = c("SLA","LDMC",
+                                    "N","LMF",
+                                    "SMF","RMF"),
+                          title = c("Specific Leaf Area","Leaf Dry Matter content",
+                                    "Plant nitrogen content", "Leaf Mass Fraction",
+                                    "Stem Mass Fraction","Root Mass Fraction"))
+
+PLOT <- NULL
+i <- 0
+for (ftrait in c("N","SLA","LDMC","SMF","RMF")){
+  i <- i+1
+  plot <- ellenberg_plast %>% 
+    ggplot(aes_string(x = "nutrient_requirement",y= ftrait )) +
+    geom_point() +
+    geom_hline(yintercept = 0) +
+    theme_classic() +
+    xlab("N-number") +
+    ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
+    ylab("RDPI")
+  PLOT[[i]] <- plot
+}
+
+plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 2)
+plots2
+ggsave("draft/bp_ellenberg.png", plots2,width = 10, height = 7)
+
+AN <- lm(N ~ group , data = ellpl)
+anova(AN)
+
+
+
 
 ## DISCRETISE ####
-ellpl <- PLAST %>% #ellenberg plast
+ellpl <- PLAST_pop %>% #ellenberg plast
   separate(pop,into=c("code_sp","origin")) %>% 
   merge(species_info,by="code_sp") %>% 
   mutate(group = case_when(nutrient_requirement %in% c("2","3","4") ~ "Low",

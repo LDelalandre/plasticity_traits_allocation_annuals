@@ -23,7 +23,18 @@ source("script/import_data.R")
 #   # "root_scan_fresh_mass","root_scan_dry_mass",
 #   "root_fresh_mass","root_dry_mass")
 
-
+trait_name <- data.frame(trait = c("plant_dry_mass","Hveg",
+                                    "LA","SLA","LDMC",
+                                    "N","LMF",
+                                    "SRL", "RTD", "RDMC", 
+                                    "SMF","RMF",
+                                    "diam","BI"),
+                          name = c("Plant dry mass", "Vegetative height", 
+                                    "Leaf Area","Specific Leaf Area","Leaf Dry Matter content",
+                                    "Plant nitrogen content", "Leaf Mass Fraction",
+                                    "Specific Root Length", "Root Tissue Density","Root Dry Matter Content",
+                                    "Stem Mass Fraction","Root Mass Fraction",
+                                    "Average root diameter","Branching intensity"))
 
 
 data_mod <- t2_traits %>% 
@@ -41,6 +52,13 @@ data_mod <- t2_traits %>%
 
 TABLE_PVAL <- NULL
 for (ftrait in FTRAITS){
+  if (ftrait == "log_Hveg"){
+    ftrait2 <- "Hveg"
+  }else if (ftrait == "log_plant_dry_mass"){
+    ftrait2 <- "plant_dry_mass"
+  }else if(ftrait == "log_LA"){
+    ftrait2 <- "LA"
+  }else{ftrait2 <- ftrait}
   formula0 <- as.formula(paste0(ftrait, " ~ 1 + (1|family/code_sp)"))
   formula <- as.formula(paste0(ftrait, " ~ fertilization + origin", " + (1|family/code_sp)"))
   
@@ -53,9 +71,14 @@ for (ftrait in FTRAITS){
   # mean trait value in N-
   mean_trait_Nm <- data_mod %>% 
     filter(fertilization =="N-") %>% 
-    summarize(mean_trait_Nm = mean(get(ftrait),na.rm = T)) %>% 
+    summarize(mean_trait_Nm = mean(get(ftrait2),na.rm = T)) %>% 
     pull(mean_trait_Nm) %>% 
     round(digits = 2)
+  # mean_trait_Np <- data_mod %>% 
+  #   filter(fertilization =="N+") %>% 
+  #   summarize(mean_trait_Np = mean(get(ftrait2),na.rm = T)) %>% 
+  #   pull(mean_trait_Np) %>% 
+  #   round(digits = 2)
   
   # How much fertilization N+ increases or decreases trait value
   EM <- emmeans::emmeans(mmod, specs = c("fertilization"),  type = "response",
@@ -84,15 +107,19 @@ for (ftrait in FTRAITS){
   }else{
     diff3 <- NA
   }
-
-  table_pval <-  data.frame(Trait = ftrait,
+  
+  mean_trait_Np= if(is.na(diff3)){mean_trait_Nm}else{mean_trait_Nm + diff3}
+  
+  ftrait_name <- trait_name %>% filter(trait == ftrait2) %>% pull(name)
+  
+  table_pval <-  data.frame(Trait = ftrait_name,
                             fertilization = pval[1],
                             origin = pval[2],
                             # interaction = pval[3],
                             var_fixed =   variance[1,1], # R2m # variance explained by the fixed effects
                             var_tot =   variance[1,2],
-                            mean_N= mean_trait_Nm,
-                            effect_ferti = diff3
+                            mean_Nm= mean_trait_Nm,
+                            mean_Np = mean_trait_Np
                             # Interaction = pval[3]
   )
 
@@ -105,20 +132,47 @@ TABLE_PVAL$Organ <- c("Whole plant trait","Whole plant trait","Whole plant trait
                       "Leaf trait","Leaf trait","Leaf trait",
                       "Root trait","Root trait","Root trait","Root trait","Root trait")
 TABLE_PVAL$unit <- c("cm","g","%","%","%","%",
-                     "cm2", "mg/g","mm2/mg","m/g","g/cm3","mg/g","mm","")
+                     "cm2", "mg/g","mm2/mg","m/g","g/cm3","mg/g","mm","cm-1")
 
 write.csv2(TABLE_PVAL,"output/data/table_origin_ferti_effect")
 
 
 table_origin_ferti <- TABLE_PVAL %>%
-  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
-  mutate(origin = scales::scientific(origin,digits = 2)) %>% 
+  # mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  # mutate(origin = scales::scientific(origin,digits = 2)) %>% 
+  mutate(fertilization = case_when(fertilization < 0.0001 ~ 0.0001,
+                                   fertilization < 0.001 ~ 0.001,
+                                   fertilization < 0.01 ~ 0.01,
+                                   fertilization < 0.05 ~ 0.05,
+                                   TRUE ~ fertilization)
+         ) %>% 
+  mutate(fertilization = as.character(fertilization)) %>% 
+  mutate(fertilization = case_when(fertilization == "1e-04" ~ "< 0.0001",
+                                   fertilization == "0.001" ~ "< 0.001",
+                                   fertilization == "0.01" ~ "< 0.01",
+                                   fertilization == "0.05" ~ "< 0.05",
+                                   TRUE ~ fertilization)
+  ) %>% 
+  
+  mutate(origin  = case_when(origin  < 0.0001 ~ 0.0001,
+                             origin  < 0.001 ~ 0.001,
+                             origin  < 0.01 ~ 0.01,
+                             origin  < 0.05 ~ 0.05,
+                                   TRUE ~ origin )
+  ) %>% 
+  mutate(origin  = as.character(origin )) %>% 
+  mutate(origin  = case_when(origin  == "1e-04" ~ "< 0.0001",
+                             origin  == "0.001" ~ "< 0.001",
+                             origin  == "0.01" ~ "< 0.01",
+                             origin  == "0.05" ~ "< 0.05",
+                                   TRUE ~ origin )
+  ) %>% 
   
   select(Organ,Trait,unit,origin,fertilization,everything()) %>%
   kableExtra::kable( escape = F,
                      col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
                                    "Variance explained (fixed)","Variance explained (fixed + random)",
-                                   "Mean trait value in N-","Effect of fertilization"
+                                   "Mean value in F-","Mean value in F+"
                      )) %>%
   kableExtra::kable_styling("hover", full_width = F)
 
