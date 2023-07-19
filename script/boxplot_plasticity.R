@@ -6,6 +6,12 @@ traits_ferti_effect <- TABLE_PVAL %>%
   filter(fertilization < 0.05) %>% 
   pull(Trait)
 
+traits_ferti_effect <- c("plant_dry_mass",
+                         "LA","SLA","LDMC",
+                         "SMF","RMF",
+                         "N","LMF","RDMC")
+
+
 # Boxplot of the three traits that move ####
 bp_plast_simple <- function(ftrait){
   
@@ -20,7 +26,7 @@ bp_plast_simple <- function(ftrait){
                                       "Plant nitrogen content (%)", "Leaf Mass Fraction",
                                       "Specific Root Length (m/g)", "Root Tissue Density (g/cm3)","Root Dry Matter Content (%)",
                                       "Stem Mass Fraction","Root Mass Fraction",
-                                      "Average root diameter (mm)","Branching intensity (cm-1)"))
+                                      "Mean root diameter (mm)","Branching intensity (cm-1)"))
   
   traits_pop %>%
     mutate(fertilization = if_else(fertilization == "N+", "F+","F-")) %>% 
@@ -92,3 +98,38 @@ ggsave("draft/bp_traits.png", bps_traits,width = 18, height = 12)
 
 # https://stackoverflow.com/questions/64184348/change-line-type-for-certain-categories-in-ggplot
 # ligne différente selon espèce
+
+
+# par catégorie (scheme) ####
+# autre tentative
+# Leaf
+L1 <- lapply(list("Hveg","LA","SLA","LDMC"), 
+             bp_plast_simple)
+L2 <- ggpubr::ggarrange(plotlist=L1, ncol = 5,nrow = 1,align = "hv") 
+
+# Whole plant
+WP1 <- lapply(list("plant_dry_mass",
+                   "N","LMF",
+                   "SMF","RMF"), 
+              bp_plast_simple)
+WP2 <- ggpubr::ggarrange(plotlist=WP1, ncol = 5,nrow = 1,
+                         align = "hv") 
+
+
+
+# Root
+R1 <- lapply(list("diam","SRL", "RTD","RDMC","BI"), 
+             bp_plast_simple)
+R2 <- ggpubr::ggarrange(plotlist=R1, ncol = 5,nrow = 1) 
+
+
+correct_margin <- 0.04
+bps_traits <- cowplot::ggdraw() +
+  cowplot::draw_plot(L2, x = 0, y = 2/3, width = 1, height = 1/3  - correct_margin) +
+  cowplot::draw_plot(R2 , x = 0, y = 1/3, width = 1  , height = 1/3  - correct_margin) +
+  cowplot::draw_plot(WP2, x = 0, y = 0, width = 1 , height = 1/3 - correct_margin) +
+
+  cowplot::draw_plot_label(label = c("A. Ecological strategies (above-ground)", "B. Root comparative ecology (below-ground)","C. Growth analysis (whole plant)"), 
+                  size = 24, x = c(0,0,0), y = c(1, 2/3, 1/3))
+
+ggsave("draft/bp_traits2.png", bps_traits,width = 18, height = 12)
