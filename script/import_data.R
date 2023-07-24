@@ -52,8 +52,7 @@ FTRAITS <- c("log_Hveg","log_plant_dry_mass",
              "N",traits_allocation,traits_leaf,traits_root)
 
 # trait values per pot ####
-t2_traits0 <- read.csv2("data/t2_traits.csv")
-
+t2_traits0 <- read.csv2("data/t2_traits.csv") 
 # correction A FAIRE DANS LES DONNEES BRUTES (dans le projet manip_spring_2022)
 # ET RECALCULER TRAITS_pop
 t2_traits0[which(t2_traits0$pot == 466),]$LDMC <- NA
@@ -95,19 +94,23 @@ t2_traits <- t2_traits0 %>%
 
 
 ## traits values per population ####
-traits_pop <- read.csv2("output/data/traits_pop.csv") %>% 
+traits_pop <- t2_traits %>%
+  group_by(code_sp,origin,fertilization) %>%
+  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
+  summarize_all(mean,na.rm=T) %>% 
   mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
   mutate(log_tot_LA = log10(tot_LA)) %>% 
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   mutate(log_tot_RA = log10(tot_RA)) %>%
-  mutate(log_RGRslope = log10(RGRslope)) %>% 
+  # mutate(log_RGRslope = log10(RGRslope)) %>% 
   merge(sp_fam) %>% 
-  mutate(log_Hveg = log10(Hveg))
+  mutate(log_Hveg = log10(Hveg)) %>% 
+  mutate(pop = paste(code_sp,origin,sep="_"))
 
-## traits values per population ####
+## traits values per species ####
 traits_sp <- t2_traits %>%
   group_by(code_sp,fertilization) %>%
-  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg") %>% 
+  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
   summarize_all(mean,na.rm=T)
 
 

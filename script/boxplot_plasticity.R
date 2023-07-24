@@ -22,10 +22,10 @@ bp_plast_simple <- function(ftrait){
                                       "SMF","RMF",
                                       "diam","BI"),
                             title = c("Plant dry mass (g)", "Vegetative height (cm)", 
-                                      "Leaf Area (cm²)","Specific Leaf Area (mm²/mg)","Leaf Dry Matter content (%)",
-                                      "Plant nitrogen content (%)", "Leaf Mass Fraction",
-                                      "Specific Root Length (m/g)", "Root Tissue Density (g/cm3)","Root Dry Matter Content (%)",
-                                      "Stem Mass Fraction","Root Mass Fraction",
+                                      "Leaf Area (cm²)","Specific Leaf Area (mm²/mg)","Leaf Dry Matter content (mg/g)",
+                                      "Plant nitrogen content (mg/g)", "Leaf Mass Fraction (g/g)",
+                                      "Specific Root Length (m/g)", "Root Tissue Density (g/cm3)","Root Dry Matter Content (mg/g)",
+                                      "Stem Mass Fraction (g/g)","Root Mass Fraction(g/g)",
                                       "Mean root diameter (mm)","Branching intensity (cm-1)"))
   
   traits_pop %>%
@@ -87,11 +87,11 @@ R2 <- ggpubr::ggarrange(plotlist=R1, ncol = 3,nrow = 2)
 
 
 correct_margin <- 0.04
-bps_traits <- ggdraw() +
-  draw_plot(WP2, x = 0, y = 0, width = 2/5 - correct_margin , height = 1 - correct_margin) +
-  draw_plot(L2, x = 2/5, y = 2/3, width = 3/5  - correct_margin, height = 1/3  - correct_margin) +
-  draw_plot(R2 , x = 2/5, y = 0, width = 3/5  - correct_margin, height = 2/3  - correct_margin) +
-  draw_plot_label(label = c("A. Whole-plant traits", "B. Leaf traits","C. Root traits"), 
+bps_traits <- cowplot::ggdraw() +
+  cowplot::draw_plot(WP2, x = 0, y = 0, width = 2/5 - correct_margin , height = 1 - correct_margin) +
+  cowplot::draw_plot(L2, x = 2/5, y = 2/3, width = 3/5  - correct_margin, height = 1/3  - correct_margin) +
+  cowplot::draw_plot(R2 , x = 2/5, y = 0, width = 3/5  - correct_margin, height = 2/3  - correct_margin) +
+  cowplot::draw_plot_label(label = c("A. Whole-plant traits", "B. Leaf traits","C. Root traits"), 
                   size = 24, x = c(0,2/5,2/5), y = c(1, 1,2/3))
 
 ggsave("draft/bp_traits.png", bps_traits,width = 18, height = 12)

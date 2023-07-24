@@ -31,10 +31,10 @@ trait_name <- data.frame(trait = c("plant_dry_mass","Hveg",
                                     "diam","BI"),
                           name = c("Plant dry mass", "Vegetative height", 
                                     "Leaf Area","Specific Leaf Area","Leaf Dry Matter content",
-                                    "Plant nitrogen content", "Leaf Mass Fraction",
+                                    "Plant Nitrogen content per mass", "Leaf Mass Fraction",
                                     "Specific Root Length", "Root Tissue Density","Root Dry Matter Content",
                                     "Stem Mass Fraction","Root Mass Fraction",
-                                    "Average root diameter","Branching intensity"))
+                                    "Mean root diameter","Branching Intensity"))
 
 
 data_mod <- t2_traits %>% 
@@ -69,11 +69,11 @@ for (ftrait in FTRAITS){
   anov <- car::Anova(mmod)
   
   # mean trait value in N-
-  mean_trait_Nm <- data_mod %>% 
-    filter(fertilization =="N-") %>% 
-    summarize(mean_trait_Nm = mean(get(ftrait2),na.rm = T)) %>% 
-    pull(mean_trait_Nm) %>% 
-    round(digits = 2)
+  # mean_trait_Nm <- data_mod %>% 
+  #   filter(fertilization =="N-") %>% 
+  #   summarize(mean_trait_Nm = mean(get(ftrait2),na.rm = T)) %>% 
+  #   pull(mean_trait_Nm) %>% 
+  #   round(digits = 2)
   # mean_trait_Np <- data_mod %>% 
   #   filter(fertilization =="N+") %>% 
   #   summarize(mean_trait_Np = mean(get(ftrait2),na.rm = T)) %>% 
@@ -86,11 +86,21 @@ for (ftrait in FTRAITS){
   # emmeans (version 1.5.2-1)
   posthoc <- multcomp::cld(EM, #emmeans::as.glht(EM),
                            Letters = "abcdefghi", details = T)
-  diff <- posthoc$comparisons$estimate %>% round(digits = 3)
-  if(posthoc$comparisons$contrast == "(N-) - (N+)"){
-    diff2 = -diff} else{
-      diff2=diff
-    }
+  
+  mean_trait_Nm <- posthoc$emmeans %>% filter(fertilization == "N-") %>% pull(emmean) %>% round(digits = 2)
+  mean_trait_Np <- posthoc$emmeans %>% filter(fertilization == "N+") %>% pull(emmean) %>% round(digits = 2)
+  if (ftrait2 %in% c("plant_dry_mass","Hveg","LA")){
+    mean_trait_Nm <- 10^(mean_trait_Nm) %>% round(digits = 2)
+    mean_trait_Np <- 10^(mean_trait_Np) %>% round(digits = 2)
+  }
+  
+
+  
+  # diff <- posthoc$comparisons$estimate %>% round(digits = 3)
+  # if(posthoc$comparisons$contrast == "(N-) - (N+)"){
+  #   diff2 = -diff} else{
+  #     diff2=diff
+  #   }
   
   pval <- anov %>%
     as.data.frame() %>% 
@@ -98,18 +108,10 @@ for (ftrait in FTRAITS){
     pull(pval) %>% 
     format(scientific = TRUE, digits = 2) %>%
     as.numeric()
+  
   variance <- MuMIn::r.squaredGLMM(mmod) %>% 
     round(digits = 2)
-  
-  if(pval[1] < 0.05){
-    diff3 <- diff2 %>% 
-      round(digits = 2)
-  }else{
-    diff3 <- NA
-  }
-  
-  mean_trait_Np= if(is.na(diff3)){mean_trait_Nm}else{mean_trait_Nm + diff3}
-  
+
   ftrait_name <- trait_name %>% filter(trait == ftrait2) %>% pull(name)
   
   table_pval <-  data.frame(Trait = ftrait_name,
@@ -127,12 +129,22 @@ for (ftrait in FTRAITS){
   TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
 }
 rownames(TABLE_PVAL) <- NULL
-TABLE_PVAL$Organ <- c("Whole plant trait","Whole plant trait","Whole plant trait","Whole plant trait",
-                      "Whole plant trait","Whole plant trait",
-                      "Leaf trait","Leaf trait","Leaf trait",
-                      "Root trait","Root trait","Root trait","Root trait","Root trait")
-TABLE_PVAL$unit <- c("cm","g","%","%","%","%",
+TABLE_PVAL$Scheme <- c("Above-ground traits","Whole-plant traits","Whole-plant traits","Whole-plant traits",
+                      "Whole-plant traits","Whole-plant traits",
+                      "Above-ground traits","Above-ground traits","Above-ground traits",
+                      "Below-ground traits","Below-ground traits","Below-ground traits","Below-ground traits","Below-ground traits")
+TABLE_PVAL$unit <- c("cm","g","mg/g","g/g","g/g","g/g",
                      "cm2", "mg/g","mm2/mg","m/g","g/cm3","mg/g","mm","cm-1")
+
+TABLE_PVAL$Scheme <- factor(TABLE_PVAL$Scheme,levels = c("Above-ground traits","Below-ground traits","Whole-plant traits"))
+TABLE_PVAL <- TABLE_PVAL %>% 
+  arrange(Scheme = factor(Scheme, levels = c("Above-ground traits","Below-ground traits","Whole-plant traits"))) %>% 
+  arrange(Trait = factor (Trait , levels = c(
+    "Vegetative height","Leaf Area","Specific Leaf Area","Leaf Dry Matter content",
+    "Mean root diameter","Specific Root Length","Root Tissue Density","Root Dry Matter Content","Branching Intensity","Plant dry mass",
+    "Plant Nitrogen content per mass","Leaf Mass Fraction",
+    "Stem Mass Fraction","Root Mass Fraction")
+  ))
 
 write.csv2(TABLE_PVAL,"output/data/table_origin_ferti_effect")
 
@@ -168,7 +180,7 @@ table_origin_ferti <- TABLE_PVAL %>%
                                    TRUE ~ origin )
   ) %>% 
   
-  select(Organ,Trait,unit,origin,fertilization,everything()) %>%
+  select(Scheme,Trait,unit,origin,fertilization,everything()) %>%
   kableExtra::kable( escape = F,
                      col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
                                    "Variance explained (fixed)","Variance explained (fixed + random)",

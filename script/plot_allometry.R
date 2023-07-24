@@ -3,7 +3,7 @@ source("script/import_data.R")
 library(smatr)
 library(cowplot)
 t2_traits <-  t2_traits %>% 
-  mutate(log_Ntot = log10(N/100*plant_dry_mass))# diviser par cent pour convertir pourcentage en fraction et avoir la masse de N en g
+  mutate(log_Ntot = log10(N/1000*plant_dry_mass))# diviser par 1000 pour convertir mg/g en fraction (g/g) et avoir la masse de N en g
 
 # Surfaces ####
 ftrait <- "log_tot_LA"
