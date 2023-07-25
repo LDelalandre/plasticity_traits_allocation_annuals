@@ -201,8 +201,8 @@ graph_cor_plast <- function(plast_matrix){
   pval <- cor_pval$P
   
   
-  correction <- dim(pval)[1] # number of tests performed
-  # correction <- 1
+  # correction <- dim(pval)[1] # number of tests performed
+  correction <- 1
   signif <- pval < 0.05/correction # Bonferroni
   ns <- pval >= 0.05/correction # Bonferroni
   # ns <- pval >= 0.05

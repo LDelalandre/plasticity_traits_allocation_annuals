@@ -11,7 +11,7 @@ ftrait <- "log_tot_LA"
 ## Leaf Area ####
 sma_leaf <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass+fertilization")), 
                 t2_traits , 
-                type = "shift") 
+                type = "elevation") 
 sma_leaf
 
 sma_leaf2 <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass")), 
