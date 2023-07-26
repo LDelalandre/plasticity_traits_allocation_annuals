@@ -174,6 +174,38 @@ for( i in c(2:length(traits_plast)) ){
   PLAST_sp <- merge(PLAST_sp,plast_sp)
 }
 
+# "Plast" in situ
+
+compute_plast_in_situ <- function(ftrait){
+  plast <- fMEAN %>% 
+    select(code_sp,treatment,all_of(ftrait)) %>% 
+    spread(key = treatment,value = ftrait )
+  # mutate(plast = (`N+` - `N-`)/`N+` )
+  # merge(trait_moy)
+  plast[,ftrait] <-  (plast$Fer - plast$Nat) / (plast$Fer) 
+  
+  plast %>% 
+    ungroup() %>% 
+    select(code_sp,ftrait)
+}
+
+traits_plast_in_situ <- c("SLA","LDMC","L_Area","Hrepro")
+
+PLAST_situ <- compute_plast_in_situ(traits_plast_in_situ[1])
+for( i in c(2:length(traits_plast_in_situ)) ){
+  plast_situ <- compute_plast_in_situ(traits_plast_in_situ[i])
+  PLAST_situ <- merge(PLAST_situ,plast_situ)
+}
+
+PLAST_comparison <- PLAST_situ %>% 
+  transmute(code_sp = code_sp,SLAsitu = SLA, LDMCsitu = LDMC, L_Areasitu = L_Area, Hreprositu = Hrepro) %>% 
+  full_join(PLAST_sp)
+
+
+PLAST_comparison %>% 
+  ggplot(aes(x = Hreprositu, y = plant_dry_mass)) +
+  geom_point()
+
 
 
 # traits for which there is a species*fertilization effect

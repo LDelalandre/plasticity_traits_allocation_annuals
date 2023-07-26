@@ -132,3 +132,29 @@ plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 4,nrow = 2)
 # plots1
 ggsave("draft/bp_ferticqs.png", plots1,width = 18, height = 12)
 
+
+
+# Allom f(origin) ####
+sma_ftrait <- sma(as.formula(paste("log_stem_dry_mass", "~ log_plant_dry_mass + origin")), 
+                  t2_traits %>% filter(fertilization == "N+") )
+
+coefs_ftrait<- coef(sma_ftrait)
+
+intercept_ftrait_Nm <- sma_ftrait$elevtest[[1]]$a
+intercept_ftrait_Np <- sma_ftrait$elevtest[[2]]$a
+
+slope_ftrait_Nm <- coefs_ftrait[1,2]
+slope_ftrait_Np <- coefs_ftrait[2,2]
+
+
+allom_ftrait <- t2_traits %>%
+  filter(fertilization == "N+") %>% 
+  ggplot(aes_string(x = "log_plant_dry_mass", y = "log_stem_dry_mass",color = "origin")) +
+  geom_point()+
+  scale_shape_manual(values = c(1,16)) +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() + 
+  geom_abline(slope =slope_ftrait_Nm,intercept = intercept_ftrait_Nm,colour='#1b9e77') + #linetype=2,
+  geom_abline(slope =slope_ftrait_Np,intercept = intercept_ftrait_Np, colour = "#d95f02") +
+  theme(legend.position = "none") +
+  xlab("log(plant dry mass in g)") 
