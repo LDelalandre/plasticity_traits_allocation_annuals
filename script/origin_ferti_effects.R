@@ -84,14 +84,12 @@ for (ftrait in FTRAITS){
   EM <- emmeans::emmeans(mmod, specs = c("fertilization"),  type = "response",
                          adjust = "tuckey")
   # emmeans (version 1.5.2-1)
-  posthoc <- multcomp::cld(EM, #emmeans::as.glht(EM),
-                           Letters = "abcdefghi", details = T)
-  
+
   library(multcomp)
   posthoc <- summary(glht(mmod, linfct = mcp(fertilization = "Tukey")), test = adjusted("fdr"))
   
-  mean_trait_Nm <- posthoc$emmeans %>% filter(fertilization == "N-") %>% pull(emmean) %>% round(digits = 2)
-  mean_trait_Np <- posthoc$emmeans %>% filter(fertilization == "N+") %>% pull(emmean) %>% round(digits = 2)
+  mean_trait_Nm <- EM %>% as.data.frame () %>% filter(fertilization == "N-") %>% pull(emmean) %>% round(digits = 2)
+  mean_trait_Np <- EM %>% as.data.frame () %>% filter(fertilization == "N+") %>% pull(emmean) %>% round(digits = 2)
   if (ftrait2 %in% c("plant_dry_mass","Hveg","LA")){
     mean_trait_Nm <- 10^(mean_trait_Nm) %>% round(digits = 2)
     mean_trait_Np <- 10^(mean_trait_Np) %>% round(digits = 2)
