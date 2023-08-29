@@ -101,9 +101,10 @@ plot_allom <- function(ftrait){
 # Figs allometry ####
 
 ## coefs ####
-sma_allom <- lapply(list("log_Ntot","log_Hveg","log_leaf_dry_mass",
+sma_allom <- lapply(list("log_leaf_dry_mass",
                     "log_stem_dry_mass","log_root_dry_mass",
-                    "log_tot_LA","log_tot_RA"),
+                    "log_Ntot",
+                    "log_tot_LA","log_tot_RA","log_Hveg"),
                     sma_output) %>% 
   rlist::list.rbind() %>% 
   mutate_if(is.numeric, round,digits = 2)
@@ -112,12 +113,12 @@ write.csv2(sma_allom,"output/plot/sma_allom.csv",row.names=F)
 
 
 ## plots ####
-plots_allom <- lapply(list("log_Ntot","log_leaf_dry_mass","log_stem_dry_mass","log_root_dry_mass",
-                           "log_Hveg","log_tot_LA","log_tot_RA"), 
+plots_allom <- lapply(list("log_leaf_dry_mass","log_stem_dry_mass","log_root_dry_mass","log_Ntot",
+                           "log_tot_LA","log_tot_RA","log_Hveg"), 
                       plot_allom)
 
-grand_plot_allom <- ggpubr::ggarrange(plotlist=plots_allom, ncol = 4,nrow = 2)
-ggsave("output/plot/fig_allom.png",grand_plot_allom,width = 15,height =8)
+grand_plot_allom <- ggpubr::ggarrange(plotlist=plots_allom, ncol = 3,nrow = 3)
+ggsave("output/plot/fig_allom.png",grand_plot_allom,width = 10,height =10)
 
 
 

@@ -87,6 +87,9 @@ for (ftrait in FTRAITS){
   posthoc <- multcomp::cld(EM, #emmeans::as.glht(EM),
                            Letters = "abcdefghi", details = T)
   
+  library(multcomp)
+  posthoc <- summary(glht(mmod, linfct = mcp(fertilization = "Tukey")), test = adjusted("fdr"))
+  
   mean_trait_Nm <- posthoc$emmeans %>% filter(fertilization == "N-") %>% pull(emmean) %>% round(digits = 2)
   mean_trait_Np <- posthoc$emmeans %>% filter(fertilization == "N+") %>% pull(emmean) %>% round(digits = 2)
   if (ftrait2 %in% c("plant_dry_mass","Hveg","LA")){

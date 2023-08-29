@@ -182,6 +182,76 @@ ggsave("draft/fig_allom_surfaces.png",fig_allom,width = 11,height =4)
 
 
 # Table ####
+# for a given trait
+
+ftrait <- "log_Ntot"
+
+output_sma <- function(ftrait){
+  sma_ftrait <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization")), 
+                    t2_traits ) 
+
+  intercept_ftrait_Nm <- sma_ftrait$elevtest[[1]]$a
+  intercept_ftrait_Np <- sma_ftrait$elevtest[[2]]$a
+  
+  # erreur avec les sorties de pente avec la fonction coef...
+  slope_ftrait_Nm <- sma_ftrait$slopetest[[1]]$b #slope in N-
+  slope_ftrait_Np <- sma_ftrait$slopetest[[2]]$b #slope in N+
+  
+  c(intercept_ftrait_Nm,intercept_ftrait_Np,slope_ftrait_Nm,slope_ftrait_Np) %>% 
+    
+}
+
+table <- rbind (output_sma("log_Ntot"),
+                output_sma("log_leaf_dry_mass"),
+                output_sma("log_stem_dry_mass"),
+                output_sma("log_root_dry_mass")
+                )
+colnames(table) <- c("F-","F+","F-","F+")
+rownames(table) <- c("N content","Leaf mass","Stem mass","Root mass")
+
+table %>%
+  # mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
+  # mutate(origin = scales::scientific(origin,digits = 2)) %>% 
+  mutate(fertilization = case_when(fertilization < 0.0001 ~ 0.0001,
+                                   fertilization < 0.001 ~ 0.001,
+                                   fertilization < 0.01 ~ 0.01,
+                                   fertilization < 0.05 ~ 0.05,
+                                   TRUE ~ fertilization)
+  ) %>% 
+  mutate(fertilization = as.character(fertilization)) %>% 
+  mutate(fertilization = case_when(fertilization == "1e-04" ~ "< 0.0001",
+                                   fertilization == "0.001" ~ "< 0.001",
+                                   fertilization == "0.01" ~ "< 0.01",
+                                   fertilization == "0.05" ~ "< 0.05",
+                                   TRUE ~ fertilization)
+  ) %>% 
+  
+  mutate(origin  = case_when(origin  < 0.0001 ~ 0.0001,
+                             origin  < 0.001 ~ 0.001,
+                             origin  < 0.01 ~ 0.01,
+                             origin  < 0.05 ~ 0.05,
+                             TRUE ~ origin )
+  ) %>% 
+  mutate(origin  = as.character(origin )) %>% 
+  mutate(origin  = case_when(origin  == "1e-04" ~ "< 0.0001",
+                             origin  == "0.001" ~ "< 0.001",
+                             origin  == "0.01" ~ "< 0.01",
+                             origin  == "0.05" ~ "< 0.05",
+                             TRUE ~ origin )
+  ) %>% 
+  
+  select(Scheme,Trait,unit,origin,fertilization,everything()) %>%
+  kableExtra::kable( escape = F,
+                     col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
+                                   "Variance explained (fixed)","Variance explained (fixed + random)",
+                                   "Mean value in F-","Mean value in F+"
+                     )) %>%
+  kableExtra::kable_styling("hover", full_width = F)
+
+
+
+cat(table_origin_ferti, file = "draft/table_origin_ferti_effects.doc")
+
 # 
 # LA <- data.frame(Trait = c("Leaf area","Root area","Root area","Nitrogen content","Nitrogen content"
 #                  Fertilization ="F- and F+",

@@ -35,6 +35,7 @@ anova(mod)
 summary(mod)
 
 # magnitude of genetic differentiation ####
+
 ## Compute RDPI on all traits ####
 compute_genet_diff <- function(ftrait){
   genet_diff <- traits_pop %>% 
