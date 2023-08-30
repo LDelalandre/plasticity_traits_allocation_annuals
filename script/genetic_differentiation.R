@@ -35,17 +35,59 @@ anova(mod)
 summary(mod)
 
 # magnitude of genetic differentiation ####
-
+ffer <- "N-"
 ## Compute RDPI on all traits ####
 compute_genet_diff <- function(ftrait){
   genet_diff <- traits_pop %>% 
-    select(pop,fertilization,all_of(ftrait)) %>% 
-    spread(key = fertilization,value = ftrait )
+    filter(fertilization == ffer) %>% 
+    select(code_sp,origin,all_of(ftrait)) %>% 
+    spread(key = origin,value = ftrait ) %>% 
+    na.omit() %>% 
+    `rownames<-`( NULL ) %>% 
+    column_to_rownames("code_sp")
   # mutate(plast = (`N+` - `N-`)/`N+` )
   # merge(trait_moy)
-  plast[,ftrait] <-  (plast$`N+` - plast$`N-`) / (plast$`N+`) 
+  genet_diff[,ftrait] <-  abs((genet_diff$Fer - genet_diff$Nat) / (genet_diff$Fer)) # take the absolute value
   
-  plast %>% 
+  genet_diff %>% 
     ungroup() %>% 
-    select(pop,ftrait)
+    select(ftrait)
 }
+
+
+rdpi_origin <- lapply(FTRAITS,compute_genet_diff) %>% 
+  rlist::list.cbind() %>% 
+  as.data.frame()
+  # rownames_to_column("code_sp")
+
+
+cumulated_diff_origin <- function(rdpi_origin){
+  rdpi_origin %>% 
+    t() %>% 
+    as.data.frame() %>% 
+    summarize_all(sum) %>% 
+    t() %>% 
+    as.data.frame() 
+}
+
+cumulated_diff_origin(rdpi_origin) %>% View
+  cumulated_diff_origin() %>% 
+  ggplot(aes(x= V1)) + geom_density()
+
+rdpi_origin %>%  
+  mutate(across(.fns = sample)) %>%
+  cumulated_diff_origin() %>% 
+  ggplot(aes(x= V1)) + geom_density()
+
+
+
+distrib_cumulated_diff <- c()
+for (i in c(1:1000)){
+  distrib_cumulated_diff <- rdpi_origin %>%  
+    mutate(across(.fns = sample)) %>%
+    cumulated_diff_origin() %>% 
+    pull(V1) %>% 
+    c(distrib_cumulated_diff,.)
+}
+  
+length(which(distrib_cumulated_diff>4)) / length(distrib_cumulated_diff)
