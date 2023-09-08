@@ -14,21 +14,34 @@ plot_in_situ <- function(ftrait){
   
   # keep species present in the two management regimes for the trait considered
   sp_fer <- fMEAN %>% 
+    rename(LA = L_Area) %>% 
     filter(treatment == "Fer") %>% 
     filter(!is.na(get(ftrait))) %>% 
     pull(code_sp)
   sp_nat <- fMEAN %>% 
+    rename(LA = L_Area) %>% 
     filter(treatment == "Nat") %>% 
     filter(!is.na(get(ftrait))) %>% 
     pull(code_sp)
   sp_ftrait <- intersect(sp_fer,sp_nat)
     
   fMEAN2 <- fMEAN %>% 
+    rename(LA = L_Area) %>% 
     filter(code_sp %in% sp_ftrait) %>% 
     mutate(treatment = factor(treatment,levels = c("Nat","Fer"))) 
   
   # mixed model
-  form <- as.formula(paste(ftrait, "~ treatment + (1|code_sp)"))
+  if(ftrait == "LA"){
+    ftrait2 <- "log_LA"
+  }else if(ftrait == "Dmax"){
+    ftrait2 <- "log_Dmax"
+  }else if(ftrait == "Hrepro"){
+    ftrait2 <- "log_Hrepro"
+  }else{
+    ftrait2 <- ftrait
+  }
+  
+  form <- as.formula(paste(ftrait2, "~ treatment + (1|code_sp)"))
   mod <- lme4::lmer (form, data = fMEAN)
   
   stat <- car::Anova(mod) %>% 
@@ -61,6 +74,7 @@ plot_in_situ <- function(ftrait){
   ypos <- fMEAN2 %>% 
     pull(ftrait) %>% 
     max()
+  if (ftrait %in% c("Dmax","Hrepro","LA")){ypos <- log10(ypos) }
   ypos <- ypos + 1/20*ypos
   plot +
     ggpubr::stat_pvalue_manual(
@@ -69,7 +83,8 @@ plot_in_situ <- function(ftrait){
       label = "stars",
       size = 4
     )  + 
-    theme(text=element_text(size=13))
+    theme(text=element_text(size=13)) +
+    {if (ftrait %in% c("Dmax","Hrepro","LA")) scale_y_continuous(trans='log10')} 
 }
 
 ## legend of the plots ####
@@ -79,7 +94,7 @@ leg <- ggpubr::get_legend(forleg) %>%
   ggpubr::as_ggplot()
 
 ## plots ####
-FTRAITS <- list("LDMC","SLA","log_LA","LNC","log_Hrepro","log_Dmax")
+FTRAITS <- list("LDMC","SLA","LA","LNC","Hrepro","Dmax")
 
 PLOTS_in_situ <- lapply(X = FTRAITS,FUN = plot_in_situ)
 plot_in_situ <- 

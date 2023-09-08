@@ -318,58 +318,7 @@ plot_cor_plast(g1)
 dev.off()
 
 
-#_______________________________________________________________________________
 
-# Link to SLA ####
-trait_title <- data.frame(trait = c("SLA","LDMC",
-                                    "N","LMF",
-                                    "SMF","RMF"),
-                          title = c("Specific Leaf Area","Leaf Dry Matter content",
-                                    "Plant nitrogen content", "Leaf Mass Fraction",
-                                    "Stem Mass Fraction","Root Mass Fraction"))
-
-rename_moy <- function(trait){
-  paste0(trait,"_moy")
-}
-
-# valeur de traits moyennée par "population"
-trait_moy <- t2_traits %>% 
-  group_by(code_sp,origin,pop) %>% 
-  select(all_of(traits_plast_interaction_sp),"plant_dry_mass") %>% 
-  summarize_at(c(traits_plast_interaction_sp,"plant_dry_mass"),mean, na.rm=T) %>% 
-  rename_at(c(traits_plast_interaction_sp,"plant_dry_mass"),rename_moy) %>% 
-  group_by(pop) %>% 
-  select(-c(code_sp,origin)) %>% 
-  mutate(log_plant_dry_mass_moy = log10(plant_dry_mass_moy))
-
-PLAST2 <- PLAST_pop %>% 
-  group_by(pop) %>% 
-  select(all_of(traits_plast_interaction_sp)) %>% 
-  merge(trait_moy)
-
-
-# Aucun pattern, quel que soit le trait
-
-PLOT <- NULL
-i <- 0
-for (ftrait in c("N","SLA","LDMC","SMF","RMF")){
-  i <- i+1
-  plot <- PLAST2 %>% 
-    ggplot(aes_string(x = "log_plant_dry_mass_moy", y= ftrait)) + 
-    geom_point()  +
-    # geom_smooth(method='lm') +
-    theme_classic() +
-    xlab("Mean population size (log") +
-    ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
-    ylab("RDPI") +
-    geom_hline(yintercept = 0) +
-    geom_smooth(method = "lm")
-  PLOT[[i]] <- plot
-}
-
-plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 2)
-plots2
-ggsave("draft/RDPI-size.png", plots2,width = 10, height = 7)
 
 ## N ellenberg and plasticity ####
 ellenberg_plast <- PLAST_pop %>% 

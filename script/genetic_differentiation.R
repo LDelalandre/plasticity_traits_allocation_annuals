@@ -90,4 +90,4 @@ for (i in c(1:1000)){
     c(distrib_cumulated_diff,.)
 }
   
-length(which(distrib_cumulated_diff>4)) / length(distrib_cumulated_diff)
+length(which(distrib_cumulated_diff>7)) / length(distrib_cumulated_diff)

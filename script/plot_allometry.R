@@ -197,7 +197,7 @@ output_sma <- function(ftrait){
   slope_ftrait_Nm <- sma_ftrait$slopetest[[1]]$b #slope in N-
   slope_ftrait_Np <- sma_ftrait$slopetest[[2]]$b #slope in N+
   
-  c(intercept_ftrait_Nm,intercept_ftrait_Np,slope_ftrait_Nm,slope_ftrait_Np) %>% 
+  c(intercept_ftrait_Nm,intercept_ftrait_Np,slope_ftrait_Nm,slope_ftrait_Np) 
     
 }
 
@@ -319,6 +319,7 @@ t2_traits %>%
 # SMA on SLA per species
 # in each treatment
 fferti <- "N+"
+ftrait <- "log_SLA"
 
 sma_ftrait_sp <- sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + code_sp")), 
                   t2_traits %>% filter(fertilization == fferti)) 
@@ -331,17 +332,18 @@ for (i in c(1:length(sp))){
   spi <- sp[i]
   plot <- t2_traits %>% 
     filter(code_sp == spi) %>% 
-    ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait,color = "code_sp")) +
+    ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
     geom_point()+
-    scale_shape_manual(values = c(1,16)) +
-    scale_color_brewer(palette = "Set2") +
     theme_classic()+
-    geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1],colour='#1b9e77')
+    geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
+    theme(legend.position = "none")+
+    ggtitle(spi)
   
   PLOT[[i]] <- plot
-  ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
+  # ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
 }
 
-PLOT
 
+plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 5)
+ggsave("draft/plot_allom_sla.jpg",plot_sla,height = 15, width = 10)
 
