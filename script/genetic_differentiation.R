@@ -65,19 +65,24 @@ cumulated_diff_origin <- function(rdpi_origin){
   rdpi_origin %>% 
     t() %>% 
     as.data.frame() %>% 
-    summarize_all(sum) %>% 
+    summarize_all(.funs = sum) %>% 
     t() %>% 
     as.data.frame() 
 }
 
-cumulated_diff_origin(rdpi_origin) %>% View
-  cumulated_diff_origin() %>% 
-  ggplot(aes(x= V1)) + geom_density()
+# rdpi_origin %>%
+#   cumulated_diff_origin() %>% 
+#   ggplot(aes(x= V1)) + geom_density()
 
-rdpi_origin %>%  
+plot_diff_origin <- rdpi_origin %>%  
   mutate(across(.fns = sample)) %>%
   cumulated_diff_origin() %>% 
-  ggplot(aes(x= V1)) + geom_density()
+  ggplot(aes(x= V1)) + 
+  geom_histogram(fill = "grey",colour = "black")+
+  theme_half_open() +
+  xlab("Differentiation indice") 
+
+plot_diff_origin
 
 
 
@@ -90,4 +95,22 @@ for (i in c(1:1000)){
     c(distrib_cumulated_diff,.)
 }
   
-length(which(distrib_cumulated_diff>7)) / length(distrib_cumulated_diff)
+prob_diff <- length(which(distrib_cumulated_diff>6)) / length(distrib_cumulated_diff)
+
+plot_diff_origin_random <- distrib_cumulated_diff %>% 
+  as.data.frame() %>% 
+  ggplot(aes(x=.)) +
+  geom_histogram(fill = "grey",colour = "black")+
+  theme_half_open() +
+  xlab("Differentiation indice") +
+  ggtitle("Randomized")
+
+plot.with.inset <-
+  ggdraw() +
+  draw_plot(plot_diff_origin) +
+  draw_plot(plot_diff_origin_random, x = .45, y = .6, width = .4, height = .4)
+
+
+plot.with.inset
+
+ggsave(paste0("draft/hist_differentiation",ffer,".png"),plot.with.inset)

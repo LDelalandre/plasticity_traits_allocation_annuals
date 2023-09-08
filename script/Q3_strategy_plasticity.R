@@ -87,7 +87,7 @@ plot_rdpi_trait <- function(x_axis){
     form <- as.formula(paste(ftrait, "~", x_axis))
     mod <- lm(form, data = PLAST2)
     anov <- anova(mod)
-    sum <- summary(mod)
+    summ <- summary(mod)
     
     intercept <- mod$coefficients[1]
     slope <- mod$coefficients[2]
