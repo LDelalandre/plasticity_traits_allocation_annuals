@@ -7,7 +7,6 @@ library(igraph)
 # (cf. origin_ferti_effect.R)
 
 traits_plast <- c(
-  "log_plant_dry_mass",
   # leaf traits
   "log_LA", "LDMC","SLA",
   # root traits
@@ -15,99 +14,14 @@ traits_plast <- c(
   "RDMC",
   # nutrient
   # "C", n.s.
+  "log_plant_dry_mass",
   "N",
   "RMF","LMF","SMF" )
 # plant_traits
 # "tot_RL","tot_RA","tot_LA")
 
 
-# Fixed effects ####
-# hyp mod linéaires
 
-library(lmtest)
-
-ftrait <-  "RMF"
-mod <- lm(get(ftrait) ~  code_sp + fertilization  * code_sp , data = t2_traits)
-mod <- lm(log_ftrait ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, 
-          data = t2_traits %>% mutate(log_ftrait = log10(RMF)))
-ftrait
-par(mfrow = c(2,2)) ; plot(mod)
-par(mfrow = c(1,1)) 
-# hist(log(t2_traits$C))
-shapiro.test(residuals(mod)) # normality
-bptest(mod) # homoscedasticity
-dwtest(mod) # autocorrelation
-
-HYP <- NULL
-for (ftrait in traits_plast){
-  mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
-  ftrait
-  par(mfrow = c(2,2)) ; plot(mod)
-  
-  sh <- shapiro.test(residuals(mod)) # normality
-  bp <- bptest(mod) # homoscedasticity
-  dw <- dwtest(mod) # autocorrelation
-  hyp <- data.frame(trait = ftrait,
-                    shapiro = sh$p.value,
-                    breusch = bp$p.value,
-                    durbin = dw$p.value)
-  
-  HYP <- rbind(HYP,hyp)
-}
-HYP
-
-# Species differ on their plasticity and genetic differentiation ?
-
-# if interaction fertilization * species : different species respond differently to fertilization
-interaction_sp_ferti <- function(ftrait){
-  # 1) variable selection
-  # ne garder que les variables nécessaires
-  
-  
-  # 2) part of variance explained by adding the variable (compared to what ?)
-  
-  mod <- lm(get(ftrait) ~  fertilization*pop, data = t2_traits)
-  # summary(mod)
-  anov <- anova(mod)
-  
-  # temporaire : post-hoc ####
-  # pour voir qui sont les espèces qui diffèrent entre les deux
-  
-  # contr <- emmeans::emmeans(mod,pairwise~fertilization*code_sp)
-  # posthoc  <- contr$contrasts %>% 
-  #   as.data.frame() %>% 
-  #   mutate(contrast = gsub(x = contrast,pattern = ")", replacement = "") ) %>% 
-  #   # mutate(contrast = gsub(x = contrast,pattern = "(", replacement = "") )
-  #   separate(contrast, into = c("F1", "sp1", "minus","F2","sp2"),sep = " ") 
-  
-  # posthoc %>% 
-  #   filter(sp1 == sp2) %>% 
-  #   View
-  
-  
-  # 3) centralize the values in a table
-  c(ftrait,anov$`Pr(>F)`)
-}
-
-mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>% 
-  rlist::list.rbind() %>% 
-  as.data.frame() %>% 
-  mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),interaction = as.numeric(V4)) %>% 
-  select(-c(V1,V2,V3,V4,V5) ) 
-
-table_mod_fix <- mod_fix %>% 
-  # scientific notation
-  mutate(species = scales::scientific(species,digits = 2)) %>%
-  mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
-  mutate(interaction = scales::scientific(interaction,digits = 2)) %>% 
-  kableExtra::kable( escape = F,
-                     col.names = c("Trait","Species","Fertilization","Interaction"
-                     )) %>%
-  kableExtra::kable_styling("hover", full_width = F)
-
-
-
-cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
 
 
 # Network plasticity ####
