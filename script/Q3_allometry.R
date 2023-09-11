@@ -49,7 +49,7 @@ sma_output <- function(ftrait){
              slope = c(slope_ftrait_Nm,slope_ftrait_Np),
              ci_slope_min = c(ci_slope_Nm[1],ci_slope_Np[1]),
              ci_slope_max = c(ci_slope_Nm[2],ci_slope_Np[2]) 
-             )
+  )
 }
 
 
@@ -98,64 +98,14 @@ plot_allom <- function(ftrait){
   
 }
 
-# Figs allometry ####
 
 ## coefs ####
 sma_allom <- lapply(list("log_leaf_dry_mass",
-                    "log_stem_dry_mass","log_root_dry_mass",
-                    "log_Ntot",
-                    "log_tot_LA","log_tot_RA","log_Hveg"),
+                         "log_stem_dry_mass","log_root_dry_mass",
+                         "log_Ntot",
+                         "log_tot_LA","log_tot_RA","log_Hveg"),
                     sma_output) %>% 
   rlist::list.rbind() %>% 
   mutate_if(is.numeric, round,digits = 2)
 
 write.csv2(sma_allom,"output/plot/sma_allom.csv",row.names=F)
-
-
-## plots ####
-plots_allom <- lapply(list("log_leaf_dry_mass","log_stem_dry_mass","log_root_dry_mass","log_Ntot",
-                           "log_tot_LA","log_tot_RA","log_Hveg"), 
-                      plot_allom)
-
-grand_plot_allom <- ggpubr::ggarrange(plotlist=plots_allom, ncol = 3,nrow = 3)
-ggsave("output/plot/fig_allom.png",grand_plot_allom,width = 10,height =10)
-
-
-
-# Figs raw values ####
-# Charger la fonction 'bp_plast_simple' du fichier "boxplot_plasticity.R"
-
-bps <- lapply(list("N","LMF","SMF","RMF",
-                   "Hveg","SLA","SRL"),
-              bp_plast_simple)
-
-plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 4,nrow = 2)
-# plots1
-ggsave("draft/bp_ferticqs.png", plots1,width = 18, height = 12)
-
-
-
-# Allom f(origin) ####
-sma_ftrait <- sma(as.formula(paste("log_stem_dry_mass", "~ log_plant_dry_mass + origin")), 
-                  t2_traits %>% filter(fertilization == "N+") )
-
-coefs_ftrait<- coef(sma_ftrait)
-
-intercept_ftrait_Nm <- sma_ftrait$elevtest[[1]]$a
-intercept_ftrait_Np <- sma_ftrait$elevtest[[2]]$a
-
-slope_ftrait_Nm <- coefs_ftrait[1,2]
-slope_ftrait_Np <- coefs_ftrait[2,2]
-
-
-allom_ftrait <- t2_traits %>%
-  filter(fertilization == "N+") %>% 
-  ggplot(aes_string(x = "log_plant_dry_mass", y = "log_stem_dry_mass",color = "origin")) +
-  geom_point()+
-  scale_shape_manual(values = c(1,16)) +
-  scale_color_brewer(palette = "Set2") +
-  theme_classic() + 
-  geom_abline(slope =slope_ftrait_Nm,intercept = intercept_ftrait_Nm,colour='#1b9e77') + #linetype=2,
-  geom_abline(slope =slope_ftrait_Np,intercept = intercept_ftrait_Np, colour = "#d95f02") +
-  theme(legend.position = "none") +
-  xlab("log(plant dry mass in g)") 
