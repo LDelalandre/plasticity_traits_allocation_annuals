@@ -61,9 +61,22 @@ for (ftrait in FTRAITS){
   
   mmod0 <- lme4::lmer( formula0 , data = data_mod,na.action = "na.omit")
   
-  mmod <- lme4::lmer( formula , data = data_mod) # /!\ choose fdata (includes sp just measured in on treatment)
+  data_mod2 <- data_mod %>% 
+    filter(!is.na(ftrait))
+  mmod <- lme4::lmer( formula , data = data_mod2,na.action = "na.omit") # /!\ choose fdata (includes sp just measured in on treatment)
   
   anov <- car::Anova(mmod)
+  
+  R2_mmod <- partR2(mmod, partvars = c("fertilization", "origin"), 
+                    R2_type = "conditional", nboot = NULL)
+  R2_mmod
+  summary(R2_mmod)
+  fix <- insight::get_variance_fixed(mmod)
+  ran <- insight::get_variance_random(mmod)
+  res <- insight::get_variance_residual(mmod)
+  
+  fix/(fix+ran+res)
+  (fix+ran)/(fix+ran+res)
   
   # mean trait value in N-
   # mean_trait_Nm <- data_mod %>% 
@@ -127,16 +140,16 @@ for (ftrait in FTRAITS){
   TABLE_PVAL <- rbind(TABLE_PVAL,table_pval)
 }
 rownames(TABLE_PVAL) <- NULL
-TABLE_PVAL$Scheme <- c("Above-ground traits","Whole-plant traits","Whole-plant traits","Whole-plant traits",
-                      "Whole-plant traits","Whole-plant traits",
-                      "Above-ground traits","Above-ground traits","Above-ground traits",
+TABLE_PVAL$Perspective <- c("Ecological strategies","Whole-plant integration","Whole-plant integration","Whole-plant integration",
+                      "Whole-plant integration","Whole-plant integration",
+                      "Ecological strategies","Ecological strategies","Ecological strategies",
                       "Below-ground traits","Below-ground traits","Below-ground traits","Below-ground traits","Below-ground traits")
 TABLE_PVAL$unit <- c("cm","g","mg/g","g/g","g/g","g/g",
                      "cm2", "mg/g","mm2/mg","m/g","g/cm3","mg/g","mm","cm-1")
 
-TABLE_PVAL$Scheme <- factor(TABLE_PVAL$Scheme,levels = c("Above-ground traits","Below-ground traits","Whole-plant traits"))
+TABLE_PVAL$Perspective <- factor(TABLE_PVAL$Perspective,levels = c("Ecological strategies","Whole-plant integration","Below-ground traits"))
 TABLE_PVAL <- TABLE_PVAL %>% 
-  arrange(Scheme = factor(Scheme, levels = c("Above-ground traits","Below-ground traits","Whole-plant traits"))) %>% 
+  arrange(Scheme = factor(Perspective, levels = c("Ecological strategies","Whole-plant integration","Below-ground traits"))) %>% 
   arrange(Trait = factor (Trait , levels = c(
     "Vegetative height","Leaf Area","Specific Leaf Area","Leaf Dry Matter content",
     "Mean root diameter","Specific Root Length","Root Tissue Density","Root Dry Matter Content","Branching Intensity","Plant dry mass",
@@ -145,6 +158,9 @@ TABLE_PVAL <- TABLE_PVAL %>%
   ))
 
 write.csv2(TABLE_PVAL,"output/data/table_origin_ferti_effect")
+
+TABLE_PVAL %>% 
+  mutate(origin2 = origin*14, fertilization2 = fertilization*14) %>% View()
 
 
 table_origin_ferti <- TABLE_PVAL %>%

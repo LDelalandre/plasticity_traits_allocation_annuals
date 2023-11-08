@@ -5,7 +5,7 @@ info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1")
 species_info <- read.csv2("output/data/species_info.csv")
 
 sp_fam <- info_sp %>% 
-  select(code_sp,family) %>% 
+  dplyr::select(code_sp,family) %>% 
   unique()
 
 # species with one population only
@@ -21,7 +21,7 @@ sp_exp <- species_list %>% pull(code_sp)
 
 fMEAN <- MEAN %>% 
   filter(code_sp %in% sp_exp) %>% 
-  select(species,code_sp,treatment,L_Area,LDMC,SLA,LCC,LNC,Hveg,Hrepro,Dmin,Dmax) %>% 
+  dplyr::select(species,code_sp,treatment,L_Area,LDMC,SLA,LCC,LNC,Hveg,Hrepro,Dmin,Dmax) %>% 
   mutate(log_Hveg = log(Hveg),log_Hrepro = log(Hrepro),log_LA = log(L_Area),log_Dmax = log(Dmax))
 
 
@@ -96,7 +96,7 @@ t2_traits <- t2_traits0 %>%
 ## traits values per population ####
 traits_pop <- t2_traits %>%
   group_by(code_sp,origin,fertilization) %>%
-  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
+  dplyr::select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
   summarize_all(mean,na.rm=T) %>% 
   mutate(log_plant_dry_mass = log(plant_dry_mass)) %>% 
   mutate(log_tot_LA = log10(tot_LA)) %>% 
@@ -110,7 +110,7 @@ traits_pop <- t2_traits %>%
 ## traits values per species ####
 traits_sp <- t2_traits %>%
   group_by(code_sp,fertilization) %>%
-  select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
+  dplyr::select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
   summarize_all(mean,na.rm=T)
 
 
