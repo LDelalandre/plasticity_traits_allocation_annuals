@@ -58,13 +58,13 @@ plot_in_situ <- function(ftrait){
 
   plot <- fMEAN2 %>% 
     mutate(Management = if_else(treatment == "Nat","Ext.","Int.")) %>% 
-    mutate(Management = factor(Management, levels = c("Int.","Ext."))) %>% 
+    mutate(Management = factor(Management, levels = c("Ext.","Int."))) %>% 
     ggplot(aes_string(x = "Management", y = ftrait)) +
     geom_boxplot(outlier.shape = NA) +
     geom_point(aes(color = Management), size = 2) +
     geom_line(aes(group=code_sp)) +
     theme_classic() +
-    # scale_color_brewer(palette = "Set1",direction = -1) +
+    scale_color_brewer(palette = "Set1",direction = -1) +
     
     theme(legend.position = "none") +
     ggtitle(ftrait) +

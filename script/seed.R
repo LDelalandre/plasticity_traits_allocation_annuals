@@ -1,4 +1,7 @@
 library(tidyverse)
+library("glmmTMB") # package glmmTMB for zero-inflated models
+library("DHARMa") # diagnostic glm
+library("insight")
 
 seed <- read.csv2("data/seed_production.csv") %>% 
   filter(!code_sp == "TRIFCAMP") %>% # pas fini de compter
@@ -22,18 +25,32 @@ ftrait <- ftrait2
 
 formula <- as.formula(paste0(ftrait, " ~ fertilization + origin", " + (1|family/code_sp)"))
 
-mmod <- lme4::glmer(formula = formula, data = seed2, family = quasipoisson)
+# mmod <- lme4::glmer(formula = formula, data = seed2, family = poisson)
+mmod <- glmmTMB(nb_seeds ~ fertilization + origin + (1|family/code_sp),  data=seed2 , family = genpois)
 
 # Diagnostic ####
-library("DHARMa")
 simulationOutput <- simulateResiduals(fittedModel = mmod, plot = F)
 plot(simulationOutput)
 testDispersion(simulationOutput)
 testZeroInflation(simulationOutput) # trop de zéros pour une poisson
-# package glmmTMB for zero-inflated models
-library("glmmTMB")
-mmod <- glmmTMB(nb_seeds ~ code_sp +   (1|origin), 
-                 ziformula = ~ code_sp,  data=seed2 , family = nbinom1)
+
+glmmTMB::diagnose(mmod)
+
+
+car::Anova(mmod)
+summary(mmod)
+
+get_variance(mmod)
+
+fix <- insight::get_variance_fixed(mmod)
+ran <- insight::get_variance_random(mmod)
+res <- insight::get_variance_residual(mmod)
+
+fix/(fix+ran+res)
+ran/(fix+ran+res)
+res/(fix+ran+res)
+
+
 
 
 
@@ -52,20 +69,11 @@ summary(R2_mmod)
 
 summary(mmod)
 
-library(insight)
+
 
 mmod <- lme4::glmer(nb_seeds ~ code_sp +   (1|origin), data = seed2 
                       , family = poisson)
-car::Anova(mmod)
-summary(mmod)
 
-fix <- insight::get_variance_fixed(mmod)
-ran <- insight::get_variance_random(mmod)
-res <- insight::get_variance_residual(mmod)
-
-fix/(fix+ran+res)
-ran/(fix+ran+res)
-res/(fix+ran+res)
 
 
 model_info(mmod)
@@ -129,12 +137,15 @@ seed2 %>%
 
 #____________
 # Plots ####
-seed2 %>% 
-  filter(fertilization == "N+") %>% 
-  ggplot(aes(x = nutrient_requirement, y = seeds_tot)) +
+seed %>% 
+  mutate(pop = paste(code_sp,origin,sep="_")) %>% 
+  group_by(pop,fertilization,code_sp,origin) %>% 
+  summarize(sum_nb_seed = sum(seeds_tot,na.rm=T)) %>% 
+  ggplot(aes(x = fertilization, y = sum_nb_seed)) +
   geom_boxplot() +
-  geom_point() +
-  scale_y_continuous(trans='log10') 
+  scale_y_continuous(trans='log10') +
+  geom_point() 
+  # facet_wrap(~pop)
   
 seed2 %>% ggplot(aes(x = nb_seeds)) +
   geom_histogram(binwidth = 10) +
@@ -146,7 +157,7 @@ seed %>%
   # filter(fertilization == "N-") %>% 
   ggplot(aes(x = fertilization, y = seeds_tot)) +
   geom_boxplot() +
-  # scale_y_continuous(trans='log10') +
+  scale_y_continuous(trans='log10') +
   geom_point() +
   facet_wrap(~pop)
 

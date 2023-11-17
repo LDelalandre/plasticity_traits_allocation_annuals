@@ -1,29 +1,158 @@
 library(tidyverse)
+library(smatr)
 source("script/import_data.R")
 
+ftrait <- "log_SLA"
+
+# Mixed model ####
+mmod <- lme4::lmer(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization + (1|family/code_sp) ")),  data=t2_traits)
+
+ggplot(data = t2_traits, aes(x = plant_dry_mass, y = SLA)) +
+  geom_point() +
+  facet_wrap(~species,ncol = 3) +
+  geom_smooth(method = "lm",se = T) +
+  theme_bw() +
+  scale_y_continuous(trans='log10') +
+  scale_x_continuous(trans='log10') +
+  xlab("Plant dry mass (g)") +
+  ylab ("Specific leaf area (mm²/mg")
+
+# Diagnostic 
+library(DHARMa)
+simulationOutput <- DHARMa::simulateResiduals(fittedModel = mmod, plot = F)
+plot(simulationOutput)
+testDispersion(simulationOutput)
+testZeroInflation(simulationOutput) # trop de zéros pour une poisson
+
+car::Anova(mmod)
+summary(mmod)
+
+
+
+t2_traits_all <- read.csv2("data/t2_traits_all.csv")
+t2_traits_all %>% colnames()
+
+#__________
+# Check Eric par artefact SLA
+
+# proportionally more leaf mass for small plants
+t2_traits_all %>% 
+  mutate(fract_leaf_scan = leaf_scan_dry_mass/leaf_dry_mass) %>% 
+  ggplot(aes(x = log(plant_dry_mass), y = log(fract_leaf_scan))) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+t2_traits_all %>% 
+  mutate(fract_leaf_scan = leaf_scan_dry_mass/leaf_dry_mass) %>% 
+  ggplot(aes(x = plant_dry_mass, y = fract_leaf_scan)) +
+  geom_point() 
+
+t2_traits_all %>% 
+  mutate(fract_leaf_scan = leaf_scan_dry_mass/leaf_dry_mass) %>% 
+  ggplot(aes(x = fract_leaf_scan)) +
+  geom_histogram()
+
+# globalement, on a pris plus de feuilles pour les plantes plus grosses
+# (même si ce n'est pas valable pour toutes les espèces)
+# Il y a surtout de la variation sur le nombre de feuilles prélevées entre individus de taille proche
+t2_traits_all %>% 
+  ggplot(aes(x = log(plant_dry_mass), y = log(nb_feuilles))) +
+  geom_point() +
+  facet_wrap(~code_sp)
+
+# Globalement, on a pris un peu plus de masse de feuilles pour les plantes plus grosses
+t2_traits_all %>% 
+  ggplot(aes(x = log(plant_dry_mass), y = log(leaf_scan_dry_mass))) +
+  geom_point() +
+  facet_wrap(~code_sp)
+
+#__________________________
+t2_traits_all %>% 
+  ggplot(aes(x = log(nb_feuilles), y = SLA)) +
+  geom_point() +
+  facet_wrap(~code_sp)
+
+
+
+# we measured more leaf biomass as the plants were bigger
+t2_traits_all %>% 
+  ggplot(aes(x = plant_dry_mass, y = nb_feuilles * leaf_dry_mass)) +
+  geom_point() 
+  # geom_smooth(method = "lm")
+
+for_sma <- t2_traits_all %>% 
+  filter(nb_feuilles > 0) %>% 
+  mutate(log_leaf_measured_dry_mass = log10( nb_feuilles * leaf_dry_mass),
+         log_plant_dry_mass = log10( plant_dry_mass)) %>% 
+  select(log_plant_dry_mass, log_leaf_measured_dry_mass) %>% 
+  na.omit()
+
+for_sma %>% ggplot(aes(x = log_plant_dry_mass, y  = log_leaf_measured_dry_mass)) + geom_point()
+out_sma <- sma(log_leaf_measured_dry_mass ~ log_plant_dry_mass,data = for_sma,na.action = na.omit)
+summary(out_sma)
+
+# leaves measured represented a constant proportion of the plants
+# except from Trifolium and Medicago
+t2_traits_all %>% 
+  ggplot(aes(x = log(plant_dry_mass), y = log((nb_feuilles * leaf_dry_mass)/leaf_dry_mass))) +
+  geom_point() +
+  facet_wrap(~code_sp) +
+  geom_smooth(method = "lm")
+
+for_sma <- t2_traits_all %>% 
+  filter(nb_feuilles > 0) %>% 
+  mutate(leaf_measured_dry_mass =  nb_feuilles * leaf_dry_mass) %>% 
+  select(code_sp,origin, fertilization,plant_dry_mass,leaf_dry_mass, leaf_measured_dry_mass) %>% 
+  mutate(fract_leaves = leaf_measured_dry_mass/leaf_dry_mass/1000) %>% 
+  na.omit() %>% 
+  filter(fract_leaves < 0.050)
+
+for_sma %>% 
+  ggplot(aes(x = plant_dry_mass, y  = fract_leaves)) + 
+  geom_point() 
+  geom_vline(xintercept = 0.05)
+
+for_sma %>% dim()
+for_sma %>% filter(plant_dry_mass <0.05) %>% dim()
+for_sma2 <- for_sma %>% filter(plant_dry_mass > 0.1)
+
+out_sma <- sma(log_leaf_measured_dry_mass ~ log_plant_dry_mass,data = for_sma,na.action = na.omit)
+summary(out_sma)
+
+
+
+
+
+#___________________________________
 # SMA on SLA per species ####
 # in each treatment
 fferti <- "N+"
-ftrait <- "log_SLA"
 
 sma_ftrait_sp <- t2_traits %>% 
-  filter(fertilization == fferti) %>% 
-  sma(as.formula(paste(ftrait, "~ log_plant_dry_mass + code_sp")),data = .) 
+  # filter(fertilization == fferti) %>% 
+  sma(as.formula(paste(ftrait, "~ log_plant_dry_mass ")),data = .) 
 sma_ftrait_sp
 coefs_ftrait<- coef(sma_ftrait_sp)
+sma_ftrait_sp$pval
 
 sp <- rownames(coefs_ftrait)
 PLOT <- NULL
 for (i in c(1:length(sp))){
   spi <- sp[i]
+  species <- t2_traits %>% 
+    filter(code_sp == spi) %>% 
+    pull(species) %>% 
+    unique()
+  
   plot <- t2_traits %>% 
     # filter(fertilization == fferti) %>% 
     filter(code_sp == spi) %>% 
     ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
     geom_point(aes(shape = fertilization))+
     theme_classic()+
-    geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
-    ggtitle(spi) +
+    # geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
+    geom_smooth(method = "lm") +
+    ggtitle(species) +
     theme_bw() +
     theme(legend.position = "none")
   

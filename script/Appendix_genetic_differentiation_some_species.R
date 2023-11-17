@@ -40,7 +40,7 @@ ffer <- "N-"
 compute_genet_diff <- function(ftrait){
   genet_diff <- traits_pop %>% 
     filter(fertilization == ffer) %>% 
-    select(code_sp,origin,all_of(ftrait)) %>% 
+    dplyr::select(code_sp,origin,all_of(ftrait)) %>% 
     spread(key = origin,value = ftrait ) %>% 
     na.omit() %>% 
     `rownames<-`( NULL ) %>% 
@@ -51,7 +51,7 @@ compute_genet_diff <- function(ftrait){
   
   genet_diff %>% 
     ungroup() %>% 
-    select(ftrait)
+    dplyr::select(ftrait)
 }
 
 
@@ -79,12 +79,14 @@ plot_diff_origin <- rdpi_origin %>%
   cumulated_diff_origin() %>% 
   ggplot(aes(x= V1)) + 
   geom_histogram(fill = "grey",colour = "black")+
-  theme_half_open() +
+  cowplot::theme_half_open() +
   xlab("Differentiation indice") 
 
 plot_diff_origin
 
-
+rdpi_origin %>%  
+  dplyr::select(log_Hveg,N) %>% 
+  mutate(across(.fns = sample))
 
 distrib_cumulated_diff <- c()
 for (i in c(1:1000)){
@@ -101,14 +103,14 @@ plot_diff_origin_random <- distrib_cumulated_diff %>%
   as.data.frame() %>% 
   ggplot(aes(x=.)) +
   geom_histogram(fill = "grey",colour = "black")+
-  theme_half_open() +
+  cowplot::theme_half_open() +
   xlab("Differentiation indice") +
   ggtitle("Randomized")
 
 plot.with.inset <-
-  ggdraw() +
-  draw_plot(plot_diff_origin) +
-  draw_plot(plot_diff_origin_random, x = .45, y = .6, width = .4, height = .4)
+  cowplot::ggdraw() +
+  cowplot::draw_plot(plot_diff_origin) +
+  cowplot::draw_plot(plot_diff_origin_random, x = .45, y = .6, width = .4, height = .4)
 
 
 plot.with.inset

@@ -53,10 +53,6 @@ FTRAITS <- c("log_Hveg","log_plant_dry_mass",
 
 # trait values per pot ####
 t2_traits0 <- read.csv2("data/t2_traits.csv") 
-# correction A FAIRE DANS LES DONNEES BRUTES (dans le projet manip_spring_2022)
-# ET RECALCULER TRAITS_pop
-t2_traits0[which(t2_traits0$pot == 466),]$LDMC <- NA
-t2_traits0[which(t2_traits0$pot == 415),]$SLA <- NA
 
 t2_traits <- t2_traits0 %>% 
   mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
@@ -88,7 +84,8 @@ t2_traits <- t2_traits0 %>%
          log_diam = log10(diam),
          log_BI = log10(BI),
          log_N = log10(N),
-         log_RMF=log10(RMF))
+         log_RMF=log10(RMF)) %>% 
+  dplyr::filter(!(pop == "ALYSALYS_Nat"))
 
 
 

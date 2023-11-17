@@ -10,21 +10,6 @@ traits_plast <- c(
   "N",
   "RMF","LMF","SMF" )
 
-# average trait values per "population
-rename_moy <- function(trait){
-  paste0(trait,"_moy")
-}
-
-trait_moy <- t2_traits %>% 
-  group_by(code_sp,origin,pop) %>% 
-  select(all_of(traits_plast_interaction_sp),"plant_dry_mass") %>% 
-  summarize_at(c(traits_plast_interaction_sp,"plant_dry_mass"),mean, na.rm=T) %>% 
-  rename_at(c(traits_plast_interaction_sp,"plant_dry_mass"),rename_moy) %>% 
-  group_by(pop) %>% 
-  select(-c(code_sp,origin)) %>% 
-  mutate(log_plant_dry_mass_moy = log10(plant_dry_mass_moy))
-
-
 
 # Interaction species-plasticity ####
 
@@ -100,7 +85,7 @@ mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>%
   rlist::list.rbind() %>% 
   as.data.frame() %>% 
   mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),interaction = as.numeric(V4)) %>% 
-  select(-c(V1,V2,V3,V4,V5) ) 
+  dplyr::select(-c(V1,V2,V3,V4,V5) ) 
 
 table_mod_fix <- mod_fix %>% 
   # scientific notation
@@ -119,7 +104,7 @@ cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
 
 # Compute RDPI on all traits ####
 traits_plast <- c(
-  "log_plant_dry_mass",
+  "plant_dry_mass",
   "LA", "LDMC","SLA",
   "RDMC",
   "N",
@@ -128,14 +113,28 @@ traits_plast <- c(
 # traits for which plasticity depended on species identity
 traits_plast_interaction_sp <- c(
   "LDMC","SLA",
-  "log_plant_dry_mass",
+  "plant_dry_mass",
   "N",
   "RMF","SMF" )
+
+# average trait values per "population
+rename_moy <- function(trait){
+  paste0(trait,"_moy")
+}
+
+trait_moy <- t2_traits %>% 
+  group_by(code_sp,origin,pop) %>% 
+  dplyr::select(all_of(traits_plast_interaction_sp),"plant_dry_mass") %>% 
+  summarize_at(c(traits_plast_interaction_sp,"plant_dry_mass"),mean, na.rm=T) %>% 
+  rename_at(c(traits_plast_interaction_sp,"plant_dry_mass"),rename_moy) %>% 
+  group_by(pop) %>% 
+  dplyr::select(-c(code_sp,origin)) %>% 
+  mutate(log_plant_dry_mass_moy = log10(plant_dry_mass_moy))
 
 # By averaging trait values per population
 compute_plast_pop <- function(ftrait){
   plast <- traits_pop %>% 
-    select(pop,fertilization,all_of(ftrait)) %>% 
+    dplyr::select(pop,fertilization,all_of(ftrait)) %>% 
     spread(key = fertilization,value = ftrait )
   # mutate(plast = (`N+` - `N-`)/`N+` )
   # merge(trait_moy)
@@ -143,7 +142,7 @@ compute_plast_pop <- function(ftrait){
   
   plast %>% 
     ungroup() %>% 
-    select(pop,ftrait)
+    dplyr::select(pop,ftrait)
 }
 
 PLAST_pop <- compute_plast_pop(traits_plast[1])
@@ -156,14 +155,17 @@ for( i in c(2:length(traits_plast)) ){
 
 # Relationship plasticity and strategy ####
 PLAST2 <- PLAST_pop %>% 
-  group_by(pop) %>% 
-  select(all_of(traits_plast_interaction_sp)) %>% 
-  merge(trait_moy)
+  separate(pop,into=c("code_sp","origin"),remove = F) %>% 
+  group_by(pop,code_sp) %>% 
+  dplyr::select(all_of(traits_plast_interaction_sp)) %>% 
+  merge(trait_moy) %>% 
+  left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) %>% 
+  dplyr::filter(!(pop=="ALYSALYS_Nat"))
 
 trait_title <- data.frame(trait = c("SLA","LDMC",
                                     "N","LMF",
                                     "SMF","RMF",
-                                    "log_plant_dry_mass"),
+                                    "plant_dry_mass"),
                           title = c("Specific Leaf Area","Leaf Dry Matter content",
                                     "Plant nitrogen content", "Leaf Mass Fraction",
                                     "Stem Mass Fraction","Root Mass Fraction",
@@ -229,8 +231,30 @@ plot_rdpi_trait <- function(x_axis){
   plots2
 }
 
+rdpi_ellenberg <- plot_rdpi_trait("N_ellenberg")
+ggsave("output/plot/plast_ellenberg.png",rdpi_ellenberg,width = 6,height = 13)
+
 rdpi_sla <- plot_rdpi_trait("SLA_moy")
 rdpi_mass <- plot_rdpi_trait("log_plant_dry_mass_moy")
-rpdi_sla_mass <- ggpubr::ggarrange(rdpi_sla,rdpi_mass)
+rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 ggsave(paste0("draft/RDPI_sla_mass.png"), rpdi_sla_mass,width = 6, height = 13)
+
+
+# Distribution RDPI ####
+PLAST2_with_alys_nat <- PLAST_pop %>% 
+  separate(pop,into=c("code_sp","origin"),remove = F) %>% 
+  group_by(pop,code_sp) %>% 
+  dplyr::select(all_of(traits_plast_interaction_sp)) %>% 
+  merge(trait_moy) %>% 
+  left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) 
+
+plot_plast_dry_mass <- PLAST2_with_alys_nat %>% 
+  select(pop,code_sp,plant_dry_mass) %>% 
+  ggplot(aes(x = plant_dry_mass)) +
+  geom_histogram(binwidth = 0.1,fill="black", col="grey") +
+  theme_bw() +
+  xlab("Plasticity index of plant dry mass") +
+  ggtitle("Plasticity in plant dry mass")
+
+ggsave("draft/plast_dry_mass.png",plot_plast_dry_mass,width = 3, height = 3)

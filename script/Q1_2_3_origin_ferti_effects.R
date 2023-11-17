@@ -47,6 +47,7 @@ data_mod <- t2_traits %>%
   mutate(origin = as.factor(origin) ) %>% 
   mutate(fertilization = as.factor(fertilization))
 
+ftrait <- FTRAITS[[9]]
 TABLE_PVAL <- NULL
 for (ftrait in FTRAITS){
   if (ftrait == "log_Hveg"){
@@ -58,19 +59,17 @@ for (ftrait in FTRAITS){
   }else{ftrait2 <- ftrait}
   formula0 <- as.formula(paste0(ftrait, " ~ 1 + (1|family/code_sp)"))
   formula <- as.formula(paste0(ftrait, " ~ fertilization + origin", " + (1|family/code_sp)"))
+
+  mmod <- lme4::lmer( formula , data = data_mod,na.action = "na.omit") # /!\ choose fdata (includes sp just measured in on treatment)
+  mmod <- glmmTMB::glmmTMB(formula,  data = data_mod ,family = gaussian)
   
-  mmod0 <- lme4::lmer( formula0 , data = data_mod,na.action = "na.omit")
-  
-  data_mod2 <- data_mod %>% 
-    filter(!is.na(ftrait))
-  mmod <- lme4::lmer( formula , data = data_mod2,na.action = "na.omit") # /!\ choose fdata (includes sp just measured in on treatment)
-  
+  # simulationOutput <- simulateResiduals(fittedModel = mmod, plot = F)
+  # plot(simulationOutput)
+  # testDispersion(simulationOutput)
+  # testZeroInflation(simulationOutput) # trop de zéros pour une poisson
+  # 
   anov <- car::Anova(mmod)
-  
-  R2_mmod <- partR2(mmod, partvars = c("fertilization", "origin"), 
-                    R2_type = "conditional", nboot = NULL)
-  R2_mmod
-  summary(R2_mmod)
+
   fix <- insight::get_variance_fixed(mmod)
   ran <- insight::get_variance_random(mmod)
   res <- insight::get_variance_residual(mmod)
@@ -129,8 +128,8 @@ for (ftrait in FTRAITS){
                             fertilization = pval[1],
                             origin = pval[2],
                             # interaction = pval[3],
-                            var_fixed =   variance[1,1], # R2m # variance explained by the fixed effects
-                            var_tot =   variance[1,2],
+                            var_fixed =   variance[1,1]*100, # R2m # variance explained by the fixed effects
+                            var_tot =   variance[1,2]*100,
                             mean_Nm= mean_trait_Nm,
                             mean_Np = mean_trait_Np
                             # Interaction = pval[3]
@@ -155,49 +154,51 @@ TABLE_PVAL <- TABLE_PVAL %>%
     "Mean root diameter","Specific Root Length","Root Tissue Density","Root Dry Matter Content","Branching Intensity","Plant dry mass",
     "Plant Nitrogen content per mass","Leaf Mass Fraction",
     "Stem Mass Fraction","Root Mass Fraction")
-  ))
+  )) %>% 
+  dplyr::select(Perspective, everything())
 
 write.csv2(TABLE_PVAL,"output/data/table_origin_ferti_effect")
-
-TABLE_PVAL %>% 
-  mutate(origin2 = origin*14, fertilization2 = fertilization*14) %>% View()
 
 
 table_origin_ferti <- TABLE_PVAL %>%
   # mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
   # mutate(origin = scales::scientific(origin,digits = 2)) %>% 
   mutate(fertilization = case_when(fertilization < 0.0001 ~ 0.0001,
-                                   fertilization < 0.001 ~ 0.001,
-                                   fertilization < 0.01 ~ 0.01,
-                                   fertilization < 0.05 ~ 0.05,
+                                   # fertilization < 0.001 ~ 0.001,
+                                   fertilization < 0.0036 ~ 0.0036,
+                                   # fertilization < 0.01 ~ 0.01,
+                                   # fertilization < 0.05 ~ 0.05,
                                    TRUE ~ fertilization)
          ) %>% 
   mutate(fertilization = as.character(fertilization)) %>% 
   mutate(fertilization = case_when(fertilization == "1e-04" ~ "< 0.0001",
-                                   fertilization == "0.001" ~ "< 0.001",
-                                   fertilization == "0.01" ~ "< 0.01",
-                                   fertilization == "0.05" ~ "< 0.05",
+                                   # fertilization == "0.001" ~ "< 0.001",
+                                   fertilization == "0.0036" ~ "< 0.0036",
+                                   # fertilization == "0.01" ~ "< 0.01",
+                                   # fertilization == "0.05" ~ "< 0.05",
                                    TRUE ~ fertilization)
   ) %>% 
   
   mutate(origin  = case_when(origin  < 0.0001 ~ 0.0001,
-                             origin  < 0.001 ~ 0.001,
-                             origin  < 0.01 ~ 0.01,
-                             origin  < 0.05 ~ 0.05,
+                             # origin  < 0.001 ~ 0.001,
+                             origin  < 0.0036 ~ 0.0036,
+                             # origin  < 0.01 ~ 0.01,
+                             # origin  < 0.05 ~ 0.05,
                                    TRUE ~ origin )
   ) %>% 
   mutate(origin  = as.character(origin )) %>% 
   mutate(origin  = case_when(origin  == "1e-04" ~ "< 0.0001",
-                             origin  == "0.001" ~ "< 0.001",
-                             origin  == "0.01" ~ "< 0.01",
-                             origin  == "0.05" ~ "< 0.05",
+                             # origin  == "0.001" ~ "< 0.001",
+                             origin  == "0.036" ~ "< 0.036",
+                             # origin  == "0.01" ~ "< 0.01",
+                             # origin  == "0.05" ~ "< 0.05",
                                    TRUE ~ origin )
   ) %>% 
   
-  select(Scheme,Trait,unit,origin,fertilization,everything()) %>%
+  dplyr::select(Perspective,Trait,unit,origin,fertilization,everything()) %>%
   kableExtra::kable( escape = F,
                      col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
-                                   "Variance explained (fixed)","Variance explained (fixed + random)",
+                                   "Percentage of variance explained (fixed)","Percentage of variance explained (fixed + random)",
                                    "Mean value in F-","Mean value in F+"
                      )) %>%
   kableExtra::kable_styling("hover", full_width = F)
