@@ -183,7 +183,7 @@ allom_leaf_leg <- t2_traits %>%
   # scale_shape_manual(values = c(1,16)) +
   scale_color_brewer("Fertilization",palette = "Set2") +
   theme_classic() +
-  geom_abline(slope =slope_leaf,intercept = intercept_leaf) +
+  geom_abline(slope =1,intercept = 0) +
   xlab("log(plant dry mass in g)") +
   ylab("log(total leaf area in mm²)") 
 # theme(legend.position = c(0.2,0.8))

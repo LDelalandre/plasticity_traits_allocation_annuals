@@ -9,7 +9,12 @@ seed <- read.csv2("data/seed_production.csv") %>%
 sp_info <- read.csv2("output/data/species_info.csv") %>% 
   rename(family = Family)
 
-
+seed2 %>% 
+  filter(code_sp == "ALYSALYS") %>%
+  ggplot(aes(x = fertilization, y = log_nb_seeds,fill = origin)) +
+  geom_boxplot() +
+  geom_point(position = position_jitterdodge(jitter.width = 0)) 
+  facet_wrap(~code_sp)
 
 # model ####
 seed2 <- merge(seed,sp_info,by = "code_sp") %>% 

@@ -7,7 +7,7 @@ traits_ferti_effect <- TABLE_PVAL %>%
   pull(Trait)
 
 traits_ferti_effect <- c("plant_dry_mass",
-                         "LA","SLA","LDMC",
+                         "SLA",
                          "SMF","RMF",
                          "N","LMF","RDMC")
 
@@ -39,7 +39,7 @@ bp_plast_simple <- function(ftrait){
     theme_classic() +
     geom_boxplot(outlier.shape = NA)+
     
-    {if(ftrait %in% c(traits_ferti_effect,"LA","plant_dry_mass")) geom_line(aes(group = pop),alpha=0.4,color = "black")} + 
+    {if(ftrait %in% c(traits_ferti_effect,"plant_dry_mass")) geom_line(aes(group = pop),alpha=0.4,color = "black")} + 
     {if( !(ftrait %in% traits_ferti_effect)) geom_line(aes(group = pop),alpha=0.4,color = "grey")} + 
 
     geom_point(size = 2,aes(color = fertilization),)+
@@ -94,7 +94,7 @@ bps_traits <- cowplot::ggdraw() +
   cowplot::draw_plot_label(label = c("A. Whole-plant traits", "B. Leaf traits","C. Root traits"), 
                   size = 24, x = c(0,2/5,2/5), y = c(1, 1,2/3))
 
-ggsave("draft/bp_traits.png", bps_traits,width = 18, height = 12)
+# ggsave("draft/bp_traits.png", bps_traits,width = 18, height = 12)
 
 # https://stackoverflow.com/questions/64184348/change-line-type-for-certain-categories-in-ggplot
 # ligne différente selon espèce

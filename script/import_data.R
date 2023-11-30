@@ -2,7 +2,10 @@ library(tidyverse)
 
 # Information on species ####
 info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1")
-species_info <- read.csv2("output/data/species_info.csv")
+species_info <- read.csv2("data/species_info.csv") 
+# info on Alyssum from Pladias (Plant Diversity Analysis and Synthesis Centre) project, Czech Republic
+# https://pladias.cz/en/
+
 
 sp_fam <- info_sp %>% 
   dplyr::select(code_sp,family) %>% 

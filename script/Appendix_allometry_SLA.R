@@ -7,15 +7,26 @@ ftrait <- "log_SLA"
 # Mixed model ####
 mmod <- lme4::lmer(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization + (1|family/code_sp) ")),  data=t2_traits)
 
-ggplot(data = t2_traits, aes(x = plant_dry_mass, y = SLA)) +
-  geom_point() +
-  facet_wrap(~species,ncol = 3) +
-  geom_smooth(method = "lm",se = T) +
+plot_SLA <- t2_traits %>% 
+  mutate(fertilization = if_else(fertilization == "N+", "F+","F-")) %>% 
+  merge(species_info) %>% 
+  # mutate(species2 = case_when (code_sp == "VULPMYUR" ~ "Vulpia alopecuros",
+  #                             code_sp == "TRIFCAMP" ~"Trifolium aureum",
+  #                             code_sp == "MINUHYBR" ~ "Sabulina tenuifolia",
+  #                             code_sp == "EROPVERN","Draba verna",
+  #                             TRUE ~ species))
+  ggplot( aes(x = plant_dry_mass, y = SLA)) +
+  geom_point(aes( color = fertilization)) +
+  facet_wrap(~scientificName_short,ncol = 3) +
+  geom_smooth(method = "lm",se = F) +
   theme_bw() +
   scale_y_continuous(trans='log10') +
   scale_x_continuous(trans='log10') +
   xlab("Plant dry mass (g)") +
-  ylab ("Specific leaf area (mm²/mg")
+  ylab ("Specific leaf area (mm²/mg") +
+  scale_color_brewer(palette = "Set2")
+
+ggsave(paste0("draft/plot_allom_sla.jpg"),plot_SLA,height = 8, width = 6)
 
 # Diagnostic 
 library(DHARMa)
@@ -84,7 +95,7 @@ for_sma <- t2_traits_all %>%
   filter(nb_feuilles > 0) %>% 
   mutate(log_leaf_measured_dry_mass = log10( nb_feuilles * leaf_dry_mass),
          log_plant_dry_mass = log10( plant_dry_mass)) %>% 
-  select(log_plant_dry_mass, log_leaf_measured_dry_mass) %>% 
+  dplyr::select(log_plant_dry_mass, log_leaf_measured_dry_mass) %>% 
   na.omit()
 
 for_sma %>% ggplot(aes(x = log_plant_dry_mass, y  = log_leaf_measured_dry_mass)) + geom_point()
@@ -102,7 +113,7 @@ t2_traits_all %>%
 for_sma <- t2_traits_all %>% 
   filter(nb_feuilles > 0) %>% 
   mutate(leaf_measured_dry_mass =  nb_feuilles * leaf_dry_mass) %>% 
-  select(code_sp,origin, fertilization,plant_dry_mass,leaf_dry_mass, leaf_measured_dry_mass) %>% 
+  dplyr::select(code_sp,origin, fertilization,plant_dry_mass,leaf_dry_mass, leaf_measured_dry_mass) %>% 
   mutate(fract_leaves = leaf_measured_dry_mass/leaf_dry_mass/1000) %>% 
   na.omit() %>% 
   filter(fract_leaves < 0.050)
@@ -116,7 +127,7 @@ for_sma %>% dim()
 for_sma %>% filter(plant_dry_mass <0.05) %>% dim()
 for_sma2 <- for_sma %>% filter(plant_dry_mass > 0.1)
 
-out_sma <- sma(log_leaf_measured_dry_mass ~ log_plant_dry_mass,data = for_sma,na.action = na.omit)
+# out_sma <- sma(log_leaf_measured_dry_mass ~ log_plant_dry_mass,data = for_sma,na.action = na.omit)
 summary(out_sma)
 
 
@@ -135,32 +146,32 @@ sma_ftrait_sp
 coefs_ftrait<- coef(sma_ftrait_sp)
 sma_ftrait_sp$pval
 
-sp <- rownames(coefs_ftrait)
-PLOT <- NULL
-for (i in c(1:length(sp))){
-  spi <- sp[i]
-  species <- t2_traits %>% 
-    filter(code_sp == spi) %>% 
-    pull(species) %>% 
-    unique()
-  
-  plot <- t2_traits %>% 
-    # filter(fertilization == fferti) %>% 
-    filter(code_sp == spi) %>% 
-    ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
-    geom_point(aes(shape = fertilization))+
-    theme_classic()+
-    # geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
-    geom_smooth(method = "lm") +
-    ggtitle(species) +
-    theme_bw() +
-    theme(legend.position = "none")
-  
-  PLOT[[i]] <- plot
-  # ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
-}
+# sp <- rownames(coefs_ftrait)
+# PLOT <- NULL
+# for (i in c(1:length(sp))){
+#   spi <- sp[i]
+#   species <- t2_traits %>% 
+#     filter(code_sp == spi) %>% 
+#     pull(species) %>% 
+#     unique()
+#   
+#   plot <- t2_traits %>% 
+#     # filter(fertilization == fferti) %>% 
+#     filter(code_sp == spi) %>% 
+#     ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
+#     geom_point(aes(shape = fertilization))+
+#     theme_classic()+
+#     # geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
+#     geom_smooth(method = "lm") +
+#     ggtitle(species) +
+#     theme_bw() +
+#     theme(legend.position = "none")
+#   
+#   PLOT[[i]] <- plot
+#   # ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
+# }
 
 
-plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 5)
+# plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 5)
 # ggsave(paste0("draft/plot_allom_sla",fferti,".jpg"),plot_sla,height = 15, width = 10)
-ggsave(paste0("draft/plot_allom_sla.jpg"),plot_sla,height = 15, width = 10)
+# ggsave(paste0("draft/plot_allom_sla.jpg"),plot_sla,height = 15, width = 10)

@@ -4,10 +4,9 @@ source("script/import_data.R")
 # data ####
 # Traits on which we found significant plasticity
 traits_plast <- c(
-  "log_plant_dry_mass",
-  "log_LA", "LDMC","SLA",
+  "SLA",
   "RDMC",
-  "N",
+  "log_plant_dry_mass", "N",
   "RMF","LMF","SMF" )
 
 
@@ -105,17 +104,17 @@ cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
 # Compute RDPI on all traits ####
 traits_plast <- c(
   "plant_dry_mass",
-  "LA", "LDMC","SLA",
+  "LA", "SLA",
   "RDMC",
   "N",
   "RMF","LMF","SMF" )
 
 # traits for which plasticity depended on species identity
 traits_plast_interaction_sp <- c(
-  "LDMC","SLA",
+  "SLA",
   "plant_dry_mass",
   "N",
-  "RMF","SMF" )
+  "SMF","RMF" )
 
 # average trait values per "population
 rename_moy <- function(trait){
@@ -227,7 +226,7 @@ plot_rdpi_trait <- function(x_axis){
     PLOT[[i]] <- plot
   }
   
-  plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =6)
+  plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =5)
   plots2
 }
 
@@ -250,7 +249,7 @@ PLAST2_with_alys_nat <- PLAST_pop %>%
   left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) 
 
 plot_plast_dry_mass <- PLAST2_with_alys_nat %>% 
-  select(pop,code_sp,plant_dry_mass) %>% 
+  dplyr::select(pop,code_sp,plant_dry_mass) %>% 
   ggplot(aes(x = plant_dry_mass)) +
   geom_histogram(binwidth = 0.1,fill="black", col="grey") +
   theme_bw() +
@@ -258,3 +257,4 @@ plot_plast_dry_mass <- PLAST2_with_alys_nat %>%
   ggtitle("Plasticity in plant dry mass")
 
 ggsave("draft/plast_dry_mass.png",plot_plast_dry_mass,width = 3, height = 3)
+

@@ -58,7 +58,7 @@ student <- t.test(log_plant_dry_mass~fertilization, data = t2_traits %>%
 
 
 plot_alys_nat <- t2_traits %>% 
-  mutate(log_plant_dry_mass = log10(plant_dry_mass)) %>% 
+  mutate(log_plant_dry_mass = plant_dry_mass) %>% 
   filter(code_sp == "ALYSALYS") %>% 
   filter(origin == "Nat") %>% 
   mutate(fertilization = if_else(fertilization == "N-","F-","F+")) %>% 
@@ -73,9 +73,10 @@ plot_alys_nat <- t2_traits %>%
   ggsignif::geom_signif(comparisons = list(c("F-", "F+")),test = "t.test",
                         map_signif_level = T,
                         textsize = 10) +
-  ylab ("log(Plant dry mass)") +
+  ylab ("Plant dry mass(g)") +
   xlab("fertilization") +
-  ylim(c(-2,0))
+  ylim(c(-2,0)) +
+  scale_y_continuous(trans='log10')
 
 ggsave("draft/ALYSALYS_nat.png",plot_alys_nat,width = 3, height = 3)
 

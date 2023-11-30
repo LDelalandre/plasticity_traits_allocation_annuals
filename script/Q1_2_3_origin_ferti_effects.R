@@ -195,11 +195,11 @@ table_origin_ferti <- TABLE_PVAL %>%
                                    TRUE ~ origin )
   ) %>% 
   
-  dplyr::select(Perspective,Trait,unit,origin,fertilization,everything()) %>%
+  dplyr::select(Perspective,Trait,unit,mean_Nm,mean_Np,origin,fertilization,everything()) %>%
   kableExtra::kable( escape = F,
-                     col.names = c("Property","Trait","Unit","pval (Origin)","pval (Fertilization)", 
-                                   "Percentage of variance explained (fixed)","Percentage of variance explained (fixed + random)",
-                                   "Mean value in F-","Mean value in F+"
+                     col.names = c("Property","Trait","Unit","Mean value in F-","Mean value in F+",
+                                   "pval (Origin)","pval (Fertilization)", 
+                                   "Percentage of variance explained (fixed)","Percentage of variance explained (fixed + random)"
                      )) %>%
   kableExtra::kable_styling("hover", full_width = F)
 
@@ -208,7 +208,7 @@ table_origin_ferti <- TABLE_PVAL %>%
 cat(table_origin_ferti, file = "draft/table_origin_ferti_effects.doc")
 
 
-# boxplot origin ####
+
 
  
 
