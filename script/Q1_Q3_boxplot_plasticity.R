@@ -63,8 +63,8 @@ bps <- lapply(list("plant_dry_mass","Hveg",
               bp_plast_simple)
 plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 5,nrow = 3)
 # plots1
-ggsave("draft/bp_ferti.png", plots1,width = 18, height = 12)
-ggsave("draft/bp_ferti.svg", plots1,width = 18, height = 13)
+# ggsave("draft/bp_ferti.png", plots1,width = 18, height = 12)
+# ggsave("draft/bp_ferti.svg", plots1,width = 18, height = 13)
 
 # autre tentative
 # Whole plant
@@ -129,7 +129,7 @@ bps_traits <- cowplot::ggdraw() +
   cowplot::draw_plot(R2 , x = 0, y = 1/3, width = 1  , height = 1/3  - correct_margin) +
   cowplot::draw_plot(WP2, x = 0, y = 0, width = 1 , height = 1/3 - correct_margin) +
 
-  cowplot::draw_plot_label(label = c("A. Above-ground traits", "B. Below-ground traits","C. Whole-plant traits"), 
+  cowplot::draw_plot_label(label = c("A. Ecological strategies", "B. Nutrient absorption","C. Whole-plant integration"), 
                   size = 24, x = c(0,0,0), y = c(1, 2/3, 1/3))
 
-ggsave("draft/bp_traits2.png", bps_traits,width = 18, height = 12)
+ggsave("draft/Figure 1.png", bps_traits,width = 18, height = 12)

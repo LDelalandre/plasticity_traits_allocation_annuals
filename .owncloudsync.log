@@ -7309,3 +7309,907 @@ Log for:C:/Users/delalandre/Documents/Thesis/Projects/2023_plasticity_traits_all
 #=#=#=# Syncrun started 2023-11-30T16:49:06Z
 #=#=#=#=# Propagation starts 2023-11-30T16:49:09Z (last step: 2889 msec , total: 2889 msec) 
 #=#=#=# Syncrun finished 2023-11-30T16:49:09Z (last step: 10 msec , total: 2899 msec) 
+#=#=#=# Syncrun started 2023-11-30T16:49:41Z
+#=#=#=#=# Propagation starts 2023-11-30T16:49:44Z (last step: 2814 msec , total: 2814 msec) 
+2023-11-30T16:49:44Z | script/Appendix_allometry_SLA.R | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701362967 | 3570e41959d8cf4371101c453e638e04 | 5962 | 3377947654ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 5491 | 1701361806 | 0cfd7ded-cf6f-4887-bb2e-2ef6703c7c8b | 
+#=#=#=# Syncrun finished 2023-11-30T16:49:45Z (last step: 795 msec , total: 3610 msec) 
+#=#=#=# Syncrun started 2023-11-30T16:50:21Z
+#=#=#=#=# Propagation starts 2023-11-30T16:50:24Z (last step: 2996 msec , total: 2996 msec) 
+#=#=#=# Syncrun finished 2023-11-30T16:50:24Z (last step: 143 msec , total: 3140 msec) 
+#=#=#=# Syncrun started 2023-11-30T16:51:38Z
+#=#=#=#=# Propagation starts 2023-11-30T16:51:40Z (last step: 1872 msec , total: 1872 msec) 
+#=#=#=# Syncrun finished 2023-11-30T16:51:40Z (last step: 11 msec , total: 1883 msec) 
+#=#=#=# Syncrun started 2023-11-30T16:52:12Z
+#=#=#=#=# Propagation starts 2023-11-30T16:52:14Z (last step: 2168 msec , total: 2168 msec) 
+#=#=#=# Syncrun finished 2023-11-30T16:52:14Z (last step: 12 msec , total: 2181 msec) 
+#=#=#=# Syncrun started 2023-12-01T07:24:30Z
+#=#=#=#=# Propagation starts 2023-12-01T07:24:31Z (last step: 697 msec , total: 697 msec) 
+#=#=#=# Syncrun finished 2023-12-01T07:24:31Z (last step: 13 msec , total: 711 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:09:50Z
+#=#=#=#=# Propagation starts 2023-12-01T08:09:53Z (last step: 2730 msec , total: 2730 msec) 
+2023-12-01T08:09:54Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418187 | 88f7b314142c0823b092ee06c40cf484 | 3160337 | 3407027338ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3162406 | 1701362919 | cc440cc5-c57b-4d87-944a-924e8e6039a0 | 
+#=#=#=# Syncrun finished 2023-12-01T08:09:55Z (last step: 1873 msec , total: 4603 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:10:53Z
+#=#=#=#=# Propagation starts 2023-12-01T08:10:56Z (last step: 3057 msec , total: 3057 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:10:56Z (last step: 18 msec , total: 3075 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:12:17Z
+#=#=#=#=# Propagation starts 2023-12-01T08:12:20Z (last step: 2109 msec , total: 2109 msec) 
+2023-12-01T08:12:20Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418334 | 498a7f23705126d242ae237f3cd1b568 | 3160189 | 3407027338ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160337 | 1701418187 | 18b6df7c-eb7a-4cdc-bf1b-27fcd9553c39 | 
+#=#=#=# Syncrun finished 2023-12-01T08:12:22Z (last step: 2019 msec , total: 4129 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:12:33Z
+#=#=#=#=# Propagation starts 2023-12-01T08:12:37Z (last step: 3394 msec , total: 3394 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:12:37Z (last step: 21 msec , total: 3416 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:12:41Z
+#=#=#=#=# Propagation starts 2023-12-01T08:12:44Z (last step: 2676 msec , total: 2676 msec) 
+2023-12-01T08:12:45Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418358 | b888be215624c1f5e678fe8e05da7211 | 3160227 | 3407027338ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160189 | 1701418334 | 867650e7-7f73-45ef-a0da-880dfe888202 | 
+#=#=#=# Syncrun finished 2023-12-01T08:12:46Z (last step: 1918 msec , total: 4594 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:13:37Z
+#=#=#=#=# Propagation starts 2023-12-01T08:13:41Z (last step: 4070 msec , total: 4070 msec) 
+2023-12-01T08:13:41Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_REMOVE) | OCC::SyncFileItem::Up | | 1701418358 | b888be215624c1f5e678fe8e05da7211 | 3160227 | 3407027338ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160227 | 1701418358 | 13f2401f-bfac-4c85-b48e-901ded32bda1 | 
+#=#=#=# Syncrun finished 2023-12-01T08:13:42Z (last step: 1341 msec , total: 5412 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:13:43Z
+#=#=#=#=# Propagation starts 2023-12-01T08:13:46Z (last step: 3082 msec , total: 3082 msec) 
+2023-12-01T08:13:47Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1701418418 | 5d4cc1fa6bc28f7dcffbd6cc6cc08790 | 3160236 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 6078fe81-bac9-4d35-8edd-58e9ffc8595b | 
+#=#=#=# Syncrun finished 2023-12-01T08:13:49Z (last step: 3130 msec , total: 6212 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:14:13Z
+#=#=#=#=# Propagation starts 2023-12-01T08:14:16Z (last step: 2209 msec , total: 2209 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:14:16Z (last step: 8 msec , total: 2218 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:14:26Z
+#=#=#=#=# Propagation starts 2023-12-01T08:14:28Z (last step: 2694 msec , total: 2694 msec) 
+2023-12-01T08:14:29Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418462 | 93a76c4425934eb56056b092885e2ab7 | 3160277 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160236 | 1701418418 | d10cd0b9-3897-47b8-9f8d-878c6fba4b28 | 
+#=#=#=# Syncrun finished 2023-12-01T08:14:30Z (last step: 1792 msec , total: 4487 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:15:54Z
+#=#=#=#=# Propagation starts 2023-12-01T08:15:56Z (last step: 2159 msec , total: 2160 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:15:56Z (last step: 9 msec , total: 2169 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:19:03Z
+#=#=#=#=# Propagation starts 2023-12-01T08:19:05Z (last step: 1640 msec , total: 1640 msec) 
+2023-12-01T08:19:05Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418739 | 11dc2329b08f4dbebc474183d308b775 | 3160288 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160277 | 1701418462 | 91424265-c6a2-4f9f-8c7f-629f88c0443b | 
+#=#=#=# Syncrun finished 2023-12-01T08:19:09Z (last step: 4030 msec , total: 5671 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:19:14Z
+#=#=#=#=# Propagation starts 2023-12-01T08:19:16Z (last step: 2297 msec , total: 2297 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:19:16Z (last step: 9 msec , total: 2307 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:19:48Z
+#=#=#=#=# Propagation starts 2023-12-01T08:19:49Z (last step: 1453 msec , total: 1453 msec) 
+2023-12-01T08:19:50Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418785 | 0cce1c9d2be4f9d9e98e5d1831325f69 | 3160301 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160288 | 1701418739 | fa5ae20d-02b6-4314-b6d4-253ce0ce8494 | 
+#=#=#=# Syncrun finished 2023-12-01T08:19:52Z (last step: 2034 msec , total: 3487 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:20:25Z
+#=#=#=#=# Propagation starts 2023-12-01T08:20:28Z (last step: 3400 msec , total: 3400 msec) 
+2023-12-01T08:20:29Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418821 | 0141af001ad14063801306032ff016c6 | 3160338 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160301 | 1701418785 | 6b22812e-b2c6-41a2-8f3d-0f92932d12d5 | 
+#=#=#=# Syncrun finished 2023-12-01T08:20:30Z (last step: 1824 msec , total: 5225 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:20:42Z
+#=#=#=#=# Propagation starts 2023-12-01T08:20:46Z (last step: 3501 msec , total: 3501 msec) 
+2023-12-01T08:20:46Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418839 | a861e14730e196fa52a636b1084f9e42 | 3160349 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160338 | 1701418821 | 7ebc9f97-7c45-423c-bbff-9e82ce48438c | 
+#=#=#=# Syncrun finished 2023-12-01T08:20:47Z (last step: 1850 msec , total: 5351 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:20:54Z
+#=#=#=#=# Propagation starts 2023-12-01T08:20:57Z (last step: 3288 msec , total: 3288 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:20:57Z (last step: 16 msec , total: 3305 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:21:45Z
+#=#=#=#=# Propagation starts 2023-12-01T08:21:48Z (last step: 2702 msec , total: 2702 msec) 
+2023-12-01T08:21:49Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701418902 | 1b53dc406f59b95338b559e147869c89 | 3160420 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160349 | 1701418839 | f7e64e51-2fa9-454c-91ba-c4db01c64a42 | 
+#=#=#=# Syncrun finished 2023-12-01T08:21:50Z (last step: 1705 msec , total: 4407 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:22:34Z
+#=#=#=#=# Propagation starts 2023-12-01T08:22:37Z (last step: 3513 msec , total: 3513 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:22:37Z (last step: 26 msec , total: 3540 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:23:19Z
+#=#=#=#=# Propagation starts 2023-12-01T08:23:21Z (last step: 2122 msec , total: 2122 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:23:21Z (last step: 11 msec , total: 2133 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:25:50Z
+#=#=#=#=# Propagation starts 2023-12-01T08:25:52Z (last step: 2828 msec , total: 2828 msec) 
+2023-12-01T08:25:53Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701419146 | 005e899b5f324328d175c5db9243955d | 3160855 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160420 | 1701418902 | a85c2d10-3aa6-48a7-b8de-068d2c2b452f | 
+#=#=#=# Syncrun finished 2023-12-01T08:25:54Z (last step: 1471 msec , total: 4299 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:26:03Z
+#=#=#=#=# Propagation starts 2023-12-01T08:26:06Z (last step: 3176 msec , total: 3176 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:26:06Z (last step: 17 msec , total: 3194 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:35:46Z
+#=#=#=#=# Propagation starts 2023-12-01T08:35:49Z (last step: 2773 msec , total: 2773 msec) 
+2023-12-01T08:35:50Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701419742 | 592c5548be7275dac40270c065ef4b72 | 3160552 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160855 | 1701419146 | c8412040-4322-4974-9e8f-cbddc4b4f4ce | 
+#=#=#=# Syncrun finished 2023-12-01T08:35:50Z (last step: 1278 msec , total: 4051 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:36:03Z
+#=#=#=#=# Propagation starts 2023-12-01T08:36:07Z (last step: 3273 msec , total: 3273 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:36:07Z (last step: 18 msec , total: 3291 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:37:06Z
+#=#=#=#=# Propagation starts 2023-12-01T08:37:09Z (last step: 2632 msec , total: 2632 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:37:09Z (last step: 8 msec , total: 2641 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:42:24Z
+#=#=#=#=# Propagation starts 2023-12-01T08:42:25Z (last step: 1518 msec , total: 1518 msec) 
+2023-12-01T08:42:26Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420140 | 39c6603e1a526f9c6203623036c50bb5 | 3164226 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3160552 | 1701419742 | 9b69bbd3-6d90-403e-ae76-5ca912189afc | 
+#=#=#=# Syncrun finished 2023-12-01T08:42:27Z (last step: 1345 msec , total: 2863 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:42:43Z
+#=#=#=#=# Propagation starts 2023-12-01T08:42:46Z (last step: 2920 msec , total: 2920 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:42:46Z (last step: 7 msec , total: 2927 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:50:10Z
+#=#=#=#=# Propagation starts 2023-12-01T08:50:12Z (last step: 1558 msec , total: 1558 msec) 
+2023-12-01T08:50:13Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420607 | 2fc08fa3c09526fb8cffc086a4132dae | 3164362 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164226 | 1701420140 | 869c0733-1c2c-425b-8603-ece4af58e75c | 
+#=#=#=# Syncrun finished 2023-12-01T08:50:13Z (last step: 1572 msec , total: 3130 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:50:19Z
+#=#=#=#=# Propagation starts 2023-12-01T08:50:22Z (last step: 2451 msec , total: 2451 msec) 
+2023-12-01T08:50:22Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420616 | 5d17ae77b851957ffdcde82b5f134290 | 3164281 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164362 | 1701420607 | 90c19dcc-03ae-47b6-9dc5-a1d941706df3 | 
+#=#=#=# Syncrun finished 2023-12-01T08:50:25Z (last step: 3127 msec , total: 5578 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:51:03Z
+#=#=#=#=# Propagation starts 2023-12-01T08:51:05Z (last step: 2277 msec , total: 2277 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:51:06Z (last step: 7 msec , total: 2284 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:52:00Z
+#=#=#=#=# Propagation starts 2023-12-01T08:52:02Z (last step: 1430 msec , total: 1430 msec) 
+2023-12-01T08:52:03Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420717 | 162834238703e7856f6de4968bac5ecd | 3164387 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164281 | 1701420616 | 5d067585-86b5-4e63-96ba-6ca4f5406a49 | 
+#=#=#=# Syncrun finished 2023-12-01T08:52:04Z (last step: 1874 msec , total: 3305 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:52:08Z
+#=#=#=#=# Propagation starts 2023-12-01T08:52:11Z (last step: 2269 msec , total: 2269 msec) 
+2023-12-01T08:52:11Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420725 | dfb7f97b24c6f7d55ac083cc9d99611d | 3164414 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164387 | 1701420717 | 1f8c334b-4261-43f0-aafe-1cbbf3abac3d | 
+#=#=#=# Syncrun finished 2023-12-01T08:52:12Z (last step: 1415 msec , total: 3685 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:52:43Z
+#=#=#=#=# Propagation starts 2023-12-01T08:52:46Z (last step: 2331 msec , total: 2331 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:52:46Z (last step: 7 msec , total: 2339 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:53:11Z
+#=#=#=#=# Propagation starts 2023-12-01T08:53:13Z (last step: 2368 msec , total: 2368 msec) 
+2023-12-01T08:53:14Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701420787 | 2efc2aabfd05097ba84f8c9b5cec4f31 | 3164257 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164414 | 1701420725 | 8e63aa5f-c61e-4f12-82d9-f63230f0aed8 | 
+#=#=#=# Syncrun finished 2023-12-01T08:53:14Z (last step: 1318 msec , total: 3686 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:54:23Z
+#=#=#=#=# Propagation starts 2023-12-01T08:54:26Z (last step: 2657 msec , total: 2657 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:54:26Z (last step: 7 msec , total: 2665 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:58:32Z
+#=#=#=#=# Propagation starts 2023-12-01T08:58:34Z (last step: 2046 msec , total: 2046 msec) 
+2023-12-01T08:58:35Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701421109 | 92185d39a429d18cdba3fba1a15f817d | 3164140 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164257 | 1701420787 | c81fef5d-96ab-4390-8542-75148eb29127 | 
+#=#=#=# Syncrun finished 2023-12-01T08:58:35Z (last step: 992 msec , total: 3038 msec) 
+#=#=#=# Syncrun started 2023-12-01T08:59:23Z
+#=#=#=#=# Propagation starts 2023-12-01T08:59:26Z (last step: 2745 msec , total: 2745 msec) 
+#=#=#=# Syncrun finished 2023-12-01T08:59:26Z (last step: 7 msec , total: 2753 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:01:05Z
+#=#=#=#=# Propagation starts 2023-12-01T09:01:07Z (last step: 1611 msec , total: 1611 msec) 
+2023-12-01T09:01:07Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701421262 | 65b7c6a5ffccc1a97094a74e55df8f96 | 3164199 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164140 | 1701421109 | 38886e17-63dd-4a71-ba07-76e54eddd607 | 
+#=#=#=# Syncrun finished 2023-12-01T09:01:08Z (last step: 1178 msec , total: 2790 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:02:43Z
+#=#=#=#=# Propagation starts 2023-12-01T09:02:46Z (last step: 2594 msec , total: 2594 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:02:46Z (last step: 7 msec , total: 2602 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:17:27Z
+#=#=#=#=# Propagation starts 2023-12-01T09:17:29Z (last step: 2072 msec , total: 2072 msec) 
+2023-12-01T09:17:30Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422243 | c5a828feb06e2d680f55df3584d4edfb | 3165039 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164199 | 1701421262 | 2f192c84-78df-4945-9b07-e024d1b36b30 | 
+#=#=#=# Syncrun finished 2023-12-01T09:17:30Z (last step: 1362 msec , total: 3435 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:17:33Z
+#=#=#=#=# Propagation starts 2023-12-01T09:17:36Z (last step: 2927 msec , total: 2927 msec) 
+2023-12-01T09:17:37Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422250 | a53e729d3f1650ed7c5106f5fd1255bd | 3165067 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165039 | 1701422243 | f2ea3a61-d805-4f88-b5fb-9797cfd7348c | 
+#=#=#=# Syncrun finished 2023-12-01T09:17:37Z (last step: 1092 msec , total: 4020 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:17:43Z
+#=#=#=#=# Propagation starts 2023-12-01T09:17:46Z (last step: 2739 msec , total: 2739 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:17:46Z (last step: 7 msec , total: 2747 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:18:26Z
+#=#=#=#=# Propagation starts 2023-12-01T09:18:28Z (last step: 2139 msec , total: 2139 msec) 
+2023-12-01T09:18:29Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422287 | 02dba2b373093d83b74f0d8136f8f13e | 3165126 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165067 | 1701422250 | 5214953c-3c51-4f35-b283-fe45d62433a1 | 
+#=#=#=# Syncrun finished 2023-12-01T09:18:29Z (last step: 1226 msec , total: 3366 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:19:29Z
+#=#=#=#=# Propagation starts 2023-12-01T09:19:32Z (last step: 2779 msec , total: 2779 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:19:32Z (last step: 9 msec , total: 2788 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:22:49Z
+#=#=#=#=# Propagation starts 2023-12-01T09:22:51Z (last step: 1599 msec , total: 1599 msec) 
+2023-12-01T09:22:52Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422569 | da14c7a1ac3f8fd9a42fb115393c4019 | 3165409 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165126 | 1701422287 | 3290c3ce-6f2b-44b3-939d-c3673295feab | 
+#=#=#=# Syncrun finished 2023-12-01T09:22:53Z (last step: 2506 msec , total: 4105 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:22:54Z
+#=#=#=#=# Propagation starts 2023-12-01T09:22:57Z (last step: 2360 msec , total: 2360 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:22:57Z (last step: 5 msec , total: 2366 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:24:24Z
+#=#=#=#=# Propagation starts 2023-12-01T09:24:25Z (last step: 1904 msec , total: 1904 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:24:25Z (last step: 7 msec , total: 1911 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:24:33Z
+#=#=#=#=# Propagation starts 2023-12-01T09:24:35Z (last step: 1843 msec , total: 1843 msec) 
+2023-12-01T09:24:36Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422670 | 0cbd9d261ae802bfdf889dbeb7bc39cb | 3165135 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165409 | 1701422569 | f7dfc433-e8c0-4e9a-aafb-71f6b65c6f9b | 
+#=#=#=# Syncrun finished 2023-12-01T09:24:36Z (last step: 1286 msec , total: 3129 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:26:04Z
+#=#=#=#=# Propagation starts 2023-12-01T09:26:06Z (last step: 2593 msec , total: 2593 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:26:06Z (last step: 6 msec , total: 2599 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:27:10Z
+#=#=#=#=# Propagation starts 2023-12-01T09:27:11Z (last step: 1663 msec , total: 1663 msec) 
+2023-12-01T09:27:12Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422827 | 10f37c8ffb1504b79b0c2e9a5df85064 | 3165336 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165135 | 1701422670 | 02247a9e-881e-44c4-a104-876682530725 | 
+#=#=#=# Syncrun finished 2023-12-01T09:27:12Z (last step: 1050 msec , total: 2713 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:27:39Z
+#=#=#=#=# Propagation starts 2023-12-01T09:27:43Z (last step: 4068 msec , total: 4068 msec) 
+2023-12-01T09:27:44Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422847 | 2ff5d1631bd5ad96e0d47d1498535426 | 3165371 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165336 | 1701422827 | 375292f6-37f0-4da8-aec6-3925637e490a | 
+#=#=#=# Syncrun finished 2023-12-01T09:27:45Z (last step: 1216 msec , total: 5285 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:27:54Z
+#=#=#=#=# Propagation starts 2023-12-01T09:27:57Z (last step: 3640 msec , total: 3640 msec) 
+ | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_UPDATE_METADATA) | OCC::SyncFileItem::Down | | 1701422847 | 2ff5d1631bd5ad96e0d47d1498535426 | 3165371 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::FatalError | Could not update file : WindowsError: ffffffff80070002: Le fichier spécifié est introuvable. | 0 | 3165371 | 1701422847 |  | 
+#=#=#=# Syncrun finished 2023-12-01T09:27:57Z (last step: 15 msec , total: 3656 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:28:01Z
+#=#=#=#=# Propagation starts 2023-12-01T09:28:05Z (last step: 4666 msec , total: 4666 msec) 
+2023-12-01T09:28:06Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701422877 | a906c45160dcbc6d7812d016a4acd4cd | 3165395 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165371 | 1701422847 | 64fb2b56-7fbb-415b-aa8d-f09a8fd7804b | 
+#=#=#=# Syncrun finished 2023-12-01T09:28:07Z (last step: 1404 msec , total: 6070 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:29:34Z
+#=#=#=#=# Propagation starts 2023-12-01T09:29:38Z (last step: 4496 msec , total: 4496 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:29:38Z (last step: 19 msec , total: 4515 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:30:48Z
+#=#=#=#=# Propagation starts 2023-12-01T09:30:51Z (last step: 3624 msec , total: 3624 msec) 
+2023-12-01T09:30:52Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423044 | 9962f4c5edf301d44a402975d0a45da9 | 3165409 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165395 | 1701422877 | 68bca19c-27c2-40df-bcad-d8519014114f | 
+#=#=#=# Syncrun finished 2023-12-01T09:30:53Z (last step: 1351 msec , total: 4976 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:31:14Z
+#=#=#=#=# Propagation starts 2023-12-01T09:31:16Z (last step: 2861 msec , total: 2861 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:31:16Z (last step: 11 msec , total: 2872 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:33:07Z
+#=#=#=#=# Propagation starts 2023-12-01T09:33:10Z (last step: 3272 msec , total: 3272 msec) 
+2023-12-01T09:33:11Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423183 | 5b7765936520eda71acea901f59b2152 | 3162029 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165409 | 1701423044 | 12688cdb-4238-4e69-a1a1-c02ebda0aae2 | 
+#=#=#=# Syncrun finished 2023-12-01T09:33:11Z (last step: 1104 msec , total: 4376 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:34:14Z
+#=#=#=#=# Propagation starts 2023-12-01T09:34:17Z (last step: 2783 msec , total: 2783 msec) 
+2023-12-01T09:34:17Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423251 | 3c0d2a67d2ff8601cefcde67df9b2d02 | 3166242 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3162029 | 1701423183 | ae10e4bc-275b-4e63-b20f-4d9a8b94035b | 
+#=#=#=# Syncrun finished 2023-12-01T09:34:18Z (last step: 1253 msec , total: 4036 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:34:34Z
+#=#=#=#=# Propagation starts 2023-12-01T09:34:37Z (last step: 3689 msec , total: 3689 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:34:37Z (last step: 8 msec , total: 3697 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:38:51Z
+#=#=#=#=# Propagation starts 2023-12-01T09:38:54Z (last step: 2625 msec , total: 2625 msec) 
+2023-12-01T09:38:55Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423528 | 87181ed6132b908c56d0120269a995a9 | 3164200 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3166242 | 1701423251 | 87af5b19-4a05-4e81-bb17-2cd5a1e99bde | 
+#=#=#=# Syncrun finished 2023-12-01T09:38:55Z (last step: 1300 msec , total: 3926 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:39:34Z
+#=#=#=#=# Propagation starts 2023-12-01T09:39:38Z (last step: 4376 msec , total: 4376 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:39:38Z (last step: 15 msec , total: 4391 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:40:38Z
+#=#=#=#=# Propagation starts 2023-12-01T09:40:42Z (last step: 3850 msec , total: 3850 msec) 
+2023-12-01T09:40:43Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423639 | 8a7a754467913427ec68967ee239583e | 3167068 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164200 | 1701423528 | 5cb60d5d-d51c-4522-aca9-d23fd573846c | 
+#=#=#=# Syncrun finished 2023-12-01T09:40:45Z (last step: 2353 msec , total: 6203 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:40:46Z
+#=#=#=#=# Propagation starts 2023-12-01T09:40:50Z (last step: 4720 msec , total: 4720 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:40:50Z (last step: 30 msec , total: 4750 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:41:14Z
+#=#=#=#=# Propagation starts 2023-12-01T09:41:18Z (last step: 3776 msec , total: 3776 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:41:18Z (last step: 15 msec , total: 3792 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:42:05Z
+#=#=#=#=# Propagation starts 2023-12-01T09:42:09Z (last step: 3787 msec , total: 3787 msec) 
+2023-12-01T09:42:10Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423722 | dca78c5035c8b8a7c72da475fae6304f | 3167031 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3167068 | 1701423639 | e42879e5-82e6-460f-9854-a139936b5950 | 
+#=#=#=# Syncrun finished 2023-12-01T09:42:10Z (last step: 1272 msec , total: 5059 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:42:49Z
+#=#=#=#=# Propagation starts 2023-12-01T09:42:53Z (last step: 4471 msec , total: 4471 msec) 
+2023-12-01T09:42:54Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423765 | 79a5213bb47ad4f59d72219ae39556f0 | 3167364 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3167031 | 1701423722 | f5c2a522-6d55-4b4e-90b4-3e9fdece6fd6 | 
+#=#=#=# Syncrun finished 2023-12-01T09:42:54Z (last step: 1383 msec , total: 5854 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:43:04Z
+#=#=#=#=# Propagation starts 2023-12-01T09:43:08Z (last step: 4660 msec , total: 4660 msec) 
+2023-12-01T09:43:09Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423781 | 62f317d7324e0c09bfa32844f978f506 | 3163811 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3167364 | 1701423765 | d661d802-261b-482a-82f7-9173e13898cb | 
+#=#=#=# Syncrun finished 2023-12-01T09:43:10Z (last step: 1609 msec , total: 6269 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:44:04Z
+#=#=#=#=# Propagation starts 2023-12-01T09:44:08Z (last step: 4722 msec , total: 4722 msec) 
+2023-12-01T09:44:09Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423840 | c1933b7a65e50e9594ad381358abaaac | 3163764 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163811 | 1701423781 | 3de35d20-ff5b-4376-88bb-35a4eaf46acc | 
+#=#=#=# Syncrun finished 2023-12-01T09:44:10Z (last step: 1333 msec , total: 6056 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:44:22Z
+#=#=#=#=# Propagation starts 2023-12-01T09:44:27Z (last step: 4431 msec , total: 4431 msec) 
+2023-12-01T09:44:28Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423856 | b8b4d8159c82fe18e156bd3a7db4dff1 | 3163786 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163764 | 1701423840 | db279b84-5367-43e3-9a69-fc96b6e6e4fe | 
+#=#=#=# Syncrun finished 2023-12-01T09:44:28Z (last step: 1350 msec , total: 5782 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:44:44Z
+#=#=#=#=# Propagation starts 2023-12-01T09:44:49Z (last step: 5316 msec , total: 5316 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:44:49Z (last step: 21 msec , total: 5337 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:45:08Z
+#=#=#=#=# Propagation starts 2023-12-01T09:45:11Z (last step: 3698 msec , total: 3698 msec) 
+2023-12-01T09:45:12Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423904 | 4d2e736a1366dcd31a1735807ba1c2c4 | 3163828 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163786 | 1701423856 | 941a7039-6a05-4b1f-bcaf-d1728e112bf5 | 
+#=#=#=# Syncrun finished 2023-12-01T09:45:13Z (last step: 1427 msec , total: 5126 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:45:24Z
+#=#=#=#=# Propagation starts 2023-12-01T09:45:29Z (last step: 4592 msec , total: 4592 msec) 
+2023-12-01T09:45:30Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423921 | 8b09b1af224c1627250c985bd568bcfc | 3163840 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163828 | 1701423904 | 715fb81c-3deb-45bf-8c31-dba8d84df00a | 
+#=#=#=# Syncrun finished 2023-12-01T09:45:30Z (last step: 1443 msec , total: 6035 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:45:37Z
+#=#=#=#=# Propagation starts 2023-12-01T09:45:41Z (last step: 4174 msec , total: 4174 msec) 
+2023-12-01T09:45:42Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423934 | 378b272f0df19d8ea64df79d52bf4a69 | 3163850 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163840 | 1701423921 | 84afb2bc-46c2-4720-bddf-eb5858a86cd2 | 
+#=#=#=# Syncrun finished 2023-12-01T09:45:42Z (last step: 1223 msec , total: 5397 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:46:20Z
+#=#=#=#=# Propagation starts 2023-12-01T09:46:24Z (last step: 4645 msec , total: 4645 msec) 
+2023-12-01T09:46:25Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701423977 | 66bdc7cb3ddd7bcadd6ae7fb28e0a2a6 | 3163859 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163850 | 1701423934 | 98f49e66-0f86-4e0b-8cab-b72257643313 | 
+#=#=#=# Syncrun finished 2023-12-01T09:46:26Z (last step: 2011 msec , total: 6656 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:46:34Z
+#=#=#=#=# Propagation starts 2023-12-01T09:46:38Z (last step: 4500 msec , total: 4500 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:46:38Z (last step: 17 msec , total: 4518 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:47:00Z
+#=#=#=#=# Propagation starts 2023-12-01T09:47:04Z (last step: 3833 msec , total: 3833 msec) 
+2023-12-01T09:47:04Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701424017 | 4ec652fc12db9a87512adf21b503d300 | 3163861 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163859 | 1701423977 | 5c92e1b4-ccc1-4dd0-b0fa-97fe946e5051 | 
+#=#=#=# Syncrun finished 2023-12-01T09:47:05Z (last step: 1284 msec , total: 5118 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:47:14Z
+#=#=#=#=# Propagation starts 2023-12-01T09:47:18Z (last step: 4379 msec , total: 4379 msec) 
+2023-12-01T09:47:19Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701424030 | 8a4fcaf29eab5b7b3e0a3659b3c8fe2d | 3163883 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163861 | 1701424017 | 4d6763bf-aa30-45db-92da-bb26640bed41 | 
+#=#=#=# Syncrun finished 2023-12-01T09:47:20Z (last step: 1576 msec , total: 5955 msec) 
+#=#=#=# Syncrun started 2023-12-01T09:48:14Z
+#=#=#=#=# Propagation starts 2023-12-01T09:48:17Z (last step: 2826 msec , total: 2826 msec) 
+#=#=#=# Syncrun finished 2023-12-01T09:48:17Z (last step: 8 msec , total: 2835 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:03:00Z
+#=#=#=#=# Propagation starts 2023-12-01T10:03:03Z (last step: 3203 msec , total: 3203 msec) 
+2023-12-01T10:03:03Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701424976 | b99201b70132037aaf927a33e59ef264 | 3164128 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163883 | 1701424030 | 32ce92de-67b3-4b11-8a08-47c856186db7 | 
+#=#=#=# Syncrun finished 2023-12-01T10:03:04Z (last step: 1244 msec , total: 4448 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:03:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:03:16Z (last step: 2607 msec , total: 2607 msec) 
+2023-12-01T10:03:17Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701424991 | ce7aaf5940abfefb0d94af623adbd828 | 3164128 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164128 | 1701424976 | be41f116-f376-4da3-be01-8a546099df46 | 
+#=#=#=# Syncrun finished 2023-12-01T10:03:18Z (last step: 1475 msec , total: 4083 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:04:04Z
+#=#=#=#=# Propagation starts 2023-12-01T10:04:06Z (last step: 2720 msec , total: 2720 msec) 
+2023-12-01T10:04:07Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701425040 | dde6be17ee31e0998f5bdd9fec5cddef | 3164164 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164128 | 1701424991 | 6dcdbc39-3247-4545-b6f5-7571d5701092 | 
+#=#=#=# Syncrun finished 2023-12-01T10:04:08Z (last step: 1261 msec , total: 3981 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:04:54Z
+#=#=#=#=# Propagation starts 2023-12-01T10:04:58Z (last step: 4395 msec , total: 4395 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:04:58Z (last step: 22 msec , total: 4418 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:16:23Z
+#=#=#=#=# Propagation starts 2023-12-01T10:16:26Z (last step: 3275 msec , total: 3275 msec) 
+2023-12-01T10:16:27Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701425779 | 03478f8067aa60ead0a4f4b36fc13c91 | 3163815 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164164 | 1701425040 | cf8d3fa7-3a00-4bee-a6a5-d92e97cc1d54 | 
+#=#=#=# Syncrun finished 2023-12-01T10:16:28Z (last step: 2017 msec , total: 5293 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:16:34Z
+#=#=#=#=# Propagation starts 2023-12-01T10:16:38Z (last step: 4346 msec , total: 4346 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:16:38Z (last step: 17 msec , total: 4363 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:17:34Z
+#=#=#=#=# Propagation starts 2023-12-01T10:17:38Z (last step: 3572 msec , total: 3572 msec) 
+2023-12-01T10:17:38Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701425848 | f80a9dfaa9fc712c944b6876f58fd254 | 3163781 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163815 | 1701425779 | b8af7c4b-a1b8-4084-a358-dbab1ed9520b | 
+#=#=#=# Syncrun finished 2023-12-01T10:17:39Z (last step: 1573 msec , total: 5145 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:17:50Z
+#=#=#=#=# Propagation starts 2023-12-01T10:17:55Z (last step: 4760 msec , total: 4760 msec) 
+2023-12-01T10:17:56Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701425867 | fe5e7d93b19f93eeff18dcd1149d4662 | 3163760 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163781 | 1701425848 | e835bead-dbc3-44ed-a2bd-e95069c6121b | 
+#=#=#=# Syncrun finished 2023-12-01T10:17:56Z (last step: 1288 msec , total: 6049 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:18:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:18:19Z (last step: 5142 msec , total: 5142 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:18:19Z (last step: 19 msec , total: 5162 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:21:56Z
+#=#=#=#=# Propagation starts 2023-12-01T10:22:00Z (last step: 3365 msec , total: 3365 msec) 
+2023-12-01T10:22:00Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426113 | 31b2f88e66d59ea99104eda469eb023a | 3163759 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163760 | 1701425867 | 04ae7c9b-4cd0-4a71-a3ba-9efce3509b8b | 
+#=#=#=# Syncrun finished 2023-12-01T10:22:02Z (last step: 1766 msec , total: 5131 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:22:03Z
+#=#=#=#=# Propagation starts 2023-12-01T10:22:08Z (last step: 4106 msec , total: 4106 msec) 
+2023-12-01T10:22:08Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426120 | 47cef89c2fc50fb2fdec9dbe57a3d04e | 3163768 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163759 | 1701426113 | 4cef0879-4e4b-4fcb-a821-579bcc318ada | 
+#=#=#=# Syncrun finished 2023-12-01T10:22:09Z (last step: 1291 msec , total: 5398 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:22:15Z
+#=#=#=#=# Propagation starts 2023-12-01T10:22:20Z (last step: 4066 msec , total: 4066 msec) 
+2023-12-01T10:22:20Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426132 | a9037009d85dd11af68b7e7babc2af04 | 3163788 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163768 | 1701426120 | fbf90248-f718-4eb5-9518-20a1d4c8797f | 
+#=#=#=# Syncrun finished 2023-12-01T10:22:21Z (last step: 1140 msec , total: 5207 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:23:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:23:19Z (last step: 4687 msec , total: 4687 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:23:19Z (last step: 16 msec , total: 4703 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:23:29Z
+#=#=#=#=# Propagation starts 2023-12-01T10:23:32Z (last step: 3811 msec , total: 3811 msec) 
+2023-12-01T10:23:33Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426205 | 42587a9e7d37f5c1363f4b516150d719 | 3163703 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163788 | 1701426132 | 2c12831d-06b4-47d8-ae2b-af1c95950809 | 
+#=#=#=# Syncrun finished 2023-12-01T10:23:34Z (last step: 1716 msec , total: 5527 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:23:52Z
+#=#=#=#=# Propagation starts 2023-12-01T10:23:56Z (last step: 4279 msec , total: 4279 msec) 
+2023-12-01T10:23:57Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426228 | 815d28e7cdf94f6ceec9b706b75401e2 | 3163707 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163703 | 1701426205 | b3f23a67-0962-4af9-9e8f-10f950f57266 | 
+#=#=#=# Syncrun finished 2023-12-01T10:23:57Z (last step: 1335 msec , total: 5615 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:24:03Z
+#=#=#=#=# Propagation starts 2023-12-01T10:24:07Z (last step: 4824 msec , total: 4824 msec) 
+2023-12-01T10:24:08Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426239 | 9fc06c95b23532a8b8403812d1baa107 | 3163753 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163707 | 1701426228 | 20baf851-cf61-4281-9861-409d41be785e | 
+#=#=#=# Syncrun finished 2023-12-01T10:24:09Z (last step: 1243 msec , total: 6067 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:24:54Z
+#=#=#=#=# Propagation starts 2023-12-01T10:24:59Z (last step: 4528 msec , total: 4528 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:24:59Z (last step: 22 msec , total: 4550 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:25:00Z
+#=#=#=#=# Propagation starts 2023-12-01T10:25:03Z (last step: 3386 msec , total: 3386 msec) 
+2023-12-01T10:25:04Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426296 | 17e2f7dba0d736ad155e0b9ebc988aa5 | 3163786 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163753 | 1701426239 | 20f3148e-f1bc-49fa-a929-09c8b73ead8d | 
+#=#=#=# Syncrun finished 2023-12-01T10:25:05Z (last step: 1836 msec , total: 5223 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:25:44Z
+#=#=#=#=# Propagation starts 2023-12-01T10:25:48Z (last step: 4643 msec , total: 4643 msec) 
+2023-12-01T10:25:49Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426340 | 393d15ff7242954c069cd243d30a0ed8 | 3163578 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163786 | 1701426296 | bb22e3ef-940b-49e1-a2d4-f742360a45f3 | 
+#=#=#=# Syncrun finished 2023-12-01T10:25:50Z (last step: 1334 msec , total: 5977 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:26:03Z
+#=#=#=#=# Propagation starts 2023-12-01T10:26:07Z (last step: 4634 msec , total: 4634 msec) 
+2023-12-01T10:26:08Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426358 | 067d498f0b1940f5b013a3678573a259 | 3163566 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163578 | 1701426340 | 6d9b0f77-1741-4d6e-bf2b-caac29c00b2d | 
+#=#=#=# Syncrun finished 2023-12-01T10:26:09Z (last step: 1661 msec , total: 6295 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:26:34Z
+#=#=#=#=# Propagation starts 2023-12-01T10:26:39Z (last step: 4541 msec , total: 4541 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:26:39Z (last step: 21 msec , total: 4562 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:26:40Z
+#=#=#=#=# Propagation starts 2023-12-01T10:26:45Z (last step: 4752 msec , total: 4752 msec) 
+2023-12-01T10:26:45Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426396 | 52eb8881015f84676564e5c9474dd8f0 | 3163601 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163566 | 1701426358 | e1808f20-3cad-47cf-87b3-a818a705366c | 
+#=#=#=# Syncrun finished 2023-12-01T10:26:47Z (last step: 2101 msec , total: 6854 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:28:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:28:19Z (last step: 4816 msec , total: 4816 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:28:19Z (last step: 20 msec , total: 4836 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:29:07Z
+#=#=#=#=# Propagation starts 2023-12-01T10:29:11Z (last step: 3536 msec , total: 3536 msec) 
+2023-12-01T10:29:11Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426543 | 9204feae2145e8978b5611118478d647 | 3163666 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163601 | 1701426396 | a914073a-031d-4cce-90cb-9737d448399b | 
+#=#=#=# Syncrun finished 2023-12-01T10:29:12Z (last step: 1597 msec , total: 5133 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:29:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:29:19Z (last step: 4926 msec , total: 4926 msec) 
+2023-12-01T10:29:20Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426551 | b60a6c27706b6b7e9368e7a90fc720b4 | 3163694 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163666 | 1701426543 | 19463ad6-a68a-4bcc-a1f7-9bba99420b2d | 
+#=#=#=# Syncrun finished 2023-12-01T10:29:20Z (last step: 1264 msec , total: 6190 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:29:54Z
+#=#=#=#=# Propagation starts 2023-12-01T10:29:59Z (last step: 4762 msec , total: 4762 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:29:59Z (last step: 24 msec , total: 4787 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:31:50Z
+#=#=#=#=# Propagation starts 2023-12-01T10:31:54Z (last step: 3757 msec , total: 3757 msec) 
+2023-12-01T10:31:55Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426706 | 3c71f3bf328cb7c6c8d4a23bbc17ebee | 3163758 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163694 | 1701426551 | 17ea0449-55cd-44ea-bd16-8b9b058da9ac | 
+#=#=#=# Syncrun finished 2023-12-01T10:31:55Z (last step: 1389 msec , total: 5146 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:32:57Z
+#=#=#=#=# Propagation starts 2023-12-01T10:33:00Z (last step: 2673 msec , total: 2673 msec) 
+2023-12-01T10:33:01Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426773 | 2bdfc1336ab51a10fb4ee32f18333dc4 | 3163807 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163758 | 1701426706 | ad2882f0-e46e-466b-8c9a-0eaf7fa4db6b | 
+#=#=#=# Syncrun finished 2023-12-01T10:33:01Z (last step: 1170 msec , total: 3844 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:33:09Z
+#=#=#=#=# Propagation starts 2023-12-01T10:33:12Z (last step: 2750 msec , total: 2750 msec) 
+2023-12-01T10:33:13Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426786 | 744f2fdb2b9accda3ebcabfc39f2c090 | 3163858 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163807 | 1701426773 | f72a18a8-5132-4350-9935-3b58524fb614 | 
+#=#=#=# Syncrun finished 2023-12-01T10:33:13Z (last step: 1434 msec , total: 4185 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:33:24Z
+#=#=#=#=# Propagation starts 2023-12-01T10:33:27Z (last step: 3126 msec , total: 3126 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:33:27Z (last step: 6 msec , total: 3133 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:33:33Z
+#=#=#=#=# Propagation starts 2023-12-01T10:33:35Z (last step: 2039 msec , total: 2039 msec) 
+2023-12-01T10:33:36Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426810 | 8755b0b26210aea7dfb0061b1f3f49e2 | 3163842 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163858 | 1701426786 | 959565fd-5f1d-452a-9304-7797aa14d1e7 | 
+#=#=#=# Syncrun finished 2023-12-01T10:33:36Z (last step: 1111 msec , total: 3151 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:34:27Z
+#=#=#=#=# Propagation starts 2023-12-01T10:34:30Z (last step: 2774 msec , total: 2774 msec) 
+2023-12-01T10:34:31Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426863 | 04d6fc5edac772a35397fc122c72bfaf | 3163877 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163842 | 1701426810 | 96aff830-8b5f-4984-80d8-4a4c524580a7 | 
+#=#=#=# Syncrun finished 2023-12-01T10:34:31Z (last step: 1404 msec , total: 4179 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:34:38Z
+#=#=#=#=# Propagation starts 2023-12-01T10:34:41Z (last step: 2667 msec , total: 2667 msec) 
+2023-12-01T10:34:42Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426875 | eb99232adb625bc4dc1d6b1cff281439 | 3163900 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163877 | 1701426863 | 50208840-5bb1-40b8-bb4b-31f50adcd060 | 
+#=#=#=# Syncrun finished 2023-12-01T10:34:42Z (last step: 1181 msec , total: 3848 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:34:48Z
+#=#=#=#=# Propagation starts 2023-12-01T10:34:51Z (last step: 2926 msec , total: 2926 msec) 
+2023-12-01T10:34:52Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426884 | 8bb2e170ff9f38f29c92ec7ca4a401fb | 3163886 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163900 | 1701426875 | d2d73568-e57d-40ec-b754-10c211046821 | 
+#=#=#=# Syncrun finished 2023-12-01T10:34:53Z (last step: 1788 msec , total: 4715 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:35:04Z
+#=#=#=#=# Propagation starts 2023-12-01T10:35:07Z (last step: 2599 msec , total: 2599 msec) 
+2023-12-01T10:35:07Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426902 | bf1cf46e4f1d48f3f2ed5cc90d0a1693 | 3163929 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163886 | 1701426884 | ad5f392a-d927-4adb-a3bf-340a363a4bbb | 
+#=#=#=# Syncrun finished 2023-12-01T10:35:08Z (last step: 1237 msec , total: 3837 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:35:09Z
+#=#=#=#=# Propagation starts 2023-12-01T10:35:12Z (last step: 2768 msec , total: 2768 msec) 
+2023-12-01T10:35:12Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426909 | 4eb33f8ba889b8b1b323afe93ddcbe1d | 3164124 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163929 | 1701426902 | 62ff7e08-0990-450a-98ba-5ed08ae34ade | 
+#=#=#=# Syncrun finished 2023-12-01T10:35:13Z (last step: 1085 msec , total: 3854 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:35:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:35:18Z (last step: 3917 msec , total: 3917 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:35:18Z (last step: 10 msec , total: 3927 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:35:30Z
+#=#=#=#=# Propagation starts 2023-12-01T10:35:32Z (last step: 1966 msec , total: 1966 msec) 
+2023-12-01T10:35:33Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701426927 | ed158d95badd8dfe0505b7fa84023cfc | 3163987 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164124 | 1701426909 | da8378b3-41dc-48fa-bb18-275d1c9fe406 | 
+#=#=#=# Syncrun finished 2023-12-01T10:35:33Z (last step: 1159 msec , total: 3125 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:36:45Z
+#=#=#=#=# Propagation starts 2023-12-01T10:36:47Z (last step: 2795 msec , total: 2795 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:36:47Z (last step: 8 msec , total: 2803 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:37:24Z
+#=#=#=#=# Propagation starts 2023-12-01T10:37:26Z (last step: 2064 msec , total: 2064 msec) 
+2023-12-01T10:37:27Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427041 | df65c0f6d25c8a1071a2482dfd3812dd | 3163990 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163987 | 1701426927 | 9195d62d-6d2d-41e6-b28c-27d8010aa424 | 
+#=#=#=# Syncrun finished 2023-12-01T10:37:28Z (last step: 1527 msec , total: 3592 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:38:24Z
+#=#=#=#=# Propagation starts 2023-12-01T10:38:28Z (last step: 3994 msec , total: 3994 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:38:28Z (last step: 8 msec , total: 4002 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:39:01Z
+#=#=#=#=# Propagation starts 2023-12-01T10:39:03Z (last step: 1917 msec , total: 1917 msec) 
+2023-12-01T10:39:04Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427137 | e18550f3feea35be775c5a2eeb99b2fd | 3163966 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163990 | 1701427041 | 4e661c56-f95c-4d2f-ab11-754832199662 | 
+#=#=#=# Syncrun finished 2023-12-01T10:39:07Z (last step: 3708 msec , total: 5626 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:39:15Z
+#=#=#=#=# Propagation starts 2023-12-01T10:39:17Z (last step: 2634 msec , total: 2634 msec) 
+2023-12-01T10:39:18Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427148 | b039404698f0d026e5d62c4b8a31e8e1 | 3164180 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163966 | 1701427137 | de0fb772-6212-49d0-98ac-bc015face78e | 
+#=#=#=# Syncrun finished 2023-12-01T10:39:18Z (last step: 1158 msec , total: 3793 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:40:04Z
+#=#=#=#=# Propagation starts 2023-12-01T10:40:07Z (last step: 2757 msec , total: 2757 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:40:07Z (last step: 8 msec , total: 2765 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:42:53Z
+#=#=#=#=# Propagation starts 2023-12-01T10:42:55Z (last step: 1813 msec , total: 1813 msec) 
+2023-12-01T10:42:56Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427370 | 205eb174451ed4747dae4389fc676776 | 3163967 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164180 | 1701427148 | 144ae1ab-3f57-4aae-890b-57014834ba02 | 
+#=#=#=# Syncrun finished 2023-12-01T10:42:58Z (last step: 2585 msec , total: 4398 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:43:23Z
+#=#=#=#=# Propagation starts 2023-12-01T10:43:26Z (last step: 2465 msec , total: 2465 msec) 
+2023-12-01T10:43:26Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427400 | c05920f61c2a9764f29ae4c59cb09324 | 3164169 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3163967 | 1701427370 | 3185ad8b-0375-4e8b-bc2e-010b44b6b16b | 
+#=#=#=# Syncrun finished 2023-12-01T10:43:27Z (last step: 1706 msec , total: 4171 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:43:34Z
+#=#=#=#=# Propagation starts 2023-12-01T10:43:37Z (last step: 2599 msec , total: 2599 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:43:37Z (last step: 7 msec , total: 2607 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:43:43Z
+#=#=#=#=# Propagation starts 2023-12-01T10:43:45Z (last step: 1777 msec , total: 1777 msec) 
+2023-12-01T10:43:46Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427423 | 209aebd7f34da62e49474cfa3ebf26b3 | 3164217 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164169 | 1701427400 | 4a7f147f-3e26-448e-a7a2-c5ccb8b2104a | 
+#=#=#=# Syncrun finished 2023-12-01T10:43:46Z (last step: 1285 msec , total: 3063 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:43:47Z
+#=#=#=#=# Propagation starts 2023-12-01T10:43:50Z (last step: 2597 msec , total: 2597 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:43:50Z (last step: 7 msec , total: 2604 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:44:01Z
+#=#=#=#=# Propagation starts 2023-12-01T10:44:03Z (last step: 1716 msec , total: 1716 msec) 
+2023-12-01T10:44:04Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427438 | 4d3272d1bacf1b0ef3e453dcc1c14bf7 | 3164235 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164217 | 1701427423 | fab42b07-5c3f-463e-9a2d-87f2b02e3347 | 
+#=#=#=# Syncrun finished 2023-12-01T10:44:04Z (last step: 1521 msec , total: 3237 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:45:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:45:17Z (last step: 2548 msec , total: 2548 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:45:17Z (last step: 7 msec , total: 2555 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:45:23Z
+#=#=#=#=# Propagation starts 2023-12-01T10:45:25Z (last step: 1859 msec , total: 1859 msec) 
+2023-12-01T10:45:26Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427520 | 5a19376a86fc178b38149d978db4e5f6 | 3164271 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164235 | 1701427438 | 22b9a796-083b-4cf1-8a00-c506437500a6 | 
+#=#=#=# Syncrun finished 2023-12-01T10:45:27Z (last step: 1479 msec , total: 3338 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:45:36Z
+#=#=#=#=# Propagation starts 2023-12-01T10:45:39Z (last step: 2619 msec , total: 2619 msec) 
+2023-12-01T10:45:40Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427532 | 639a0be7bc2c12570f645918d5da02e7 | 3164275 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164271 | 1701427520 | 041d0dff-9331-47bf-b7b5-fb42b4272a5c | 
+#=#=#=# Syncrun finished 2023-12-01T10:45:40Z (last step: 1166 msec , total: 3785 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:45:50Z
+#=#=#=#=# Propagation starts 2023-12-01T10:45:52Z (last step: 2600 msec , total: 2600 msec) 
+2023-12-01T10:45:53Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427543 | bc4e97fa23073233e22adf618d624581 | 3164223 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164275 | 1701427532 | d1c30da2-a27d-49eb-810f-c2e53d71f5ee | 
+#=#=#=# Syncrun finished 2023-12-01T10:45:54Z (last step: 1273 msec , total: 3874 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:45:57Z
+#=#=#=#=# Propagation starts 2023-12-01T10:46:00Z (last step: 2802 msec , total: 2802 msec) 
+2023-12-01T10:46:01Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427554 | a077ea9d2c1bc0a97e73c88466c9884f | 3164239 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164223 | 1701427543 | e600c284-238b-4418-850f-73244022daf3 | 
+#=#=#=# Syncrun finished 2023-12-01T10:46:01Z (last step: 1260 msec , total: 4063 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:46:18Z
+#=#=#=#=# Propagation starts 2023-12-01T10:46:21Z (last step: 2981 msec , total: 2981 msec) 
+2023-12-01T10:46:22Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427575 | 1dcaf841532859c8526e1fd13842ad3b | 3164263 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164239 | 1701427554 | 8c9bfb76-6ddb-4954-a90a-e289edf9af25 | 
+#=#=#=# Syncrun finished 2023-12-01T10:46:23Z (last step: 1444 msec , total: 4426 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:46:44Z
+#=#=#=#=# Propagation starts 2023-12-01T10:46:47Z (last step: 2908 msec , total: 2908 msec) 
+2023-12-01T10:46:48Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427601 | a6f48318f27823a8f4b64bdf1426cc06 | 3164269 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164263 | 1701427575 | 32c28392-847d-47b0-85ab-0af35852c7f3 | 
+#=#=#=# Syncrun finished 2023-12-01T10:46:48Z (last step: 1240 msec , total: 4148 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:46:54Z
+#=#=#=#=# Propagation starts 2023-12-01T10:46:57Z (last step: 2770 msec , total: 2770 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:46:57Z (last step: 8 msec , total: 2779 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:47:49Z
+#=#=#=#=# Propagation starts 2023-12-01T10:47:51Z (last step: 1773 msec , total: 1773 msec) 
+2023-12-01T10:47:52Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427666 | 85360fb535615b3a6ae33752051a3c27 | 3161134 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3164269 | 1701427601 | 2ca2c038-5e72-400e-8388-2178b7a1a0c6 | 
+#=#=#=# Syncrun finished 2023-12-01T10:47:52Z (last step: 1250 msec , total: 3024 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:47:55Z
+#=#=#=#=# Propagation starts 2023-12-01T10:47:58Z (last step: 2969 msec , total: 2969 msec) 
+2023-12-01T10:47:59Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427671 | db12d4ab377cbe75f4c93081f73000bc | 3161488 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3161134 | 1701427666 | 0a8bd838-a52b-49f5-b46a-f53aeaed7d51 | 
+#=#=#=# Syncrun finished 2023-12-01T10:48:01Z (last step: 2422 msec , total: 5392 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:48:34Z
+#=#=#=#=# Propagation starts 2023-12-01T10:48:37Z (last step: 2956 msec , total: 2956 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:48:37Z (last step: 6 msec , total: 2963 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:49:10Z
+#=#=#=#=# Propagation starts 2023-12-01T10:49:12Z (last step: 1858 msec , total: 1858 msec) 
+2023-12-01T10:49:13Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427746 | a51efac61d1cc96b3dba7148906d7d7e | 3165120 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3161488 | 1701427671 | 4b2c540e-9513-4bd3-a9f1-a6d209cfeb0a | 
+#=#=#=# Syncrun finished 2023-12-01T10:49:13Z (last step: 1265 msec , total: 3123 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:50:14Z
+#=#=#=#=# Propagation starts 2023-12-01T10:50:17Z (last step: 3029 msec , total: 3029 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:50:17Z (last step: 6 msec , total: 3035 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:50:39Z
+#=#=#=#=# Propagation starts 2023-12-01T10:50:41Z (last step: 1946 msec , total: 1946 msec) 
+2023-12-01T10:50:42Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427836 | edd662216f07a4998bc683d59f9251c5 | 3165149 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165120 | 1701427746 | 3e05f6e4-d31e-4d47-9099-86d8c78cfade | 
+#=#=#=# Syncrun finished 2023-12-01T10:50:42Z (last step: 1171 msec , total: 3117 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:51:48Z
+#=#=#=#=# Propagation starts 2023-12-01T10:51:51Z (last step: 2668 msec , total: 2668 msec) 
+2023-12-01T10:51:52Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427904 | b466ecd1969103bce817e1c5eb500d08 | 3165222 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165149 | 1701427836 | 63bd1c63-c209-459f-ac39-5b6325b301d3 | 
+#=#=#=# Syncrun finished 2023-12-01T10:51:52Z (last step: 1441 msec , total: 4110 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:51:54Z
+#=#=#=#=# Propagation starts 2023-12-01T10:51:57Z (last step: 2583 msec , total: 2583 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:51:57Z (last step: 8 msec , total: 2592 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:52:09Z
+#=#=#=#=# Propagation starts 2023-12-01T10:52:12Z (last step: 2433 msec , total: 2433 msec) 
+2023-12-01T10:52:12Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427926 | ddfa55b4bbe70384c61b692e6af85680 | 3165217 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165222 | 1701427904 | 818991a1-d1c5-462a-840f-fe1bb95d0bb4 | 
+#=#=#=# Syncrun finished 2023-12-01T10:52:14Z (last step: 2127 msec , total: 4561 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:52:40Z
+#=#=#=#=# Propagation starts 2023-12-01T10:52:43Z (last step: 2622 msec , total: 2622 msec) 
+2023-12-01T10:52:44Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427957 | 61f8e3c655c3e6a0887d80063404167e | 3165234 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165217 | 1701427926 | ea564cec-e3a5-4c4c-9db3-1ba2d7eef92f | 
+#=#=#=# Syncrun finished 2023-12-01T10:52:44Z (last step: 1431 msec , total: 4053 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:53:09Z
+#=#=#=#=# Propagation starts 2023-12-01T10:53:12Z (last step: 2740 msec , total: 2740 msec) 
+2023-12-01T10:53:13Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701427986 | b5d8b9ad5a190e960779abc697ee8cf5 | 3165238 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165234 | 1701427957 | 7fde9e46-3933-4b35-ba94-fd62ea88f447 | 
+#=#=#=# Syncrun finished 2023-12-01T10:53:14Z (last step: 1666 msec , total: 4407 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:53:29Z
+#=#=#=#=# Propagation starts 2023-12-01T10:53:32Z (last step: 2617 msec , total: 2617 msec) 
+2023-12-01T10:53:33Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701428006 | 33a5dbe1abc5db0918389bea96b286bc | 3162047 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3165238 | 1701427986 | 8f9f12c7-7abd-4d52-b685-3a599f1620a9 | 
+#=#=#=# Syncrun finished 2023-12-01T10:53:33Z (last step: 1194 msec , total: 3812 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:53:44Z
+#=#=#=#=# Propagation starts 2023-12-01T10:53:47Z (last step: 3162 msec , total: 3162 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:53:47Z (last step: 6 msec , total: 3168 msec) 
+#=#=#=# Syncrun started 2023-12-01T10:57:04Z
+#=#=#=#=# Propagation starts 2023-12-01T10:57:06Z (last step: 1944 msec , total: 1944 msec) 
+#=#=#=# Syncrun finished 2023-12-01T10:57:06Z (last step: 7 msec , total: 1952 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:02:11Z
+#=#=#=#=# Propagation starts 2023-12-01T11:02:14Z (last step: 3139 msec , total: 3139 msec) 
+2023-12-01T11:02:15Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701428527 | 6d71a306bcc4649f0ae356557327102e | 3158219 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3162047 | 1701428006 | 286edb40-8ec9-4df8-b3ea-fe7228e2b7b8 | 
+#=#=#=# Syncrun finished 2023-12-01T11:02:17Z (last step: 2399 msec , total: 5539 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:03:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:03:47Z (last step: 3030 msec , total: 3030 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:03:47Z (last step: 8 msec , total: 3039 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:04:18Z
+#=#=#=#=# Propagation starts 2023-12-01T11:04:20Z (last step: 1995 msec , total: 1995 msec) 
+2023-12-01T11:04:21Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701428655 | 2b9e7bc2ceb47f8097a6c6a5e3f8fbc5 | 3161896 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3158219 | 1701428527 | eceb375e-7768-4230-b192-347dce0e8bd8 | 
+#=#=#=# Syncrun finished 2023-12-01T11:04:23Z (last step: 2791 msec , total: 4786 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:05:16Z
+#=#=#=#=# Propagation starts 2023-12-01T11:05:19Z (last step: 2727 msec , total: 2727 msec) 
+2023-12-01T11:05:20Z | draft/Nouveau Document Microsoft Word.docx | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1701428712 | 82bdf34e25bd6764484f12bf13ad19fe | 0 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 221c0d8f-7521-4338-b3b6-391f99ccb741 | 
+#=#=#=# Syncrun finished 2023-12-01T11:05:21Z (last step: 1717 msec , total: 4445 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:05:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:05:27Z (last step: 2857 msec , total: 2857 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:05:27Z (last step: 8 msec , total: 2865 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:05:57Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:01Z (last step: 3695 msec , total: 3695 msec) 
+2023-12-01T11:06:02Z | draft/Nouveau Document Microsoft Word.docx -> draft/Draft_Ecology_Supplementary.docx | SyncInstruction(CSYNC_INSTRUCTION_RENAME) | OCC::SyncFileItem::Up | | 1701428712 | 82bdf34e25bd6764484f12bf13ad19fe | 0 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | c36d339c-7d31-4407-9d0f-da475a102af0 | 
+#=#=#=# Syncrun finished 2023-12-01T11:06:02Z (last step: 968 msec , total: 4663 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:08Z (last step: 3805 msec , total: 3805 msec) 
+2023-12-01T11:06:09Z | draft/Draft_Ecology_Supplementary.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701428759 | 2ab6c0078a882e94692cc2ae567f3239 | 2563829 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 0 | 1701428712 | 7b729fb6-53eb-467a-8d7d-0e23958c7012 | 
+#=#=#=# Syncrun finished 2023-12-01T11:06:10Z (last step: 1822 msec , total: 5628 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:11Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:13Z (last step: 2801 msec , total: 2801 msec) 
+2023-12-01T11:06:14Z | draft/draft_V3.4.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701428767 | 700aae785ddc1efcc1a479b95844a98c | 609743 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 3161896 | 1701428655 | 81bffdd6-c41d-4c83-822e-45cb7d9c77eb | 
+#=#=#=# Syncrun finished 2023-12-01T11:06:14Z (last step: 955 msec , total: 3756 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:15Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:18Z (last step: 2847 msec , total: 2847 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:06:18Z (last step: 6 msec , total: 2853 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:22Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:26Z (last step: 3419 msec , total: 3419 msec) 
+2023-12-01T11:06:26Z | draft/draft_V3.4.docx -> draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_RENAME) | OCC::SyncFileItem::Up | | 1701428767 | 700aae785ddc1efcc1a479b95844a98c | 609743 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | f094a6dc-3ef1-4f74-8b76-66ca1e787ac1 | 
+#=#=#=# Syncrun finished 2023-12-01T11:06:27Z (last step: 1234 msec , total: 4653 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:28Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:32Z (last step: 4310 msec , total: 4310 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:06:32Z (last step: 9 msec , total: 4320 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:06:33Z
+#=#=#=#=# Propagation starts 2023-12-01T11:06:35Z (last step: 1947 msec , total: 1947 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:06:35Z (last step: 9 msec , total: 1957 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:07:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:07:06Z (last step: 1876 msec , total: 1876 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:07:06Z (last step: 11 msec , total: 1887 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:10:37Z
+#=#=#=#=# Propagation starts 2023-12-01T11:10:42Z (last step: 4698 msec , total: 4698 msec) 
+2023-12-01T11:10:43Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429034 | 919983c69566f153027f8271632a5018 | 607417 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 609743 | 1701428767 | 8fd98317-2f27-45c2-8e9c-ed4658255498 | 
+#=#=#=# Syncrun finished 2023-12-01T11:10:43Z (last step: 1259 msec , total: 5957 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:11:05Z
+#=#=#=#=# Propagation starts 2023-12-01T11:11:09Z (last step: 4541 msec , total: 4541 msec) 
+2023-12-01T11:11:10Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429062 | 7f461f61a9707ccd480b7ca852b6cf5b | 607438 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 607417 | 1701429034 | 6088f41e-f9d9-43a8-9d1b-cbaf41f32f77 | 
+#=#=#=# Syncrun finished 2023-12-01T11:11:10Z (last step: 1133 msec , total: 5675 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:11:51Z
+#=#=#=#=# Propagation starts 2023-12-01T11:11:54Z (last step: 2540 msec , total: 2540 msec) 
+2023-12-01T11:11:55Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429107 | 7e2aec0db4842b2824fe52c391fb36ec | 607910 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 607438 | 1701429062 | 9768d474-678d-43dc-a590-1e01db192b75 | 
+#=#=#=# Syncrun finished 2023-12-01T11:11:55Z (last step: 1220 msec , total: 3761 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:12:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:12:07Z (last step: 2686 msec , total: 2686 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:12:07Z (last step: 13 msec , total: 2699 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:14:06Z
+#=#=#=#=# Propagation starts 2023-12-01T11:14:08Z (last step: 2017 msec , total: 2017 msec) 
+2023-12-01T11:14:09Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429243 | 7bf6052435e13a0aabe052bb342fcbfe | 608649 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 607910 | 1701429107 | 28801740-b7bb-4f8c-bb22-10c46f2eb932 | 
+#=#=#=# Syncrun finished 2023-12-01T11:14:09Z (last step: 1175 msec , total: 3192 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:14:23Z
+#=#=#=#=# Propagation starts 2023-12-01T11:14:26Z (last step: 2809 msec , total: 2809 msec) 
+2023-12-01T11:14:27Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429260 | 1cd01c9677fcf091ffa4d6d3872ade02 | 608795 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 608649 | 1701429243 | 7c9d3805-9092-4886-9cc2-6935ea929a2b | 
+#=#=#=# Syncrun finished 2023-12-01T11:14:27Z (last step: 1157 msec , total: 3967 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:15:25Z
+#=#=#=#=# Propagation starts 2023-12-01T11:15:30Z (last step: 4512 msec , total: 4512 msec) 
+2023-12-01T11:15:30Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429321 | 2094fd64697b971c7c986c391a328ae3 | 608795 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 608795 | 1701429260 | 920308d7-e674-4c1c-8ff9-6902a7011152 | 
+#=#=#=# Syncrun finished 2023-12-01T11:15:31Z (last step: 981 msec , total: 5493 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:15:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:15:48Z (last step: 3771 msec , total: 3771 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:15:48Z (last step: 9 msec , total: 3780 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:16:38Z
+#=#=#=#=# Propagation starts 2023-12-01T11:16:42Z (last step: 3675 msec , total: 3675 msec) 
+2023-12-01T11:16:43Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429398 | 1d88c3d88a00ad1c89c4203f3b57df9f | 608728 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 608795 | 1701429321 | 33e0f764-ee27-4f66-acd7-a35432d1762d | 
+#=#=#=# Syncrun finished 2023-12-01T11:16:43Z (last step: 1312 msec , total: 4987 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:16:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:16:48Z (last step: 3265 msec , total: 3265 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:16:48Z (last step: 14 msec , total: 3279 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:17:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:17:28Z (last step: 4266 msec , total: 4266 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:17:28Z (last step: 30 msec , total: 4296 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:17:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:17:48Z (last step: 3451 msec , total: 3451 msec) 
+2023-12-01T11:17:48Z | plasticity_traits_allocation_annuals.Rproj | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429461 | 92a547b1ac8257a4dc877f2144a60d86 | 218 | 3377948602ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 218 | 1701334277 | c79a5140-fabe-4e41-92a3-7f4a760ed556 | 
+#=#=#=# Syncrun finished 2023-12-01T11:17:49Z (last step: 1079 msec , total: 4531 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:18:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:18:27Z (last step: 2725 msec , total: 2725 msec) 
+2023-12-01T11:18:28Z | draft/bp_ferti.svg | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429504 | 440c4a784c6b194e2bebb74c5b4247c3 | 196262 | 3391873050ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 196262 | 1700480544 | 13d8d843-81c4-49c3-95ba-e3abc6196879 | 
+2023-12-01T11:18:28Z | draft/bp_ferti.png | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429502 | 9665ae8f246ceb9020b90d511008643a | 2030838 | 3391873086ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 2030838 | 1700480543 | e12bda29-845b-41e6-b98d-f34372fe05ef | 
+#=#=#=# Syncrun finished 2023-12-01T11:18:30Z (last step: 3480 msec , total: 6206 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:18:31Z
+#=#=#=#=# Propagation starts 2023-12-01T11:18:35Z (last step: 3208 msec , total: 3208 msec) 
+2023-12-01T11:18:35Z | draft/bp_traits2.png | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429511 | c816781965eadd68d32f6479db43bbd0 | 1833427 | 3391873590ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 1833427 | 1700480552 | b6681c6b-3746-421a-8fc2-14642704c9f1 | 
+#=#=#=# Syncrun finished 2023-12-01T11:18:37Z (last step: 2534 msec , total: 5742 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:18:38Z
+#=#=#=#=# Propagation starts 2023-12-01T11:18:41Z (last step: 3243 msec , total: 3243 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:18:41Z (last step: 8 msec , total: 3252 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:18:56Z
+#=#=#=#=# Propagation starts 2023-12-01T11:19:00Z (last step: 3410 msec , total: 3410 msec) 
+2023-12-01T11:19:00Z | draft/bp_ferti.png | SyncInstruction(CSYNC_INSTRUCTION_REMOVE) | OCC::SyncFileItem::Up | | 1701429502 | 9665ae8f246ceb9020b90d511008643a | 2030838 | 3391873086ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 2030838 | 1701429502 | 077bfe93-ef52-4a4e-819c-0f5811ba5745 | 
+#=#=#=# Syncrun finished 2023-12-01T11:19:01Z (last step: 901 msec , total: 4311 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:19:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:19:09Z (last step: 4552 msec , total: 4552 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:19:09Z (last step: 14 msec , total: 4566 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:20:00Z
+#=#=#=#=# Propagation starts 2023-12-01T11:20:02Z (last step: 1957 msec , total: 1957 msec) 
+2023-12-01T11:20:03Z | script/Q1_Q3_boxplot_plasticity.R | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429597 | cba5ebdea984178e139c2436e3b55a28 | 5638 | 3377948286ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 5631 | 1700480530 | 488756a6-2130-43b5-b215-e843b02ee1c2 | 
+#=#=#=# Syncrun finished 2023-12-01T11:20:03Z (last step: 1226 msec , total: 3183 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:20:09Z
+#=#=#=#=# Propagation starts 2023-12-01T11:20:12Z (last step: 2830 msec , total: 2830 msec) 
+2023-12-01T11:20:13Z | draft/Figure 1.png | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1701429607 | 0fa64aa394c4559e88c26418c9ddceb4 | 1831222 | 3409296678ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 31c27c53-c422-41f1-802e-ab0ada1dd018 | 
+#=#=#=# Syncrun finished 2023-12-01T11:20:14Z (last step: 1787 msec , total: 4617 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:20:20Z
+#=#=#=#=# Propagation starts 2023-12-01T11:20:25Z (last step: 4750 msec , total: 4750 msec) 
+2023-12-01T11:20:26Z | draft/bp_traits2.png | SyncInstruction(CSYNC_INSTRUCTION_REMOVE) | OCC::SyncFileItem::Up | | 1701429511 | c816781965eadd68d32f6479db43bbd0 | 1833427 | 3391873590ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 1833427 | 1701429511 | 50d3f662-8811-4d17-8396-99aaf470c6d8 | 
+#=#=#=# Syncrun finished 2023-12-01T11:20:26Z (last step: 1017 msec , total: 5768 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:20:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:20:47Z (last step: 2803 msec , total: 2803 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:20:47Z (last step: 10 msec , total: 2813 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:21:03Z
+#=#=#=#=# Propagation starts 2023-12-01T11:21:07Z (last step: 4011 msec , total: 4011 msec) 
+2023-12-01T11:21:08Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429652 | a0f6021e38148135c20eb92472e5e74d | 303535 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 608728 | 1701429398 | 7fea2895-6d4b-40af-a4d7-68f0c12f68d3 | 
+#=#=#=# Syncrun finished 2023-12-01T11:21:09Z (last step: 1564 msec , total: 5576 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:22:12Z
+#=#=#=#=# Propagation starts 2023-12-01T11:22:16Z (last step: 3822 msec , total: 3822 msec) 
+2023-12-01T11:22:17Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429728 | 9a56e9db87ab845936520a37deed27de | 177586 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 303535 | 1701429652 | a1e13a44-700c-440d-8a3d-4c35082bfa9f | 
+#=#=#=# Syncrun finished 2023-12-01T11:22:17Z (last step: 1366 msec , total: 5188 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:22:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:22:29Z (last step: 4490 msec , total: 4490 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:22:29Z (last step: 7 msec , total: 4498 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:22:34Z
+#=#=#=#=# Propagation starts 2023-12-01T11:22:36Z (last step: 2204 msec , total: 2204 msec) 
+2023-12-01T11:22:37Z | script/Q1_Q3_boxplot_plasticity.R | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429751 | dd4059c16deca7c1ad1b5ae297b1d5c0 | 5640 | 3377948286ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 5638 | 1701429597 | 70741bf3-bbb7-490d-bcbf-91082cdecaa2 | 
+#=#=#=# Syncrun finished 2023-12-01T11:22:37Z (last step: 890 msec , total: 3095 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:22:43Z
+#=#=#=#=# Propagation starts 2023-12-01T11:22:47Z (last step: 3412 msec , total: 3412 msec) 
+2023-12-01T11:22:47Z | draft/table_difference_plast_sp.doc | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429760 | cc8f81ea7d66d809330abc474369cab9 | 1820 | 3391880262ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 1820 | 1700478739 | 5ad7b86b-d6d0-4bc6-96e7-3b9ebe78fd6c | 
+#=#=#=# Syncrun finished 2023-12-01T11:22:48Z (last step: 1023 msec , total: 4436 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:22:57Z
+#=#=#=#=# Propagation starts 2023-12-01T11:23:00Z (last step: 3261 msec , total: 3261 msec) 
+2023-12-01T11:23:01Z | draft/RDPI_sla_mass.png | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429766 | 6437009242532b637a7109ff25f96863 | 395864 | 3391880238ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 395864 | 1700478912 | 20e41dd7-e06c-4404-a881-0a9ecd56b066 | 
+2023-12-01T11:23:01Z | output/plot/plast_ellenberg.png | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429763 | cedda4f0d9e04d7e65aa9c06a8853597 | 262659 | 3386424438ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 262659 | 1700478910 | 29b39dda-eb77-458d-823a-af9eb272e0b4 | 
+2023-12-01T11:23:01Z | draft/plast_dry_mass.png | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429767 | 41bef7e3381150e5c380597efaa9d7f9 | 32216 | 3391880218ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 32216 | 1700478913 | b9a4bbd1-891c-49d7-83dc-c9876de84b83 | 
+#=#=#=# Syncrun finished 2023-12-01T11:23:02Z (last step: 1905 msec , total: 5166 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:23:10Z
+#=#=#=#=# Propagation starts 2023-12-01T11:23:15Z (last step: 5176 msec , total: 5176 msec) 
+2023-12-01T11:23:16Z | script/Q4_strategy_plasticity.R | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429787 | 2090b0df1ffed560f670282d5b372b07 | 8666 | 3377948334ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 8671 | 1700478927 | d1428ea0-c533-4e98-8267-57ca8bdbef5b | 
+2023-12-01T11:23:16Z | draft/Figure 2.png | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1701429789 | 9c4979d83966e51635cf706608db924b | 395864 | 3409302494ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 9fd3d594-2212-4058-ab96-6fd4eb804536 | 
+#=#=#=# Syncrun finished 2023-12-01T11:23:17Z (last step: 1955 msec , total: 7131 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:23:18Z
+#=#=#=#=# Propagation starts 2023-12-01T11:23:23Z (last step: 4119 msec , total: 4119 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:23:23Z (last step: 12 msec , total: 4132 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:23:59Z
+#=#=#=#=# Propagation starts 2023-12-01T11:24:03Z (last step: 3972 msec , total: 3972 msec) 
+2023-12-01T11:24:04Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429836 | 990e1231fe43b9626b5a61681eb32fab | 177518 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177586 | 1701429728 | a6b62d54-4e9d-489c-b065-07e20211c0f2 | 
+#=#=#=# Syncrun finished 2023-12-01T11:24:05Z (last step: 1375 msec , total: 5347 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:24:14Z
+#=#=#=#=# Propagation starts 2023-12-01T11:24:18Z (last step: 4187 msec , total: 4187 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:24:18Z (last step: 20 msec , total: 4208 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:26:01Z
+#=#=#=#=# Propagation starts 2023-12-01T11:26:03Z (last step: 2027 msec , total: 2027 msec) 
+2023-12-01T11:26:04Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429957 | d1592d92715d818856e2fd9dd0b2101c | 177568 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177518 | 1701429836 | 613d6fa0-3f9b-4568-a242-1f5ad1be2278 | 
+#=#=#=# Syncrun finished 2023-12-01T11:26:05Z (last step: 1254 msec , total: 3282 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:26:08Z
+#=#=#=#=# Propagation starts 2023-12-01T11:26:11Z (last step: 2635 msec , total: 2635 msec) 
+2023-12-01T11:26:12Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429965 | 1dcbddf5abb30906e615c02be98177ca | 177597 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177568 | 1701429957 | 312a6a31-4a69-474d-9664-e907fbfcda5f | 
+#=#=#=# Syncrun finished 2023-12-01T11:26:12Z (last step: 986 msec , total: 3622 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:26:17Z
+#=#=#=#=# Propagation starts 2023-12-01T11:26:20Z (last step: 2541 msec , total: 2541 msec) 
+2023-12-01T11:26:21Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701429973 | 38794f7bffd63453d95a988023348294 | 177592 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177597 | 1701429965 | 982996a2-5a4d-46af-9af2-bbc315cfb784 | 
+#=#=#=# Syncrun finished 2023-12-01T11:26:21Z (last step: 889 msec , total: 3431 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:26:54Z
+#=#=#=#=# Propagation starts 2023-12-01T11:26:57Z (last step: 2607 msec , total: 2607 msec) 
+2023-12-01T11:26:58Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430010 | 1081aeb650c554c3a4bba02a4be6ba8d | 177666 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177592 | 1701429973 | 14bc7bf8-ecf6-4ecd-8637-3a65dc3c8437 | 
+#=#=#=# Syncrun finished 2023-12-01T11:26:58Z (last step: 918 msec , total: 3526 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:27:34Z
+#=#=#=#=# Propagation starts 2023-12-01T11:27:37Z (last step: 2726 msec , total: 2726 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:27:37Z (last step: 8 msec , total: 2734 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:27:40Z
+#=#=#=#=# Propagation starts 2023-12-01T11:27:42Z (last step: 1521 msec , total: 1521 msec) 
+2023-12-01T11:27:42Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430056 | 8b9fd8543af7cdd6afe970d335019b60 | 177750 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177666 | 1701430010 | 6dc5a1f7-732d-4803-96d3-83f9c8cceaaa | 
+#=#=#=# Syncrun finished 2023-12-01T11:27:43Z (last step: 921 msec , total: 2443 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:29:15Z
+#=#=#=#=# Propagation starts 2023-12-01T11:29:18Z (last step: 2627 msec , total: 2627 msec) 
+2023-12-01T11:29:19Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430148 | a3263c326e09a25030f8e2fe2b7c85e0 | 178020 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 177750 | 1701430056 | 13b86708-4da0-4005-b07a-a33f17467c58 | 
+#=#=#=# Syncrun finished 2023-12-01T11:29:19Z (last step: 925 msec , total: 3552 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:29:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:29:27Z (last step: 2813 msec , total: 2813 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:29:27Z (last step: 8 msec , total: 2821 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:30:29Z
+#=#=#=#=# Propagation starts 2023-12-01T11:30:31Z (last step: 1715 msec , total: 1715 msec) 
+2023-12-01T11:30:32Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430225 | 2dd801d6e2101c4498b7777a76fc6729 | 178127 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178020 | 1701430148 | d9848f30-9d0a-41f3-9aaf-ced51bd1598f | 
+#=#=#=# Syncrun finished 2023-12-01T11:30:32Z (last step: 864 msec , total: 2580 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:30:40Z
+#=#=#=#=# Propagation starts 2023-12-01T11:30:43Z (last step: 2747 msec , total: 2747 msec) 
+2023-12-01T11:30:44Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430237 | 7939d6c4de7f9799e43ae4f3c8432f6b | 178147 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178127 | 1701430225 | 5954678e-f348-426f-8675-f6a054cadfe1 | 
+#=#=#=# Syncrun finished 2023-12-01T11:30:45Z (last step: 2176 msec , total: 4923 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:30:48Z
+#=#=#=#=# Propagation starts 2023-12-01T11:30:51Z (last step: 2478 msec , total: 2478 msec) 
+2023-12-01T11:30:51Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430244 | 4d3c50143c44f5208286b06feb9f03a3 | 178138 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178147 | 1701430237 | 43b801c8-556b-4ad3-b659-08a754d63e9c | 
+#=#=#=# Syncrun finished 2023-12-01T11:30:51Z (last step: 808 msec , total: 3286 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:30:57Z
+#=#=#=#=# Propagation starts 2023-12-01T11:31:01Z (last step: 3735 msec , total: 3735 msec) 
+2023-12-01T11:31:02Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430254 | 683cbb0595c579d022b318860b65d312 | 178166 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178138 | 1701430244 | 8c44d10c-8f96-4f4a-90ba-894761ddcf53 | 
+#=#=#=# Syncrun finished 2023-12-01T11:31:02Z (last step: 898 msec , total: 4634 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:31:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:31:07Z (last step: 2781 msec , total: 2781 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:31:07Z (last step: 7 msec , total: 2788 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:38:31Z
+#=#=#=#=# Propagation starts 2023-12-01T11:38:33Z (last step: 1837 msec , total: 1837 msec) 
+2023-12-01T11:38:33Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430695 | c2e4cc58d2c7c2d2b6e5ccf24a650e21 | 178644 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178166 | 1701430254 | 49878749-c5d6-458f-a968-f207308a316d | 
+#=#=#=# Syncrun finished 2023-12-01T11:38:34Z (last step: 1319 msec , total: 3157 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:39:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:39:28Z (last step: 3741 msec , total: 3741 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:39:28Z (last step: 7 msec , total: 3749 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:41:15Z
+#=#=#=#=# Propagation starts 2023-12-01T11:41:17Z (last step: 2077 msec , total: 2077 msec) 
+ | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430876 | c2e4cc58d2c7c2d2b6e5ccf24a650e21 | 178623 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Message | Local file changed during sync. It will be resumed. | 0 | 178644 | 1701430695 |  | 
+#=#=#=# Syncrun finished 2023-12-01T11:41:17Z (last step: 7 msec , total: 2085 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:41:20Z
+#=#=#=#=# Propagation starts 2023-12-01T11:41:22Z (last step: 1971 msec , total: 1971 msec) 
+2023-12-01T11:41:23Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701430876 | 8cebf96f31f5f0d909f3f04f0405a913 | 178623 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178644 | 1701430695 | 142b4e93-aeb5-4f7b-a2a6-6bdb6a5bd583 | 
+#=#=#=# Syncrun finished 2023-12-01T11:41:23Z (last step: 1008 msec , total: 2979 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:42:22Z
+#=#=#=#=# Propagation starts 2023-12-01T11:42:25Z (last step: 2550 msec , total: 2550 msec) 
+2023-12-01T11:42:26Z | LICENSE.txt | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1627313818 | 1b1d78cb45eca73a5da2388f0d9ece2a | 34796 | 3409341922ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | ee29a8ed-a2bb-47c6-8ed7-111146b80fc5 | 
+#=#=#=# Syncrun finished 2023-12-01T11:42:26Z (last step: 1366 msec , total: 3916 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:42:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:42:46Z (last step: 1921 msec , total: 1921 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:42:46Z (last step: 8 msec , total: 1929 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:43:25Z
+#=#=#=#=# Propagation starts 2023-12-01T11:43:27Z (last step: 1970 msec , total: 1970 msec) 
+2023-12-01T11:43:28Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431002 | adc972318f5af5db507903f1beb1dab1 | 178660 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178623 | 1701430876 | 25b67ebc-5208-40f6-b58b-8391e673c564 | 
+#=#=#=# Syncrun finished 2023-12-01T11:43:28Z (last step: 879 msec , total: 2850 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:44:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:44:26Z (last step: 2386 msec , total: 2386 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:44:26Z (last step: 7 msec , total: 2393 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:44:56Z
+#=#=#=#=# Propagation starts 2023-12-01T11:44:58Z (last step: 1856 msec , total: 1856 msec) 
+2023-12-01T11:44:59Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431092 | d1f68039b632306d7c5bac3db09b70ca | 181755 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 178660 | 1701431002 | 0aa102b4-d8ef-470a-9855-92894966766f | 
+#=#=#=# Syncrun finished 2023-12-01T11:44:59Z (last step: 927 msec , total: 2783 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:45:14Z
+#=#=#=#=# Propagation starts 2023-12-01T11:45:17Z (last step: 2587 msec , total: 2587 msec) 
+2023-12-01T11:45:18Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431111 | 852352c7d9e21c13265d278e0d47b1b0 | 181703 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 181755 | 1701431092 | 4aedd8a3-0b4e-4907-9e65-8bb3ea997a64 | 
+#=#=#=# Syncrun finished 2023-12-01T11:45:18Z (last step: 875 msec , total: 3463 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:45:40Z
+#=#=#=#=# Propagation starts 2023-12-01T11:45:43Z (last step: 2521 msec , total: 2521 msec) 
+2023-12-01T11:45:44Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431137 | ed7465e4645ff581e32d24361d61a9da | 181348 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 181703 | 1701431111 | b58f02c7-b946-4331-b7d9-0feb5f946709 | 
+#=#=#=# Syncrun finished 2023-12-01T11:45:44Z (last step: 1239 msec , total: 3760 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:46:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:46:06Z (last step: 2283 msec , total: 2283 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:46:06Z (last step: 7 msec , total: 2290 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:47:02Z
+#=#=#=#=# Propagation starts 2023-12-01T11:47:04Z (last step: 1666 msec , total: 1666 msec) 
+2023-12-01T11:47:05Z | draft/submission/Ecology guidelines/guidelines Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431219 | 87ba06fbf456581d0f011e1aa8c82d3e | 12315 | 3377942458ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 12134 | 1689357747 | 1fe62fef-fd44-46b1-a14c-659014ae2fc5 | 
+#=#=#=# Syncrun finished 2023-12-01T11:47:05Z (last step: 1241 msec , total: 2907 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:47:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:47:48Z (last step: 3680 msec , total: 3680 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:47:48Z (last step: 9 msec , total: 3689 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:48:07Z
+#=#=#=#=# Propagation starts 2023-12-01T11:48:09Z (last step: 1903 msec , total: 1903 msec) 
+2023-12-01T11:48:10Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431284 | dded5cbfe0862812fe4ea4de4e1b33fb | 181323 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 181348 | 1701431137 | 60759fe3-13d2-4026-8afd-548207e67d1d | 
+#=#=#=# Syncrun finished 2023-12-01T11:48:10Z (last step: 932 msec , total: 2835 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:48:57Z
+#=#=#=#=# Propagation starts 2023-12-01T11:49:00Z (last step: 2408 msec , total: 2408 msec) 
+2023-12-01T11:49:00Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431334 | d3ead6d1a83e533ffacef77a26fe54c9 | 181474 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 181323 | 1701431284 | be225398-bbc3-4b77-8ae0-d1dc80bbc12b | 
+#=#=#=# Syncrun finished 2023-12-01T11:49:01Z (last step: 910 msec , total: 3318 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:49:24Z
+#=#=#=#=# Propagation starts 2023-12-01T11:49:26Z (last step: 2397 msec , total: 2397 msec) 
+2023-12-01T11:49:27Z | draft/submission/Delalandre_etal_JVS_2023_CoverLetter.docx | SyncInstruction(CSYNC_INSTRUCTION_NEW) | OCC::SyncFileItem::Up | | 1679077514 | 5ae37fe42e156b5553e5729025592632 | 17630 | 3409354834ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 64b089f5-9b4c-4b39-b658-29efb4798384 | 
+#=#=#=# Syncrun finished 2023-12-01T11:49:28Z (last step: 1403 msec , total: 3801 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:49:29Z
+#=#=#=#=# Propagation starts 2023-12-01T11:49:32Z (last step: 2896 msec , total: 2896 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:49:32Z (last step: 7 msec , total: 2904 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:49:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:49:46Z (last step: 2167 msec , total: 2167 msec) 
+2023-12-01T11:49:47Z | draft/submission/Delalandre_etal_JVS_2023_CoverLetter.docx -> draft/submission/Delalandre_etal_Ecology_2023_CoverLetter.docx | SyncInstruction(CSYNC_INSTRUCTION_RENAME) | OCC::SyncFileItem::Up | | 1679077514 | 5ae37fe42e156b5553e5729025592632 | 17630 | 3409354834ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | d42358db-cb5c-45eb-845e-39df42611a71 | 
+#=#=#=# Syncrun finished 2023-12-01T11:49:47Z (last step: 808 msec , total: 2975 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:49:48Z
+#=#=#=#=# Propagation starts 2023-12-01T11:49:52Z (last step: 3889 msec , total: 3889 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:49:52Z (last step: 11 msec , total: 3901 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:50:12Z
+#=#=#=#=# Propagation starts 2023-12-01T11:50:14Z (last step: 1924 msec , total: 1924 msec) 
+2023-12-01T11:50:15Z | draft/submission/Delalandre_etal_Ecology_2023_CoverLetter.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431408 | c301488de5e6ad4b61da93c7f739fc2e | 17616 | 3409354834ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 17630 | 1679077514 | 92dacd15-fb8f-4710-b7ab-518c8dc9768e | 
+#=#=#=# Syncrun finished 2023-12-01T11:50:15Z (last step: 1006 msec , total: 2931 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:51:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:51:07Z (last step: 3467 msec , total: 3467 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:51:07Z (last step: 9 msec , total: 3476 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:55:25Z
+#=#=#=#=# Propagation starts 2023-12-01T11:55:26Z (last step: 1571 msec , total: 1571 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:55:26Z (last step: 8 msec , total: 1580 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:55:56Z
+#=#=#=#=# Propagation starts 2023-12-01T11:55:58Z (last step: 1964 msec , total: 1964 msec) 
+2023-12-01T11:55:59Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431753 | 17a61fd6b8bf0a6aa5128082277005a9 | 179562 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 181474 | 1701431334 | fb6f1108-3058-4ad0-8cdc-c44e4b8a1ada | 
+#=#=#=# Syncrun finished 2023-12-01T11:55:59Z (last step: 934 msec , total: 2898 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:56:04Z
+#=#=#=#=# Propagation starts 2023-12-01T11:56:07Z (last step: 2788 msec , total: 2788 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:56:07Z (last step: 51 msec , total: 2839 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:56:11Z
+#=#=#=#=# Propagation starts 2023-12-01T11:56:13Z (last step: 1992 msec , total: 1992 msec) 
+2023-12-01T11:56:14Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431767 | 8bd14229ea3ff86321484d5aaf832c49 | 179445 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 179562 | 1701431753 | fbb4174b-912f-4779-8f28-a50a2fb534ac | 
+#=#=#=# Syncrun finished 2023-12-01T11:56:15Z (last step: 1329 msec , total: 3321 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:57:44Z
+#=#=#=#=# Propagation starts 2023-12-01T11:57:46Z (last step: 2225 msec , total: 2225 msec) 
+#=#=#=# Syncrun finished 2023-12-01T11:57:46Z (last step: 8 msec , total: 2233 msec) 
+#=#=#=# Syncrun started 2023-12-01T11:59:39Z
+#=#=#=#=# Propagation starts 2023-12-01T11:59:41Z (last step: 2098 msec , total: 2098 msec) 
+2023-12-01T11:59:42Z | draft/draft_Ecology.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701431976 | d1963065a0b4f84d9da0a3b5bf753172 | 183731 | 3408822806ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 179445 | 1701431767 | 9e094527-cfa7-49ee-a13a-ea34c60f835a | 
+#=#=#=# Syncrun finished 2023-12-01T11:59:42Z (last step: 850 msec , total: 2948 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:00:45Z
+#=#=#=#=# Propagation starts 2023-12-01T12:00:47Z (last step: 2415 msec , total: 2415 msec) 
+#=#=#=# Syncrun finished 2023-12-01T12:00:47Z (last step: 7 msec , total: 2422 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:00:55Z
+#=#=#=#=# Propagation starts 2023-12-01T12:00:57Z (last step: 1941 msec , total: 1941 msec) 
+2023-12-01T12:00:58Z | draft/Draft_Ecology_Supplementary.docx -> draft/draft_Ecology_Supplementary.docx | SyncInstruction(CSYNC_INSTRUCTION_RENAME) | OCC::SyncFileItem::Up | | 1701428759 | 2ab6c0078a882e94692cc2ae567f3239 | 2563829 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 201 | 0 | 0 | 3501779f-a35a-4b53-8e8d-0669b84aa15e | 
+#=#=#=# Syncrun finished 2023-12-01T12:00:58Z (last step: 809 msec , total: 2751 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:01:00Z
+#=#=#=#=# Propagation starts 2023-12-01T12:01:03Z (last step: 2756 msec , total: 2756 msec) 
+#=#=#=# Syncrun finished 2023-12-01T12:01:03Z (last step: 8 msec , total: 2765 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:01:11Z
+#=#=#=#=# Propagation starts 2023-12-01T12:01:13Z (last step: 2071 msec , total: 2071 msec) 
+2023-12-01T12:01:14Z | draft/draft_Ecology_Supplementary.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701432068 | 0bf652de60335f0ac4332a9bce1a1667 | 2564092 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 2563829 | 1701428759 | f5b167a5-0a62-44f2-83be-a39f2a836a1d | 
+#=#=#=# Syncrun finished 2023-12-01T12:01:15Z (last step: 1686 msec , total: 3758 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:01:26Z
+#=#=#=#=# Propagation starts 2023-12-01T12:01:29Z (last step: 2740 msec , total: 2740 msec) 
+#=#=#=# Syncrun finished 2023-12-01T12:01:29Z (last step: 8 msec , total: 2748 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:01:35Z
+#=#=#=#=# Propagation starts 2023-12-01T12:01:36Z (last step: 1636 msec , total: 1636 msec) 
+2023-12-01T12:01:37Z | draft/draft_Ecology_Supplementary.docx | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701432090 | f74ad623972cf36daea879e28391380f | 2564170 | 3409256862ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 2564092 | 1701432068 | 4394c99d-b8dc-4e3b-8cfd-ff391cfe04ec | 
+#=#=#=# Syncrun finished 2023-12-01T12:01:37Z (last step: 1075 msec , total: 2712 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:01:45Z
+#=#=#=#=# Propagation starts 2023-12-01T12:01:47Z (last step: 2512 msec , total: 2512 msec) 
+#=#=#=# Syncrun finished 2023-12-01T12:01:47Z (last step: 6 msec , total: 2519 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:02:46Z
+#=#=#=#=# Propagation starts 2023-12-01T12:02:48Z (last step: 1699 msec , total: 1699 msec) 
+2023-12-01T12:02:49Z | draft/submission/Ecology guidelines/ESA-Manuscript-Preparation-Guide.pdf | SyncInstruction(CSYNC_INSTRUCTION_SYNC) | OCC::SyncFileItem::Up | | 1701432163 | 166e2b9b83fa8babb980ebe269193866 | 299026 | 3377941738ocfcb4e58640 | OCC::SyncFileItem::Success |  | 204 | 296341 | 1689358148 | a4d60a79-28b4-476a-b8d4-c3443a5fc8c1 | 
+#=#=#=# Syncrun finished 2023-12-01T12:02:49Z (last step: 1292 msec , total: 2991 msec) 
+#=#=#=# Syncrun started 2023-12-01T12:03:04Z
+#=#=#=#=# Propagation starts 2023-12-01T12:03:08Z (last step: 3870 msec , total: 3870 msec) 
+#=#=#=# Syncrun finished 2023-12-01T12:03:08Z (last step: 8 msec , total: 3878 msec) 

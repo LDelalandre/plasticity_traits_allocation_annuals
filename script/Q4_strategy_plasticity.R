@@ -237,7 +237,7 @@ rdpi_sla <- plot_rdpi_trait("SLA_moy")
 rdpi_mass <- plot_rdpi_trait("log_plant_dry_mass_moy")
 rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
-ggsave(paste0("draft/RDPI_sla_mass.png"), rpdi_sla_mass,width = 6, height = 13)
+ggsave(paste0("draft/Figure 2.png"), rpdi_sla_mass,width = 6, height = 13)
 
 
 # Distribution RDPI ####
