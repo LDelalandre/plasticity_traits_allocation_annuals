@@ -9,7 +9,24 @@ traits_plast <- c(
   "log_plant_dry_mass", "N",
   "RMF","LMF","SMF" )
 
+## Saatkamp 2023 ####
 
+species <- read.csv2("data/species_info.csv") %>% 
+  select(scientificName,code_sp)
+
+missing_v12 <- data.frame(scientificName = c("Vulpia myuros (L.) C.C.Gmel., 1805",
+                                             "Minuartia hybrida (Vill.) Schischk., 1936"),
+                          code_sp = c("VULPMYUR","MINUHYBR"))
+species <- rbind(species,
+                 missing_v12)
+
+saat <- read.csv2("data/Saatkamp_2023_data.csv") %>% 
+  rename(scientificName = NOM_VALIDE_v12) %>% 
+  merge(species,by="scientificName")
+saat_N <- saat %>% 
+  select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
+
+#______________________
 # Interaction species-plasticity ####
 
 # Fixed effects
@@ -158,6 +175,7 @@ PLAST2 <- PLAST_pop %>%
   group_by(pop,code_sp) %>% 
   dplyr::select(all_of(traits_plast_interaction_sp)) %>% 
   merge(trait_moy) %>% 
+  left_join(saat_N) %>% 
   left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) %>% 
   dplyr::filter(!(pop=="ALYSALYS_Nat"))
 
@@ -230,9 +248,43 @@ plot_rdpi_trait <- function(x_axis){
   plots2
 }
 
+# plast f mean nutrient ####
 rdpi_ellenberg <- plot_rdpi_trait("N_ellenberg")
 ggsave("output/plot/plast_ellenberg.png",rdpi_ellenberg,width = 6,height = 13)
 
+rdpi_saat_e <- plot_rdpi_trait("e.mN")
+ggsave("output/plot/plast_saatkamp_ellenberg.png",rdpi_saat_e,width = 6,height = 13)
+
+rdpi_saat_j <- plot_rdpi_trait("j.mN")
+ggsave("output/plot/plast_saatkamp_julve.png",rdpi_saat_j,width = 6,height = 13)
+
+rdpi_saat_l <- plot_rdpi_trait("l.mN")
+ggsave("output/plot/plast_saatkamp_landolt.png",rdpi_saat_l,width = 6,height = 13)
+
+rdpi_saat_p <- plot_rdpi_trait("p.mN")
+ggsave("output/plot/plast_saatkamp_pignatti.png",rdpi_saat_p,width = 6,height = 13)
+
+
+
+# plast f sd nutrient ####
+sd_rdpi_saat_e <- plot_rdpi_trait("e.sdN")
+ggsave("output/plot/plast_saatkamp_sd_ellenberg.png",sd_rdpi_saat_e,width = 6,height = 13)
+
+sd_rdpi_saat_j <- plot_rdpi_trait("j.sdN")
+ggsave("output/plot/plast_saatkamp_sd_julve.png",sd_rdpi_saat_j,width = 6,height = 13)
+
+sd_rdpi_saat_l <- plot_rdpi_trait("l.sdN")
+ggsave("output/plot/plast_saatkamp_sd_landolt.png",sd_rdpi_saat_l,width = 6,height = 13)
+
+sd_rdpi_saat_p <- plot_rdpi_trait("p.sdN")
+ggsave("output/plot/plast_saatkamp_sd_pignatti.png",sd_rdpi_saat_p,width = 6,height = 13)
+
+
+# mean and sd N ####
+ggplot(PLAST2,aes(x = j.mN, y = j.sdN)) +
+  geom_point()
+
+# plast f SLA ####
 rdpi_sla <- plot_rdpi_trait("SLA_moy")
 rdpi_mass <- plot_rdpi_trait("log_plant_dry_mass_moy")
 rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
@@ -257,4 +309,8 @@ plot_plast_dry_mass <- PLAST2_with_alys_nat %>%
   ggtitle("Plasticity in plant dry mass")
 
 ggsave("draft/plast_dry_mass.png",plot_plast_dry_mass,width = 3, height = 3)
+
+
+
+
 
