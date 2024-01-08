@@ -23,7 +23,7 @@ plot_SLA <- t2_traits %>%
   scale_y_continuous(trans='log10') +
   scale_x_continuous(trans='log10') +
   xlab("Plant dry mass (g)") +
-  ylab ("Specific leaf area (mm²/mg") +
+  ylab ("Specific leaf area (mm²/mg)") +
   scale_color_brewer(palette = "Set2")
 
 ggsave(paste0("draft/plot_allom_sla.jpg"),plot_SLA,height = 8, width = 6)

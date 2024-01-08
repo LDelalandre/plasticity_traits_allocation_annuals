@@ -26,6 +26,28 @@ saat <- read.csv2("data/Saatkamp_2023_data.csv") %>%
 saat_N <- saat %>% 
   select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
 
+# Fort 2021 ####
+fort <- left_join(t2_traits,saat_N)
+
+fort %>% 
+  ggplot(aes(x = j.mN, y = SRL)) +
+  geom_point()+
+  facet_wrap(~fertilization)
+                  
+fort %>% 
+  ggplot(aes(x = j.mN, y = RTD)) +
+  geom_point()+
+  facet_wrap(~fertilization)
+
+
+# Ellenberg and plant mass ####
+ell_mass <- fort
+ell_mass %>% 
+  ggplot(aes(x = j.mN, y = log_plant_dry_mass)) +
+  geom_point()+
+  facet_wrap(~fertilization) +
+  geom_smooth(method = "lm")
+
 #______________________
 # Interaction species-plasticity ####
 
@@ -167,7 +189,9 @@ for( i in c(2:length(traits_plast)) ){
   PLAST_pop <- merge(PLAST_pop,plast)
 }
 
-
+test <- PLAST2 %>% select(code_sp,j.mN) %>% unique() 
+test %>% View
+hist(test$j.mN,breaks = 30)
 
 # Relationship plasticity and strategy ####
 PLAST2 <- PLAST_pop %>% 
@@ -190,7 +214,7 @@ trait_title <- data.frame(trait = c("SLA","LDMC",
 plot_rdpi_trait <- function(x_axis){
   # x_axis <- "log_plant_dry_mass_moy"
   # x_axis <- "SLA_moy"
-  
+
   PLOT <- NULL
   i <- 0
   for (ftrait in traits_plast_interaction_sp){
@@ -233,6 +257,7 @@ plot_rdpi_trait <- function(x_axis){
       theme_classic() +
       {if (x_axis == "log_plant_dry_mass_moy") xlab("log(Plant dry mass)")}+
       {if (x_axis == "SLA_moy") xlab("SLA")} +
+      {if(x_axis == "j.mN") xlab("Soil nitrogen indicator value") } +
       ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
       ylab("RDPI") +
       geom_hline(yintercept = 0,linetype='dashed') +
@@ -245,6 +270,14 @@ plot_rdpi_trait <- function(x_axis){
   }
   
   plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =5)
+  
+  if(x_axis == "j.mN"){
+    ggpubr::annotate_figure(plots2, top = "Nitrogen requirement")
+  }else if (x_axis == "SLA_moy"){
+    ggpubr::annotate_figure(plots2, top = "SLA")
+  }else if (x_axis == "log_plant_dry_mass_moy"){
+    ggpubr::annotate_figure(plots2, top = "Plant mass")
+  }
   plots2
 }
 
@@ -290,6 +323,10 @@ rdpi_mass <- plot_rdpi_trait("log_plant_dry_mass_moy")
 rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 ggsave(paste0("draft/Figure 2.png"), rpdi_sla_mass,width = 6, height = 13)
+
+
+rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
+ggsave(paste0("draft/Figure 2.png"), rpdi_julve_SLA_mass,width = 9, height = 13)
 
 
 # Distribution RDPI ####
