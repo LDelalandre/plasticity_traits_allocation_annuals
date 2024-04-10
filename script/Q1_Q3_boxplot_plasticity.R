@@ -133,3 +133,28 @@ bps_traits <- cowplot::ggdraw() +
                   size = 24, x = c(0,0,0), y = c(1, 2/3, 1/3))
 
 ggsave("draft/Figure 1.png", bps_traits,width = 18, height = 12)
+
+
+
+# PhD Defense ####
+
+bp_oral<-function(ftrait){
+  bp_plast_simple(ftrait)+
+    theme(text=element_text(size=50)) +
+    theme(axis.text.x=element_blank())+
+    geom_point(size = 4,aes(color = fertilization))+
+    theme( plot.title=element_blank())
+    
+}
+
+
+bps <- lapply(list("Hveg","LA","SLA","LDMC",
+                   "diam","SRL", "RTD","RDMC","BI",
+                   "plant_dry_mass",
+                   "N","LMF",
+                   "SMF","RMF"), bp_oral)
+
+plots1 <- ggpubr::ggarrange(plotlist=bps, ncol = 5,nrow = 3)
+
+
+ggsave("output/plot/phd_defence.png",plots1,width =20,height = 12)

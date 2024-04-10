@@ -25,6 +25,8 @@ saat <- read.csv2("data/Saatkamp_2023_data.csv") %>%
   merge(species,by="scientificName")
 saat_N <- saat %>% 
   select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
+saat_L <- saat %>% 
+  select(code_sp,e.mL,e.sdL, j.mL,j.sdL, l.mL,l.sdL,p.mL,p.sdL)
 
 # Fort 2021 ####
 fort <- left_join(t2_traits,saat_N)
@@ -47,6 +49,15 @@ ell_mass %>%
   geom_point()+
   facet_wrap(~fertilization) +
   geom_smooth(method = "lm")
+
+
+# Seed mass ####
+traits_in_situ<-read.csv("data/traits_site_level.csv")
+sp<-species %>% arrange(code_sp) %>% pull(code_sp) %>% unique()
+seed_mass<-traits_in_situ %>% 
+  mutate(code_sp = if_else(code_sp == "MYOSRAMO-RAM" , "MYOSRAMO", code_sp)) %>% 
+  filter(code_sp %in% sp) %>% 
+  select(code_sp,SeedMass)
 
 #______________________
 # Interaction species-plasticity ####
@@ -189,9 +200,9 @@ for( i in c(2:length(traits_plast)) ){
   PLAST_pop <- merge(PLAST_pop,plast)
 }
 
-test <- PLAST2 %>% select(code_sp,j.mN) %>% unique() 
-test %>% View
-hist(test$j.mN,breaks = 30)
+# test <- PLAST2 %>% select(code_sp,j.mN) %>% unique() 
+# test %>% View
+# hist(test$j.mN,breaks = 30)
 
 # Relationship plasticity and strategy ####
 PLAST2 <- PLAST_pop %>% 
@@ -201,7 +212,9 @@ PLAST2 <- PLAST_pop %>%
   merge(trait_moy) %>% 
   left_join(saat_N) %>% 
   left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) %>% 
-  dplyr::filter(!(pop=="ALYSALYS_Nat"))
+  dplyr::filter(!(pop=="ALYSALYS_Nat")) %>% 
+  merge(seed_mass) %>% 
+  mutate(log_SM = log(SeedMass))
 
 trait_title <- data.frame(trait = c("SLA","LDMC",
                                     "N","LMF",
@@ -257,7 +270,7 @@ plot_rdpi_trait <- function(x_axis){
       theme_classic() +
       {if (x_axis == "log_plant_dry_mass_moy") xlab("log(Plant dry mass)")}+
       {if (x_axis == "SLA_moy") xlab("SLA")} +
-      {if(x_axis == "j.mN") xlab("Soil nitrogen indicator value") } +
+      {if(x_axis == "j.mN") xlab("Nutrient indicator value") } +
       ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
       ylab("RDPI") +
       geom_hline(yintercept = 0,linetype='dashed') +
@@ -312,6 +325,9 @@ ggsave("output/plot/plast_saatkamp_sd_landolt.png",sd_rdpi_saat_l,width = 6,heig
 sd_rdpi_saat_p <- plot_rdpi_trait("p.sdN")
 ggsave("output/plot/plast_saatkamp_sd_pignatti.png",sd_rdpi_saat_p,width = 6,height = 13)
 
+# Seed mass ####
+rdpi_SM <- plot_rdpi_trait("log_SM")
+ggsave("output/plot/plast_seedmass.png",rdpi_SM,width = 6,height = 13)
 
 # mean and sd N ####
 ggplot(PLAST2,aes(x = j.mN, y = j.sdN)) +
@@ -322,9 +338,9 @@ rdpi_sla <- plot_rdpi_trait("SLA_moy")
 rdpi_mass <- plot_rdpi_trait("log_plant_dry_mass_moy")
 rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
-ggsave(paste0("draft/Figure 2.png"), rpdi_sla_mass,width = 6, height = 13)
+# ggsave(paste0("draft/Figure 2.png"), rpdi_sla_mass,width = 6, height = 13)
 
-
+rdpi_saat_j <- plot_rdpi_trait("j.mN")
 rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
 ggsave(paste0("draft/Figure 2.png"), rpdi_julve_SLA_mass,width = 9, height = 13)
 

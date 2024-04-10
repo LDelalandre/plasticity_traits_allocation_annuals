@@ -161,8 +161,8 @@ write.csv2(TABLE_PVAL,"output/data/table_origin_ferti_effect")
 
 
 table_origin_ferti <- TABLE_PVAL %>%
-  # mutate(fertilization = scales::scientific(fertilization,digits = 2)) %>% 
   # mutate(origin = scales::scientific(origin,digits = 2)) %>% 
+  
   mutate(fertilization = case_when(fertilization < 0.0001 ~ 0.0001,
                                    # fertilization < 0.001 ~ 0.001,
                                    fertilization < 0.0036 ~ 0.0036,
@@ -196,8 +196,12 @@ table_origin_ferti <- TABLE_PVAL %>%
   ) %>% 
   
   dplyr::select(Perspective,Trait,unit,mean_Nm,mean_Np,origin,fertilization,everything()) %>%
+  
+  mutate(mean_Nm = round(mean_Nm,digits = 2)) %>% 
+  mutate(mean_Np = round(mean_Np,digits = 2)) %>% 
+  
   kableExtra::kable( escape = F,
-                     col.names = c("Property","Trait","Unit","Mean value in F-","Mean value in F+",
+                     col.names = c("Perspective","Trait","Unit","Mean value in F-","Mean value in F+",
                                    "pval (Origin)","pval (Fertilization)", 
                                    "Percentage of variance explained (fixed)","Percentage of variance explained (fixed + random)"
                      )) %>%
@@ -214,6 +218,7 @@ cat(table_origin_ferti, file = "draft/table_origin_ferti_effects.doc")
 
 
 # effet origine
+
 traits_pop %>% 
   filter(!code_sp %in% sp_nat) %>% 
   ggplot(aes(x = origin,y = SMF)) +
@@ -223,12 +228,21 @@ traits_pop %>%
   ggrepel::geom_text_repel(aes(label = code_sp))+
   facet_wrap(~fertilization) 
 
-traits_pop %>% 
+origin_boxplot<-traits_pop %>% 
   filter(!code_sp %in% sp_nat) %>% 
-  ggplot(aes(x = origin,y = log_Hveg)) +
+  ggplot(aes(x = origin,y = log_Hveg,color = fertilization)) +
   geom_boxplot() +
   geom_point()+
   geom_line(aes(group=code_sp))+
-  ggrepel::geom_text_repel(aes(label = code_sp))+
-  facet_wrap(~fertilization)
+  # ggrepel::geom_text_repel(aes(label = code_sp))+
+  facet_wrap(~fertilization) +
+  theme_classic() + 
+  scale_y_continuous(trans='log10') +
+  scale_color_brewer(palette = "Set2",direction = 1) +
+  theme(legend.position="none") +
+  ylab("Hauteur végétative") +
+  geom_point(size = 4,aes(color = fertilization)) +
+  theme(text=element_text(size=50)) 
+
+ggsave("output/plot/phd_defence_2.png",origin_boxplot,width =7,height = 6)
 

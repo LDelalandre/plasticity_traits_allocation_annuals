@@ -137,7 +137,7 @@ summary(out_sma)
 #___________________________________
 # SMA on SLA per species ####
 # in each treatment
-fferti <- "N+"
+
 
 sma_ftrait_sp <- t2_traits %>% 
   # filter(fertilization == fferti) %>% 
@@ -146,32 +146,48 @@ sma_ftrait_sp
 coefs_ftrait<- coef(sma_ftrait_sp)
 sma_ftrait_sp$pval
 
-# sp <- rownames(coefs_ftrait)
-# PLOT <- NULL
-# for (i in c(1:length(sp))){
-#   spi <- sp[i]
-#   species <- t2_traits %>% 
-#     filter(code_sp == spi) %>% 
-#     pull(species) %>% 
-#     unique()
-#   
-#   plot <- t2_traits %>% 
-#     # filter(fertilization == fferti) %>% 
-#     filter(code_sp == spi) %>% 
-#     ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
-#     geom_point(aes(shape = fertilization))+
-#     theme_classic()+
-#     # geom_abline(slope =coefs_ftrait[i,2],intercept = coefs_ftrait[i,1])+
-#     geom_smooth(method = "lm") +
-#     ggtitle(species) +
-#     theme_bw() +
-#     theme(legend.position = "none")
-#   
-#   PLOT[[i]] <- plot
-#   # ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
-# }
+sp <- t2_traits %>% pull(code_sp) %>% unique() %>% sort()
+PLOT <- NULL
+
+for (i in c(1:length(sp))){
+  spi <- sp[i]
+  species <- t2_traits %>%
+    merge(species_info) %>% 
+    filter(code_sp == spi) %>%
+    pull(scientificName_short) %>%
+    unique()
+  
+  sma_ftrait_sp <- t2_traits %>% 
+    filter(code_sp == spi) %>% 
+    sma(as.formula(paste(ftrait, "~ log_plant_dry_mass ")),data = .) 
+  
+  coefs_ftrait<- coef(sma_ftrait_sp)
+  pval<-sma_ftrait_sp$pval
+
+  plot <- t2_traits %>%
+    filter(code_sp == spi) %>%
+    ggplot(aes_string(x = "log_plant_dry_mass", y = ftrait)) +
+    geom_point(aes(color = fertilization), size=3)+
+    scale_color_brewer(palette = "Set2")+
+    theme_classic()+
+    {if (pval < 0.05) geom_abline(slope =coefs_ftrait[2],intercept = coefs_ftrait[1], size=1)} +
+    {if (pval >= 0.05) geom_abline(slope =coefs_ftrait[2],intercept = coefs_ftrait[1], 
+                                   linetype="dotted", size=1 )} +
+    ggtitle(species) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+    ylim(c(1.1,1.7)) +
+    xlim(c(-2.25,0.2)) +
+    theme(text=element_text(size=15), # change font size of all text
+              plot.title=element_text(size=20)) # change font size of plot title
 
 
-# plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 5)
+  PLOT[[i]] <- plot
+  # ggsave(paste0("output/plot/sma_sla/",spi,".png"),plot)
+}
+
+
+plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 6)
 # ggsave(paste0("draft/plot_allom_sla",fferti,".jpg"),plot_sla,height = 15, width = 10)
-# ggsave(paste0("draft/plot_allom_sla.jpg"),plot_sla,height = 15, width = 10)
+ggsave(paste0("draft/plot_allom_sla.jpg"),plot_sla,height = 15, width = 10)
