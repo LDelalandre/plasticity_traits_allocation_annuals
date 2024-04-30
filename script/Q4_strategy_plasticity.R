@@ -221,7 +221,7 @@ trait_title <- data.frame(trait = c("SLA","LDMC",
                                     "SMF","RMF",
                                     "plant_dry_mass"),
                           title = c("Specific Leaf Area","Leaf Dry Matter content",
-                                    "Plant nitrogen content", "Leaf Mass Fraction",
+                                    "Plant nitrogen content per mass", "Leaf Mass Fraction",
                                     "Stem Mass Fraction","Root Mass Fraction",
                                     "Plant dry mass"))
 plot_rdpi_trait <- function(x_axis){
@@ -342,7 +342,7 @@ rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 rdpi_saat_j <- plot_rdpi_trait("j.mN")
 rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
-ggsave(paste0("draft/Figure 2.png"), rpdi_julve_SLA_mass,width = 9, height = 13)
+ggsave(paste0("draft/Figure 2.png"), rpdi_julve_SLA_mass,width = 10, height = 13)
 
 
 # Distribution RDPI ####

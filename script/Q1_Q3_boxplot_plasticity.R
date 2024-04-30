@@ -132,7 +132,7 @@ bps_traits <- cowplot::ggdraw() +
   cowplot::draw_plot_label(label = c("A. Ecological strategies", "B. Nutrient absorption","C. Whole-plant integration"), 
                   size = 24, x = c(0,0,0), y = c(1, 2/3, 1/3))
 
-ggsave("draft/Figure 1.png", bps_traits,width = 18, height = 12)
+ggsave("draft/Figure 1.png", bps_traits,width = 18, height = 12,bg="white")
 
 
 
