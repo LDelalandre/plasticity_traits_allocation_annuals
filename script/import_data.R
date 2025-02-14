@@ -1,64 +1,37 @@
 library(tidyverse)
 
 # Information on species ####
-info_sp <- read.csv2("data/info_species.csv",fileEncoding = "latin1")
-species_info <- read.csv2("data/species_info.csv") 
-# info on Alyssum from Pladias (Plant Diversity Analysis and Synthesis Centre) project, Czech Republic
-# https://pladias.cz/en/
+info_sp <- read.csv2("data/info_species.csv",fileEncoding = "utf-8")
+species_info <- read.csv2("data/species_info.csv",fileEncoding = "utf-8") 
 
 
-sp_fam <- info_sp %>% 
-  dplyr::select(code_sp,family) %>% 
+
+sp_fam <- species_info %>% 
+  dplyr::select(code_sp,Family) %>% 
   unique()
 
 # species with one population only
 sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
 
 
-# In situ trait measurements ####
-MEAN <- read.csv2("data/mean_attribute_per_treatment_subset_nat_sab_int.csv") %>% 
-  mutate(code_sp = if_else(species == "Myosotis ramosissima subsp. ramosissima","MYOSRAMO",code_sp))
-
-species_list <- read.csv2("data/species_experiment.csv")
-sp_exp <- species_list %>% pull(code_sp)
-
-fMEAN <- MEAN %>% 
-  filter(code_sp %in% sp_exp) %>% 
-  dplyr::select(species,code_sp,treatment,L_Area,LDMC,SLA,LCC,LNC,Hveg,Hrepro,Dmin,Dmax) %>% 
-  mutate(log_Hveg = log(Hveg),log_Hrepro = log(Hrepro),log_LA = log(L_Area),log_Dmax = log(Dmax))
 
 
-# Check which species of the experiment was not measured in situ
-nona <- fMEAN %>% 
-  filter(treatment=="Nat") %>% 
-  na.omit() %>% 
-  pull(code_sp)
-setdiff(sp_exp,nona)
-
-# on a tout le monde dans le fer !
-# Il manque dans le Nat:
-# LeafMorpho: EROP, TRIF, VULP
-# LeafC&N: same 3 + MYOS
-# Biovolume: CERAGLOM, FILA, VULP, BUPL
-
-
-
-# Trait values in controlled conditions ####
-
-
-## traits we consider ####
-# traits_nutrients <- c("N","C")
+## List of traits by category
 traits_allocation <- c("RMF","SMF","LMF")
 traits_leaf <- c("log_LA", "LDMC","SLA") 
 traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
 FTRAITS <- c("log_Hveg","log_plant_dry_mass",
              "N",traits_allocation,traits_leaf,traits_root)
 
-# trait values per pot ####
-t2_traits0 <- read.csv2("data/t2_traits.csv") 
 
+
+# Import raw (already curated) data ####
+t2_traits0 <- read.csv2("data/t2_traits.csv",fileEncoding = "latin1") 
+t2_traits0$pivot_dry_mass %>% class()
+
+## Change units and create some new variables ####
 t2_traits <- t2_traits0 %>% 
-  mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
+  dplyr::mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
   mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   
@@ -93,7 +66,7 @@ t2_traits <- t2_traits0 %>%
 
 
 
-## traits values per population ####
+## Average traits values per population ####
 traits_pop <- t2_traits %>%
   group_by(code_sp,origin,fertilization) %>%
   dplyr::select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
@@ -107,7 +80,7 @@ traits_pop <- t2_traits %>%
   mutate(log_Hveg = log10(Hveg)) %>% 
   mutate(pop = paste(code_sp,origin,sep="_"))
 
-## traits values per species ####
+## Average traits values per species ####
 traits_sp <- t2_traits %>%
   group_by(code_sp,fertilization) %>%
   dplyr::select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 

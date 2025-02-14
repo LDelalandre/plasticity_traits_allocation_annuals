@@ -1,18 +1,20 @@
-### ITV - plasticity - genet - traits
+### Plant response to nutrients differs among traits and depends on species’ nutrient requirements
 
-This repository contains the code used for the article "Intraspecific responses to nutrient deficiencies: the key role of plasticity in biomass allocation to roots".
+This repository contains the code used for the article "Plant response to nutrients differs among traits and depends on species’ nutrient requirements", published in Annals of Botany in 2025 (doi: ).
+
+The data are stored on the CNRS/InEE platform [InDoRES](), under the DOI:
 
 You can clone the repository with git by pasting in your terminal:
 
-	git clone https://github.com/LDelalandre/dimensionality_life_cycle.git
+	git clone https://github.com/LDelalandre/plasticity_traits_allocation_annuals
     
 or 
 just download the repository:
-[LDelalandre/Project-1_Distinct-sp_BEF](https://github.com/LDelalandre/dimensionality_life_cycle/archive/master.zip).
+[plasticity_traits_allocation_annuals](git clone https://github.com/LDelalandre/plasticity_traits_allocation_annuals/archive/master.zip).
 
 If you have [Rstudio](https://www.rstudio.com/) installed on your computer, you can then open `plasticity_traits_allocation_annuals.Rproj` with Rstudio.
 
-You can contact me at <leo.delalandre@cefe.cnrs.fr>
+You can contact me at <leo.delalandre@protonmail.com>
 
 # Structure of the scripts
 - import_data.R
