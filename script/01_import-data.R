@@ -13,7 +13,19 @@ sp_fam <- species_info %>%
 # species with one population only
 sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
 
-
+# correspondence between abbreviated and complete trait name
+trait_name <- data.frame(trait = c("plant_dry_mass","Hveg",
+                                   "LA","SLA","LDMC",
+                                   "N","LMF",
+                                   "SRL", "RTD", "RDMC", 
+                                   "SMF","RMF",
+                                   "diam","BI"),
+                         name = c("Plant dry mass", "Vegetative height", 
+                                  "Leaf Area","Specific Leaf Area","Leaf Dry Matter content",
+                                  "Plant Nitrogen content per mass", "Leaf Mass Fraction",
+                                  "Specific Root Length", "Root Tissue Density","Root Dry Matter Content",
+                                  "Stem Mass Fraction","Root Mass Fraction",
+                                  "Mean root diameter","Branching Intensity"))
 
 
 ## List of traits by category
