@@ -1,13 +1,13 @@
 library(tidyverse)
 
 # Information on species ####
-info_sp <- read.csv2("data/info_species.csv",fileEncoding = "utf-8")
-species_info <- read.csv2("data/species_info.csv",fileEncoding = "utf-8") 
+# info_sp <- read.csv2("data/info_species.csv",fileEncoding = "utf-8")
+species_info <- read.csv2("data/species_info.csv",fileEncoding = "utf-8")
 
 
 
-sp_fam <- species_info %>% 
-  dplyr::select(code_sp,Family) %>% 
+sp_fam <- species_info %>%
+  dplyr::select(code_sp,Family) %>%
   unique()
 
 # species with one population only
@@ -18,7 +18,7 @@ sp_nat = c('BUPLBALD','HORNPETR','FILAPYRA','MYOSRAMO')
 
 ## List of traits by category
 traits_allocation <- c("RMF","SMF","LMF")
-traits_leaf <- c("log_LA", "LDMC","SLA") 
+traits_leaf <- c("log_LA", "LDMC","SLA")
 traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
 FTRAITS <- c("log_Hveg","log_plant_dry_mass",
              "N",traits_allocation,traits_leaf,traits_root)
@@ -26,16 +26,16 @@ FTRAITS <- c("log_Hveg","log_plant_dry_mass",
 
 
 # Import raw (already curated) data ####
-t2_traits0 <- read.csv2("data/t2_traits.csv",fileEncoding = "latin1") 
+t2_traits0 <- read.csv2("data/t2_traits.csv",fileEncoding = "UTF-8") 
 t2_traits0$pivot_dry_mass %>% class()
 
-## Change units and create some new variables ####
+## Create some new variables ####
 t2_traits <- t2_traits0 %>% 
   dplyr::mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
-  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (with SRL in m/g and mass in g)
+  mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (because SRL in m/g and mass in g)
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   
-  mutate(tot_RA = tot_RL * 1000 * pi *diam ) %>% # root area, in mm² (convert tot_RL in mm, because diam is is mm)
+  mutate(tot_RA = tot_RL * 1000 * pi *diam ) %>% # total root area, in mm² (convert tot_RL in mm, because diam is is mm)
   mutate(log_tot_RA = log10(tot_RA)) %>%
   
   mutate(tot_LA = SLA * leaf_dry_mass*1000) %>% # convert leaf dry mass into mg so that tot_LA in is mm² (with SLA in mm²/mg) 
@@ -88,9 +88,9 @@ traits_sp <- t2_traits %>%
 
 
 # check enough measurement per trait
-# t2_traits %>% 
-#   group_by(code_sp,origin,pop,fertilization) %>% 
-#   filter(!is.na(SRL)) %>% 
-#   summarize(n = n()) %>% 
-#   arrange(n) %>% 
+# t2_traits %>%
+#   group_by(code_sp,origin,pop,fertilization) %>%
+#   filter(!is.na(SRL)) %>%
+#   summarize(n = n()) %>%
+#   arrange(n) %>%
 #   View
