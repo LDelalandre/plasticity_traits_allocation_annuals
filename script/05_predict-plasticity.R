@@ -12,19 +12,21 @@ traits_plast_log <- read.table("output/data/traits-ferti-effect.txt") %>%
   pull(x)
 
 ## Saatkamp 2023
-species <- read.csv2("data/species_info.csv") %>% 
+species <- species_info %>% 
   dplyr::select(scientificName,code_sp)
 
-saat <- read.csv2("data/Appendix S4 data table v.14.10.2022.FINAL.csv") %>% 
-  rename(scientificName = NOM_VALIDE_v12) %>% 
-  merge(species,by="scientificName")
-saat_N <- saat %>% 
-  dplyr::select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
-saat_L <- saat %>% 
-  dplyr::select(code_sp,e.mL,e.sdL, j.mL,j.sdL, l.mL,l.sdL,p.mL,p.sdL)
+# Need to download the appendix from Saatkamp:
+# saat <- read.csv2("data/Appendix S4 data table v.14.10.2022.FINAL.csv") %>% 
+#   rename(scientificName = NOM_VALIDE_v12) %>% 
+#   merge(species,by="scientificName")
+# saat_N <- saat %>%
+#   dplyr::select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
+# saat_L <- saat %>%
+#   dplyr::select(code_sp,e.mL,e.sdL, j.mL,j.sdL, l.mL,l.sdL,p.mL,p.sdL)
 
-
-
+# N indice from Saatkamp et al., 2023
+saat_N <- species_info %>%
+  dplyr::select(code_sp, j.mN)
 
 
 # Interaction species-plasticity------------------------------------------------
@@ -118,7 +120,7 @@ cat(table_mod_fix, file = "draft/05_predict-plasticity_tableS3-interaction-sp-fe
 traits_plast_interaction_sp <- mod_fix %>% 
   filter(interaction < 0.05) %>% 
   mutate(trait = if_else(trait=="log_plant_dry_mass","plant_dry_mass",trait)) %>%
-  mutate(trait = if_else(trait=="log_Hveg","Hveg",trait)) %>% 
+  mutate(trait = if_else(trait=="log_Hveg","Hveg",trait)) %>%
   pull(trait)
 
 # average trait values per "population

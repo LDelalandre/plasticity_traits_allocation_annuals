@@ -2,12 +2,14 @@ library(tidyverse)
 
 # Information on species ####
 # info_sp <- read.csv2("data/info_species.csv",fileEncoding = "utf-8")
-species_info <- read.csv2("data/species_info.csv",fileEncoding = "utf-8")
+# species_info <- read.csv2("data/species_info.csv",fileEncoding = "utf-8")
 
+species_info <- read.csv2("data/Delalandre2025AnnBotSpecies.csv")
 
+#TODO: change so that everything is imported from t2_traits.csv
 
 sp_fam <- species_info %>%
-  dplyr::select(code_sp,Family) %>%
+  dplyr::select(code_sp,family) %>%
   unique()
 
 # species with one population only
@@ -38,7 +40,7 @@ FTRAITS <- c("log_Hveg","log_plant_dry_mass",
 
 
 # Import raw (already curated) data ####
-t2_traits0 <- read.csv2("data/t2_traits.csv",fileEncoding = "UTF-8") 
+t2_traits0 <- read.csv2("data/Delalandre2025AnnBotTraits.csv",fileEncoding = "UTF-8") 
 t2_traits0$pivot_dry_mass %>% class()
 
 ## Create some new variables ####
@@ -98,11 +100,3 @@ traits_sp <- t2_traits %>%
   dplyr::select(all_of(FTRAITS),"LA","plant_dry_mass","Hveg","tot_RL","tot_RA","tot_LA") %>% 
   summarize_all(mean,na.rm=T)
 
-
-# check enough measurement per trait
-# t2_traits %>%
-#   group_by(code_sp,origin,pop,fertilization) %>%
-#   filter(!is.na(SRL)) %>%
-#   summarize(n = n()) %>%
-#   arrange(n) %>%
-#   View
