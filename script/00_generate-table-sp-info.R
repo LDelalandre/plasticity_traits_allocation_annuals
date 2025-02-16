@@ -3,7 +3,7 @@ library(tidyverse)
 sp_list <- read.csv2("data/species_experiment.csv") %>% 
   rename(Species = species)
 
-taxon <- read.csv2("data/taxon.csv")
+# taxon <- read.csv2("data/taxon.csv")
 
 
 # BiolFlor ####

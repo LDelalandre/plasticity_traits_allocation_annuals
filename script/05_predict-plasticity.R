@@ -1,91 +1,35 @@
 library(tidyverse)
 source("script/01_import-data.R")
 
-# data ####
+# Load data --------------------------------------------------------------------
 # Traits on which we found significant plasticity
 traits_plast <- read.table("output/data/traits-ferti-effect.txt") %>% 
+  pull(x)
+
+traits_plast_log <- read.table("output/data/traits-ferti-effect.txt") %>% 
   mutate(x = if_else(x=="plant_dry_mass","log_plant_dry_mass",x)) %>%
   mutate(x = if_else(x=="Hveg","log_Hveg",x)) %>%
   pull(x)
-# traits_plast <- c(
-#   "SLA",
-#   "RDMC",
-#   "log_plant_dry_mass", "N",
-#   "RMF","LMF","SMF" )
 
-## Saatkamp 2023 ####
-
+## Saatkamp 2023
 species <- read.csv2("data/species_info.csv") %>% 
   dplyr::select(scientificName,code_sp)
-
-# missing_v12 <- data.frame(scientificName = c("Vulpia myuros (L.) C.C.Gmel., 1805",
-#                                              "Minuartia hybrida (Vill.) Schischk., 1936"),
-#                           code_sp = c("VULPMYUR","MINUHYBR"))
-# species <- rbind(species,
-#                  missing_v12)
 
 saat <- read.csv2("data/Appendix S4 data table v.14.10.2022.FINAL.csv") %>% 
   rename(scientificName = NOM_VALIDE_v12) %>% 
   merge(species,by="scientificName")
-
-# saat <- read.csv2("data/Saatkamp_2023_data.csv") %>% 
-#   rename(scientificName = NOM_VALIDE_v12) %>% 
-#   merge(species,by="scientificName")
 saat_N <- saat %>% 
   dplyr::select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
 saat_L <- saat %>% 
   dplyr::select(code_sp,e.mL,e.sdL, j.mL,j.sdL, l.mL,l.sdL,p.mL,p.sdL)
 
-# Fort 2021 ####
-fort <- left_join(t2_traits,saat_N)
-
-fort %>% 
-  ggplot(aes(x = j.mN, y = SRL)) +
-  geom_point()+
-  facet_wrap(~fertilization)
-                  
-fort %>% 
-  ggplot(aes(x = j.mN, y = RTD)) +
-  geom_point()+
-  facet_wrap(~fertilization)
 
 
-# Ellenberg and plant mass ####
-ell_mass <- fort
-ell_mass %>% 
-  ggplot(aes(x = j.mN, y = log_plant_dry_mass)) +
-  geom_point()+
-  facet_wrap(~fertilization) +
-  geom_smooth(method = "lm")
 
 
-# Seed mass ####
-# traits_in_situ<-read.csv("data/traits_site_level.csv")
-# sp<-species %>% arrange(code_sp) %>% pull(code_sp) %>% unique()
-# seed_mass<-traits_in_situ %>% 
-#   mutate(code_sp = if_else(code_sp == "MYOSRAMO-RAM" , "MYOSRAMO", code_sp)) %>% 
-#   filter(code_sp %in% sp) %>% 
-#   dplyr::select(code_sp,SeedMass)
-
-#______________________
-# Interaction species-plasticity ####
-
-# Fixed effects
-# hyp mod linéaires
+# Interaction species-plasticity------------------------------------------------
 
 library(lmtest)
-
-ftrait <-  "log_Hveg"
-mod <- lm(get(ftrait) ~  code_sp + fertilization  * code_sp , data = t2_traits)
-# mod <- lm(log_ftrait ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, 
-#           data = t2_traits %>% mutate(log_ftrait = log10(RMF)))
-ftrait
-par(mfrow = c(2,2)) ; plot(mod)
-par(mfrow = c(1,1)) 
-# hist(log(t2_traits$C))
-shapiro.test(residuals(mod)) # normality
-bptest(mod) # homoscedasticity
-dwtest(mod) # autocorrelation
 
 testAssumptionLinearModel <- function(ftrait) {
   mod <- lm(get(ftrait) ~  code_sp + fertilization  + origin + fertilization:code_sp + origin:code_sp, data = t2_traits)
@@ -105,49 +49,44 @@ testAssumptionLinearModel <- function(ftrait) {
 
 testAssumptionsAllTraits <- function(traits){
   HYP <- NULL
-  for (ftrait in traits_plast){
+  for (ftrait in traits_plast_log){
     hyp <- testAssumptionLinearModel(ftrait)
     HYP <- rbind(HYP,hyp)
   }
   return(HYP)
 }
 
-testAssumptionsAllTraits(traits_plast)
+testAssumptionsAllTraits(traits_plast_log)
 
 # Species differ on their plasticity and genetic differentiation ?
 
-# if interaction fertilization * species : different species respond differently to fertilization
-interaction_sp_ferti <- function(ftrait){
-  # 1) variable selection
-  # ne garder que les variables nécessaires
-  
-  
-  # 2) part of variance explained by adding the variable (compared to what ?)
-  
-  mod <- lm(get(ftrait) ~  fertilization*pop, data = t2_traits)
-  # summary(mod)
-  anov <- anova(mod)
-  
+testSpeciesWithInteraction <- function(mod) {
   # temporaire : post-hoc 
   # pour voir qui sont les espèces qui diffèrent entre les deux
   
-  # contr <- emmeans::emmeans(mod,pairwise~fertilization*code_sp)
-  # posthoc  <- contr$contrasts %>% 
-  #   as.data.frame() %>% 
-  #   mutate(contrast = gsub(x = contrast,pattern = ")", replacement = "") ) %>% 
-  #   # mutate(contrast = gsub(x = contrast,pattern = "(", replacement = "") )
-  #   separate(contrast, into = c("F1", "sp1", "minus","F2","sp2"),sep = " ") 
-  
-  # posthoc %>% 
-  #   filter(sp1 == sp2) %>% 
-  #   View
-  
-  
-  # 3) centralize the values in a table
-  c(ftrait,anov$`Pr(>F)`)
+  contr <- emmeans::emmeans(mod,pairwise~fertilization*code_sp)
+  posthoc  <- contr$contrasts %>%
+    as.data.frame() %>%
+    mutate(contrast = gsub(x = contrast,pattern = ")", replacement = "") ) %>%
+    separate(contrast, into = c("F1", "sp1", "minus","F2","sp2"),sep = " ")
+
+  posthoc %>%
+    filter(sp1 == sp2) %>%
+    View
 }
 
-mod_fix <- lapply(as.list(traits_plast), interaction_sp_ferti) %>% 
+# if interaction fertilization * species : different species respond differently to fertilization
+testInteractionSpFerti <- function(ftrait){
+  mod <- lm(get(ftrait) ~  fertilization*pop, data = t2_traits)
+  anov <- anova(mod)
+  
+  whichsp <- F
+  if (whichsp == T) {which_species <- testSpeciesWithInteraction(mod)}
+  
+  c(ftrait,anov$`Pr(>F)`) # 3) centralize the values in a table
+}
+
+mod_fix <- lapply(as.list(traits_plast_log), testInteractionSpFerti) %>% 
   rlist::list.rbind() %>% 
   as.data.frame() %>% 
   mutate(trait = V1,species = as.numeric(V2),fertilization=as.numeric(V3),interaction = as.numeric(V4)) %>% 
@@ -165,23 +104,22 @@ table_mod_fix <- mod_fix %>%
 
 
 
-cat(table_mod_fix, file = "draft/table_difference_plast_sp.doc")
+cat(table_mod_fix, file = "draft/05_predict-plasticity_tableS3-interaction-sp-ferti.doc")
 
 
-# Compute RDPI on all traits ####
-traits_plast <- c(
-  "plant_dry_mass",
-  "LA", "SLA",
-  "RDMC",
-  "N",
-  "RMF","LMF","SMF" )
+
+
+
+
+# Compute RDPI on all traits----------------------------------------------------
+
 
 # traits for which plasticity depended on species identity
-traits_plast_interaction_sp <- c(
-  "SLA",
-  "plant_dry_mass",
-  "N",
-  "SMF","RMF" )
+traits_plast_interaction_sp <- mod_fix %>% 
+  filter(interaction < 0.05) %>% 
+  mutate(trait = if_else(trait=="log_plant_dry_mass","plant_dry_mass",trait)) %>%
+  mutate(trait = if_else(trait=="log_Hveg","Hveg",trait)) %>% 
+  pull(trait)
 
 # average trait values per "population
 rename_moy <- function(trait){
@@ -217,9 +155,6 @@ for( i in c(2:length(traits_plast)) ){
   PLAST_pop <- merge(PLAST_pop,plast)
 }
 
-# test <- PLAST2 %>% select(code_sp,j.mN) %>% unique() 
-# test %>% View
-# hist(test$j.mN,breaks = 30)
 
 # Relationship plasticity and strategy ####
 PLAST2 <- PLAST_pop %>% 
@@ -227,11 +162,12 @@ PLAST2 <- PLAST_pop %>%
   group_by(pop,code_sp) %>% 
   dplyr::select(all_of(traits_plast_interaction_sp)) %>% 
   merge(trait_moy) %>% 
-  left_join(saat_N) %>% 
-  left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) %>% 
-  dplyr::filter(!(pop=="ALYSALYS_Nat")) %>% 
-  merge(seed_mass) %>% 
-  mutate(log_SM = log(SeedMass))
+  left_join(saat_N) 
+  # left_join(species_info %>% dplyr::select(code_sp,N_ellenberg)) %>% 
+  # left_join(species_info %>% dplyr::select(code_sp)) %>% 
+  # dplyr::filter(!(pop=="ALYSALYS_Nat")) %>% 
+  # merge(seed_mass) %>% 
+  # mutate(log_SM = log(SeedMass))
 
 trait_title <- data.frame(trait = c("SLA","LDMC",
                                     "N","LMF",
@@ -241,9 +177,12 @@ trait_title <- data.frame(trait = c("SLA","LDMC",
                                     "Plant nitrogen content per mass", "Leaf Mass Fraction",
                                     "Stem Mass Fraction","Root Mass Fraction",
                                     "Plant dry mass"))
+
+
 plot_rdpi_trait <- function(x_axis){
   # x_axis <- "log_plant_dry_mass_moy"
   # x_axis <- "SLA_moy"
+  # x_axis <- "j.mN"
 
   PLOT <- NULL
   i <- 0
@@ -283,7 +222,6 @@ plot_rdpi_trait <- function(x_axis){
     plot <- PLAST2 %>% 
       ggplot(aes_string(x = x_axis, y= ftrait)) +
       geom_point()  +
-      # geom_smooth(method='lm') +
       theme_classic() +
       {if (x_axis == "log_plant_dry_mass_moy") xlab("log(Plant dry mass)")}+
       {if (x_axis == "SLA_moy") xlab("SLA")} +
@@ -291,15 +229,14 @@ plot_rdpi_trait <- function(x_axis){
       ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
       ylab("RDPI") +
       geom_hline(yintercept = 0,linetype='dashed') +
-      # geom_smooth(method = "lm")
       {if (!(pval=="n.s."))       geom_abline(slope = slope, intercept = intercept) } +
-      annotation_custom(lab) +
+      annotation_custom(lab,ymin = -0.5) +
       theme_bw()
     plot
     PLOT[[i]] <- plot
   }
   
-  plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =5)
+  plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =6)
   
   if(x_axis == "j.mN"){
     ggpubr::annotate_figure(plots2, top = "Nitrogen requirement")
@@ -312,43 +249,9 @@ plot_rdpi_trait <- function(x_axis){
 }
 
 # plast f mean nutrient ####
-rdpi_ellenberg <- plot_rdpi_trait("N_ellenberg")
-ggsave("output/plot/plast_ellenberg.png",rdpi_ellenberg,width = 6,height = 13)
-
-rdpi_saat_e <- plot_rdpi_trait("e.mN")
-ggsave("output/plot/plast_saatkamp_ellenberg.png",rdpi_saat_e,width = 6,height = 13)
-
-rdpi_saat_j <- plot_rdpi_trait("j.mN")
-ggsave("output/plot/plast_saatkamp_julve.png",rdpi_saat_j,width = 6,height = 13)
-
-rdpi_saat_l <- plot_rdpi_trait("l.mN")
-ggsave("output/plot/plast_saatkamp_landolt.png",rdpi_saat_l,width = 6,height = 13)
-
-rdpi_saat_p <- plot_rdpi_trait("p.mN")
-ggsave("output/plot/plast_saatkamp_pignatti.png",rdpi_saat_p,width = 6,height = 13)
 
 
 
-# plast f sd nutrient ####
-sd_rdpi_saat_e <- plot_rdpi_trait("e.sdN")
-ggsave("output/plot/plast_saatkamp_sd_ellenberg.png",sd_rdpi_saat_e,width = 6,height = 13)
-
-sd_rdpi_saat_j <- plot_rdpi_trait("j.sdN")
-ggsave("output/plot/plast_saatkamp_sd_julve.png",sd_rdpi_saat_j,width = 6,height = 13)
-
-sd_rdpi_saat_l <- plot_rdpi_trait("l.sdN")
-ggsave("output/plot/plast_saatkamp_sd_landolt.png",sd_rdpi_saat_l,width = 6,height = 13)
-
-sd_rdpi_saat_p <- plot_rdpi_trait("p.sdN")
-ggsave("output/plot/plast_saatkamp_sd_pignatti.png",sd_rdpi_saat_p,width = 6,height = 13)
-
-# Seed mass ####
-rdpi_SM <- plot_rdpi_trait("log_SM")
-ggsave("output/plot/plast_seedmass.png",rdpi_SM,width = 6,height = 13)
-
-# mean and sd N ####
-ggplot(PLAST2,aes(x = j.mN, y = j.sdN)) +
-  geom_point()
 
 # plast f SLA ####
 rdpi_sla <- plot_rdpi_trait("SLA_moy")
@@ -359,26 +262,9 @@ rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 rdpi_saat_j <- plot_rdpi_trait("j.mN")
 rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
-ggsave(paste0("draft/Figure 2.png"), rpdi_julve_SLA_mass,width = 10, height = 13)
+ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), rpdi_julve_SLA_mass,width = 10, height = 13)
 
 
-# Distribution RDPI ####
-PLAST2_with_alys_nat <- PLAST_pop %>% 
-  separate(pop,into=c("code_sp","origin"),remove = F) %>% 
-  group_by(pop,code_sp) %>% 
-  dplyr::select(all_of(traits_plast_interaction_sp)) %>% 
-  merge(trait_moy) %>% 
-  left_join(info_sp %>% dplyr::select(code_sp,N_ellenberg)) 
-
-plot_plast_dry_mass <- PLAST2_with_alys_nat %>% 
-  dplyr::select(pop,code_sp,plant_dry_mass) %>% 
-  ggplot(aes(x = plant_dry_mass)) +
-  geom_histogram(binwidth = 0.1,fill="black", col="grey") +
-  theme_bw() +
-  xlab("Plasticity index of plant dry mass") +
-  ggtitle("Plasticity in plant dry mass")
-
-ggsave("draft/plast_dry_mass.png",plot_plast_dry_mass,width = 3, height = 3)
 
 
 
