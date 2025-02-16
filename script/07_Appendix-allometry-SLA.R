@@ -5,9 +5,11 @@ source("script/01_import-data.R")
 ftrait <- "log_SLA"
 
 # Mixed model ####
-mmod <- lme4::lmer(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization + (1|family/code_sp) ")),  data=t2_traits)
+mmod <- lme4::lmer(as.formula(paste(ftrait, "~ log_plant_dry_mass + fertilization + (1|family/code_sp) ")),  
+                   data=t2_traits %>% merge(species_info))
 
-plot_SLA <- t2_traits %>% 
+plot_SLA <- t2_traits %>%
+  merge(species_info) %>% 
   mutate(fertilization = if_else(fertilization == "N+", "F+","F-")) %>% 
   merge(species_info) %>% 
   # mutate(species2 = case_when (code_sp == "VULPMYUR" ~ "Vulpia alopecuros",
@@ -17,7 +19,7 @@ plot_SLA <- t2_traits %>%
   #                             TRUE ~ species))
   ggplot( aes(x = plant_dry_mass, y = SLA)) +
   geom_point(aes( color = fertilization)) +
-  facet_wrap(~scientificName_short,ncol = 3) +
+  facet_wrap(~scientificNameShort,ncol = 3) +
   geom_smooth(method = "lm",se = F) +
   theme_bw() +
   scale_y_continuous(trans='log10') +
@@ -58,7 +60,7 @@ for (i in c(1:length(sp))){
   species <- t2_traits %>%
     merge(species_info) %>% 
     filter(code_sp == spi) %>%
-    pull(scientificName_short) %>%
+    pull(scientificNameShort) %>%
     unique()
   
   sma_ftrait_sp <- t2_traits %>% 
@@ -89,6 +91,7 @@ for (i in c(1:length(sp))){
 
   PLOT[[i]] <- plot
 }
+
 
 
 plot_sla <- ggpubr::ggarrange(plotlist=PLOT, ncol = 3,nrow = 6)

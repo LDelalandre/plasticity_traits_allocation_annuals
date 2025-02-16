@@ -5,6 +5,7 @@ source("script/01_import-data.R")
 # Traits on which we found significant plasticity
 traits_plast <- read.table("output/data/traits-ferti-effect.txt") %>% 
   pull(x)
+# traits_plast <- c(traits_plast, "log_plant_dry_mass")
 
 traits_plast_log <- read.table("output/data/traits-ferti-effect.txt") %>% 
   mutate(x = if_else(x=="plant_dry_mass","log_plant_dry_mass",x)) %>%
@@ -14,15 +15,6 @@ traits_plast_log <- read.table("output/data/traits-ferti-effect.txt") %>%
 ## Saatkamp 2023
 species <- species_info %>% 
   dplyr::select(scientificName,code_sp)
-
-# Need to download the appendix from Saatkamp:
-# saat <- read.csv2("data/Appendix S4 data table v.14.10.2022.FINAL.csv") %>% 
-#   rename(scientificName = NOM_VALIDE_v12) %>% 
-#   merge(species,by="scientificName")
-# saat_N <- saat %>%
-#   dplyr::select(code_sp,e.mN,e.sdN, j.mN,j.sdN, l.mN,l.sdN,p.mN,p.sdN)
-# saat_L <- saat %>%
-#   dplyr::select(code_sp,e.mL,e.sdL, j.mL,j.sdL, l.mL,l.sdL,p.mL,p.sdL)
 
 # N indice from Saatkamp et al., 2023
 saat_N <- species_info %>%
@@ -141,10 +133,17 @@ trait_moy <- t2_traits %>%
 compute_plast_pop <- function(ftrait){
   plast <- traits_pop %>% 
     dplyr::select(pop,fertilization,all_of(ftrait)) %>% 
-    spread(key = fertilization,value = ftrait )
-  # mutate(plast = (`N+` - `N-`)/`N+` )
-  # merge(trait_moy)
-  plast[,ftrait] <-  (plast$`N+` - plast$`N-`) / (plast$`N+`) 
+    spread(key = fertilization,value = ftrait ) 
+  
+  # # /!\ took log of plant dray mass!!
+  # if (ftrait == "plant_dry_mass") {
+  #   plast <- traits_pop %>% 
+  #     dplyr::select(pop,fertilization,all_of(ftrait)) %>% 
+  #     mutate(plant_dry_mass = log10(plant_dry_mass)) %>% 
+  #     spread(key = fertilization,value = ftrait ) 
+  # }
+
+  plast[,ftrait] <-  (plast$`N+` - plast$`N-`) / (plast$`N-`) 
   
   plast %>% 
     ungroup() %>% 
@@ -193,7 +192,13 @@ plot_rdpi_trait <- function(x_axis){
     
     ## model
     form <- as.formula(paste(ftrait, "~", x_axis))
-    mod <- lm(form, data = PLAST2)
+    
+    if(ftrait == "plant_dry_mass") {
+      mod <- lm(form, data = PLAST2 %>% mutate(plant_dry_mass = log10(1+plant_dry_mass)))
+    } else {
+      mod <- lm(form, data = PLAST2)
+    }
+    
     anov <- anova(mod)
     summ <- summary(mod)
     
@@ -223,6 +228,7 @@ plot_rdpi_trait <- function(x_axis){
     
     plot <- PLAST2 %>% 
       ggplot(aes_string(x = x_axis, y= ftrait)) +
+      {if (ftrait == "plant_dry_mass") scale_y_continuous(trans='log10')} +
       geom_point()  +
       theme_classic() +
       {if (x_axis == "log_plant_dry_mass_moy") xlab("log(Plant dry mass)")}+

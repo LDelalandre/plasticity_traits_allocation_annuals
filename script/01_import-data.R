@@ -74,8 +74,8 @@ t2_traits <- t2_traits0 %>%
          log_diam = log10(diam),
          log_BI = log10(BI),
          log_N = log10(N),
-         log_RMF=log10(RMF)) %>% 
-  dplyr::filter(!(pop == "ALYSALYS_Nat"))
+         log_RMF=log10(RMF))
+  # dplyr::filter(!(pop == "ALYSALYS_Nat")) # re-included after AnnBot review
 
 
 
@@ -89,7 +89,6 @@ traits_pop <- t2_traits %>%
   mutate(log_tot_LA = log10(tot_LA)) %>% 
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   mutate(log_tot_RA = log10(tot_RA)) %>%
-  # mutate(log_RGRslope = log10(RGRslope)) %>% 
   merge(sp_fam) %>% 
   mutate(log_Hveg = log10(Hveg)) %>% 
   mutate(pop = paste(code_sp,origin,sep="_"))
