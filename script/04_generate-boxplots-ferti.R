@@ -9,11 +9,13 @@ getTraitsSignifFerti <- function(TABLE_PVAL) {
     rename(name=Trait) %>% 
     merge(trait_name) %>% 
     pull(trait)
+  return(traits_ferti_effect)
 }
 
 
 
 getCompleteTraitNameUnits <- function() {
+  corresp_names <- 
     data.frame(trait = c("plant_dry_mass","Hveg",
                          "LA","SLA","LDMC",
                          "N","LMF",
@@ -26,6 +28,7 @@ getCompleteTraitNameUnits <- function() {
                          "Specific Root Length (m/g)", "Root Tissue Density (g/cm3)","Root Dry Matter Content (mg/g)",
                          "Stem Mass Fraction (g/g)","Root Mass Fraction(g/g)",
                          "Mean root diameter (mm)","Branching intensity (cm-1)"))
+  return(corresp_names)
 }
 
 
@@ -33,8 +36,7 @@ getCompleteTraitNameUnits <- function() {
 
 
 generateBbPlast <- function(ftrait,trait_title,traits_ferti_effect,traits_pop) {
-  
-  traits_pop %>%
+  bp_plast <-   traits_pop %>%
     mutate(fertilization = if_else(fertilization == "N+", "F+","F-")) %>% 
     mutate(origin = factor(origin, levels = c("Fer","Nat"))) %>%
     mutate(fertilization = factor(fertilization, levels = c("F-","F+"))) %>%
@@ -45,7 +47,7 @@ generateBbPlast <- function(ftrait,trait_title,traits_ferti_effect,traits_pop) {
     
     {if(ftrait %in% c(traits_ferti_effect,"plant_dry_mass")) geom_line(aes(group = pop),alpha=0.4,color = "black")} + 
     {if( !(ftrait %in% traits_ferti_effect)) geom_line(aes(group = pop),alpha=0.4,color = "grey")} + 
-
+    
     geom_point(size = 2,aes(color = fertilization),)+
     theme(legend.position="none") +
     theme(axis.ticks.x=element_blank() ,
@@ -56,6 +58,7 @@ generateBbPlast <- function(ftrait,trait_title,traits_ferti_effect,traits_pop) {
     scale_color_brewer(palette = "Set2",direction = 1) + 
     theme(text=element_text(size=13)) +
     {if (ftrait %in% c("plant_dry_mass","Hveg","LA")) scale_y_continuous(trans='log10')} 
+  return(bp_plast)
 }
 
 
@@ -71,7 +74,7 @@ trait_title <- getCompleteTraitNameUnits()
 
 traits_ferti_effect <- getTraitsSignifFerti(TABLE_PVAL)
 
-
+write.table(traits_ferti_effect,"output/data/traits-ferti-effect.txt")
 
 # Generate figure --------------------------------------------------------------
 
