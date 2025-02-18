@@ -22,12 +22,12 @@ getCompleteTraitNameUnits <- function() {
                          "SRL", "RTD", "RDMC", 
                          "SMF","RMF",
                          "diam","BI"),
-               title = c("Plant dry mass (g)", "Vegetative height (cm)", 
-                         "Leaf Area (cm²)","Specific Leaf Area (mm²/mg)","Leaf Dry Matter content (mg/g)",
-                         "Plant nitrogen content (mg/g)", "Leaf Mass Fraction (g/g)",
-                         "Specific Root Length (m/g)", "Root Tissue Density (g/cm3)","Root Dry Matter Content (mg/g)",
-                         "Stem Mass Fraction (g/g)","Root Mass Fraction(g/g)",
-                         "Mean root diameter (mm)","Branching intensity (cm-1)"))
+               title = c("Plant dry mass \n (g)", "Vegetative height \n (cm)", 
+                         "Leaf Area \n (cm²)","Specific Leaf Area \n (mm²/mg)","Leaf Dry Matter content \n (mg/g)",
+                         "Plant nitrogen content \n (mg/g)", "Leaf Mass Fraction \n (g/g)",
+                         "Specific Root Length \n (m/g)", "Root Tissue Density \n (g/cm3)","Root Dry Matter Content \n (mg/g)",
+                         "Stem Mass Fraction \n (g/g)","Root Mass Fraction \n (g/g)",
+                         "Mean root diameter \n (mm)","Branching intensity \n (cm-1)"))
   return(corresp_names)
 }
 
@@ -55,8 +55,12 @@ generateBbPlast <- function(ftrait,trait_title,traits_ferti_effect,traits_pop) {
           axis.title.x = element_blank()
     ) +
     ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
+    theme(plot.title = element_text(hjust = 0.5)) +
     scale_color_brewer(palette = "Set2",direction = 1) + 
-    theme(text=element_text(size=13)) +
+    theme(text=element_text(size=7),
+          axis.text.x = element_text(size =10),
+          axis.text.y = element_text(size =10)) +
+
     {if (ftrait %in% c("plant_dry_mass","Hveg","LA")) scale_y_continuous(trans='log10')} 
   return(bp_plast)
 }
@@ -119,7 +123,7 @@ bps_traits <- cowplot::ggdraw() +
   cowplot::draw_plot(WP2, x = 0, y = 0, width = 1 , height = 1/3 - correct_margin) +
   cowplot::draw_plot_label(
     label = c("A. Ecological strategies", "B. Nutrient absorption","C. Whole-plant integration"), 
-    size = 24, 
+    size = 16, 
     x = c(0,0,0), 
     y = c(1, 2/3, 1/3))
 
@@ -129,4 +133,7 @@ bps_traits <- cowplot::ggdraw() +
 
 ggsave("draft/04_generate-boxplots-ferti_Figure1.png", 
        bps_traits,
-       width = 18, height = 12,bg="white")
+       height = 198, 
+       width = 220, 
+       unit = "mm",
+       bg="white")

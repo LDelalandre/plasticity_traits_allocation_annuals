@@ -196,4 +196,7 @@ PLOTS <- lapply(FTRAIT,plot_sma,sma_allom)
 fig_allom <- ggpubr::ggarrange(PLOTS[[1]], PLOTS[[2]], PLOTS[[3]], PLOTS[[4]], 
                   labels = c("A. Leaf", "B. Stem","C. Root","D. Nitrogen"), nrow = 2,ncol = 2, common.legend = TRUE, legend = "none")
 
-ggsave("draft/06_test-allometry_fig-allom.png",fig_allom,width = 7,height =7)
+ggsave("draft/06_test-allometry_fig-allom.png",
+       fig_allom,
+       width = 7,
+       height =7)

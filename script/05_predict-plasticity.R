@@ -270,10 +270,17 @@ rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 rdpi_saat_j <- plot_rdpi_trait("j.mN")
 rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
-ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), rpdi_julve_SLA_mass,width = 10, height = 13)
+ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), 
+       rpdi_julve_SLA_mass,
+       width = 10, 
+       height = 13)
 
 
-
+# ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), 
+#        rpdi_julve_SLA_mass,
+#        height = 198, 
+#        width = 220, 
+#        unit = "mm")
 
 
 

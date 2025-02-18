@@ -76,7 +76,8 @@ buildRowOfTable <- function(trait, pvalue, variance_exp, mean_Nm, mean_Np) {
 # Import data-------------------------------------------------------------------
 
 source("script/01_import-data.R") # load t2_traits and FTRAITS
-data_mod <- computeNewTraits(t2_traits)
+data_mod <- computeNewTraits(t2_traits) %>% 
+  merge(sp_fam)
 
 
 
@@ -160,32 +161,32 @@ table_origin_ferti <- TABLE_PVAL %>%
   # mutate(origin = scales::scientific(origin,digits = 2)) %>% 
   
   mutate(fertilization = case_when(fertilization < 0.0001 ~ 0.0001,
-                                   # fertilization < 0.001 ~ 0.001,
-                                   fertilization < 0.0036 ~ 0.0036,
+                                   fertilization < 0.001 ~ 0.001,
+                                   # fertilization < 0.0036 ~ 0.0036,
                                    # fertilization < 0.01 ~ 0.01,
                                    # fertilization < 0.05 ~ 0.05,
                                    TRUE ~ fertilization)
          ) %>% 
   mutate(fertilization = as.character(fertilization)) %>% 
   mutate(fertilization = case_when(fertilization == "1e-04" ~ "< 0.0001",
-                                   # fertilization == "0.001" ~ "< 0.001",
-                                   fertilization == "0.0036" ~ "< 0.0036",
+                                   fertilization == "0.001" ~ "< 0.001",
+                                   # fertilization == "0.0036" ~ "< 0.0036",
                                    # fertilization == "0.01" ~ "< 0.01",
                                    # fertilization == "0.05" ~ "< 0.05",
                                    TRUE ~ fertilization)
   ) %>% 
   
   mutate(origin  = case_when(origin  < 0.0001 ~ 0.0001,
-                             # origin  < 0.001 ~ 0.001,
-                             origin  < 0.0036 ~ 0.0036,
+                             origin  < 0.001 ~ 0.001,
+                             # origin  < 0.0036 ~ 0.0036,
                              # origin  < 0.01 ~ 0.01,
                              # origin  < 0.05 ~ 0.05,
                                    TRUE ~ origin )
   ) %>% 
   mutate(origin  = as.character(origin )) %>% 
   mutate(origin  = case_when(origin  == "1e-04" ~ "< 0.0001",
-                             # origin  == "0.001" ~ "< 0.001",
-                             origin  == "0.036" ~ "< 0.036",
+                             origin  == "0.001" ~ "< 0.001",
+                             # origin  == "0.036" ~ "< 0.036",
                              # origin  == "0.01" ~ "< 0.01",
                              # origin  == "0.05" ~ "< 0.05",
                                    TRUE ~ origin )

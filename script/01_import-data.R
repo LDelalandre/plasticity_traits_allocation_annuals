@@ -6,8 +6,6 @@ library(tidyverse)
 
 species_info <- read.csv2("data/Delalandre2025AnnBotSpecies.csv")
 
-#TODO: change so that everything is imported from t2_traits.csv
-
 sp_fam <- species_info %>%
   dplyr::select(code_sp,family) %>%
   unique()
@@ -41,11 +39,11 @@ FTRAITS <- c("log_Hveg","log_plant_dry_mass",
 
 # Import raw (already curated) data ####
 t2_traits0 <- read.csv2("data/Delalandre2025AnnBotTraits.csv",fileEncoding = "UTF-8") 
-t2_traits0$pivot_dry_mass %>% class()
+
 
 ## Create some new variables ####
 t2_traits <- t2_traits0 %>% 
-  dplyr::mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>% 
+  dplyr::mutate(absortive_root_dry_mass = root_dry_mass - pivot_dry_mass) %>%
   mutate(tot_RL = SRL * absortive_root_dry_mass) %>% # in m (because SRL in m/g and mass in g)
   mutate(log_tot_RL = log10(tot_RL)) %>% 
   
