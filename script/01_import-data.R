@@ -29,11 +29,11 @@ trait_name <- data.frame(trait = c("plant_dry_mass","Hveg",
 
 
 ## List of traits by category
-traits_allocation <- c("RMF","SMF","LMF")
-traits_leaf <- c("log_LA", "LDMC","SLA")
-traits_root <- c("SRL", "RTD", "RDMC", "diam","BI")
-FTRAITS <- c("log_Hveg","log_plant_dry_mass",
-             "N",traits_allocation,traits_leaf,traits_root)
+traits_allocation <- c("LMF","SMF","RMF")
+traits_leaf <- c("log_LA","SLA", "LDMC")
+traits_root <- c("diam", "SRL", "RTD", "RDMC", "BI")
+FTRAITS <- c("log_Hveg",traits_leaf,traits_root,"log_plant_dry_mass",
+             "N",traits_allocation)
 
 
 

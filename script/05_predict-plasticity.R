@@ -5,12 +5,15 @@ source("script/01_import-data.R")
 # Traits on which we found significant plasticity
 traits_plast <- read.table("output/data/traits-ferti-effect.txt") %>% 
   pull(x)
-# traits_plast <- c(traits_plast, "log_plant_dry_mass")
 
-traits_plast_log <- read.table("output/data/traits-ferti-effect.txt") %>% 
+
+traits_plast_log_unordered <- read.table("output/data/traits-ferti-effect.txt") %>% 
   mutate(x = if_else(x=="plant_dry_mass","log_plant_dry_mass",x)) %>%
   mutate(x = if_else(x=="Hveg","log_Hveg",x)) %>%
+  mutate(x = if_else(x=="LA","log_LA",x)) %>%
   pull(x)
+
+traits_plast_log <- FTRAITS[which(FTRAITS %in% traits_plast_log_unordered)]
 
 ## Saatkamp 2023
 species <- species_info %>% 
@@ -210,18 +213,25 @@ plot_rdpi_trait <- function(x_axis){
     if(pval > 0.05){pval <- "n.s."}else{pval <- pval %>% scales::scientific(digits = 2) %>% paste0("p = ",.)}
     
     ## plot
-    
+    size_annot <- 8
     if (!(pval=="n.s.")){
       lab <- grid::textGrob(label = paste0(pval, "\n",
                                            "R² =", r2),
                             x = unit(0.05, "npc"), 
-                            y = unit(0.8, "npc"), just = "left",
-                            gp = grid::gpar(size = 14, fontface = "bold", fill = "white", alpha = 1))
+                            y = unit(0.7, "npc"), just = "left",
+                            gp = grid::gpar(fontsize = size_annot, 
+                                            fontface = "bold", 
+                                            fill = "white", 
+                                            alpha = 1))
     }else{
       lab <- grid::textGrob(label = paste0(pval),
                             x = unit(0.05, "npc"), 
                             y = unit(0.8, "npc"), just = "left",
-                            gp = grid::gpar(size = 14, fontface = "bold", fill = "black", alpha = 1,col = "black"))
+                            gp = grid::gpar(fontsize = size_annot, 
+                                            fontface = "bold", 
+                                            fill = "black", 
+                                            alpha = 1,
+                                            col = "black"))
     }
     
 
@@ -229,8 +239,7 @@ plot_rdpi_trait <- function(x_axis){
     plot <- PLAST2 %>% 
       ggplot(aes_string(x = x_axis, y= ftrait)) +
       {if (ftrait == "plant_dry_mass") scale_y_continuous(trans='log10')} +
-      geom_point()  +
-      theme_classic() +
+      geom_point(size = 1)  +
       {if (x_axis == "log_plant_dry_mass_moy") xlab("log(Plant dry mass)")}+
       {if (x_axis == "SLA_moy") xlab("SLA")} +
       {if(x_axis == "j.mN") xlab("Nutrient indicator value") } +
@@ -238,10 +247,10 @@ plot_rdpi_trait <- function(x_axis){
       ylab("RDPI") +
       geom_hline(yintercept = 0,linetype='dashed') +
       {if (!(pval=="n.s."))       geom_abline(slope = slope, intercept = intercept) } +
-      annotation_custom(lab,ymin = -0.5) +
-      theme_bw()
+      theme_bw(base_size = 9) +
+      theme(plot.title = element_text(size = 8, face = "bold")) 
     plot
-    PLOT[[i]] <- plot
+    PLOT[[i]] <- plot + annotation_custom(lab,ymin = -0.5) 
   }
   
   plots2 <- ggpubr::ggarrange(plotlist=PLOT, ncol = 1,nrow =6)
@@ -270,10 +279,12 @@ rpdi_sla_mass <- ggpubr::ggarrange(rdpi_mass,rdpi_sla)
 
 rdpi_saat_j <- plot_rdpi_trait("j.mN")
 rpdi_julve_SLA_mass <- ggpubr::ggarrange(rdpi_saat_j,rdpi_sla,rdpi_mass,ncol = 3)
-ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), 
+ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.tiff"), 
        rpdi_julve_SLA_mass,
-       width = 10, 
-       height = 13)
+       width = 17.3, # 10
+       height = 22.5, # 13
+       units = "cm",
+       dpi = 300)
 
 
 # ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"), 
@@ -281,7 +292,4 @@ ggsave(paste0("draft/05_predict-plasticity_Fig2-rdpi-plast.svg"),
 #        height = 198, 
 #        width = 220, 
 #        unit = "mm")
-
-
-
 

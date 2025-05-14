@@ -55,7 +55,7 @@ generateBbPlast <- function(ftrait,trait_title,traits_ferti_effect,traits_pop) {
           axis.title.x = element_blank()
     ) +
     ggtitle(trait_title %>% filter(trait == ftrait) %>% pull(title)) +
-    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(plot.title = element_text(hjust = 0.75)) +
     scale_color_brewer(palette = "Set2",direction = 1) + 
     theme(text=element_text(size=7),
           axis.text.x = element_text(size =10),
@@ -131,9 +131,10 @@ bps_traits <- cowplot::ggdraw() +
 
 # Export -----------------------------------------------------------------------
 
-ggsave("draft/04_generate-boxplots-ferti_Figure1.png", 
+ggsave("draft/04_generate-boxplots-ferti_Figure1.tiff", 
        bps_traits,
-       height = 198, 
-       width = 220, 
-       unit = "mm",
+       height = 15.6, 
+       width = 17.3, 
+       unit = "cm",
+       dpi=300,
        bg="white")

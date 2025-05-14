@@ -37,11 +37,17 @@ ggsave(filename = "draft/08_review-distinctiveness_plot-distinctiveness.jpg",
 # PCA ------------------------------
 library(FactoMineR)
 
-ACP1<-PCA(ftraits_sp %>% dplyr::select(-Di),graph=F) 
+data_pca <- ftraits_sp %>% 
+  dplyr::select(-Di) %>% 
+  rename(log_M = log_plant_dry_mass)
+
+ACP1<-PCA(data_pca,graph=F) 
 pca_var <- plot(ACP1,choix ="var")
 pca_ind <- plot(ACP1,choix ="ind")
 
-ggsave("draft/08_review-distinctiveness_pca-var.jpg",
-       pca_var)
-ggsave("draft/08_review-distinctiveness_pca-ind.jpg",
-       pca_ind)
+pca_tot <- cowplot::plot_grid(pca_var, pca_ind, nrow = 2, labels = c("A.", "B."))
+
+ggsave("draft/08_review-distinctiveness_pca.jpg",
+       pca_tot,
+       height = 11,
+       width = 11)
